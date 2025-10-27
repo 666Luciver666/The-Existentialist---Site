@@ -1,91 +1,140 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>The Existentialist — Manuel Cech</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Existentialist · Manuel Cech</title>
   <style>
-    html,body{margin:0;background:#000;color:#eaeaea;font-family:"Times New Roman",serif}
-    /* HERO (Mirror) */
-    .hero{
-      min-height:60vh;display:flex;align-items:center;justify-content:center;text-align:center;
-      background:#000 url("mirror.JPG") center/cover no-repeat;
-      text-shadow:0 2px 10px rgba(0,0,0,.8);border-bottom:1px solid #111;padding:8vh 16px;
+    body {
+      margin: 0;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      color: #f5f5f5;
+      background-color: #0a0a0a;
+      line-height: 1.6;
+      text-align: center;
     }
-    .hero h1{margin:0;font-size:clamp(36px,6vw,72px);font-weight:400}
-    .hero p{margin:.5rem 0 0;color:#cfcfcf;font-size:clamp(14px,2vw,18px)}
-    /* SECTION WRAPPER */
-    .wrap{max-width:980px;margin:0 auto;padding:32px 16px}
-    /* LUCIA BLOCK */
-    .art{display:grid;gap:24px;grid-template-columns:1fr}
-    @media(min-width:860px){.art{grid-template-columns:1.1fr .9fr}}
-    .art img{width:100%;height:auto;display:block;border:1px solid #1a1a1a;border-radius:4px;box-shadow:0 8px 28px rgba(0,0,0,.45)}
-    .h2{margin:0 0 .5rem;font-size:clamp(22px,3vw,28px)}
-    .muted{color:#b9b9b9}
-    .price{margin:12px 0 18px;font-weight:700}
-    .btn{
-      display:inline-block;background:#c7a94a;color:#111;text-decoration:none;
-      padding:10px 18px;border-radius:6px;border:1px solid #9e8f2a;font-weight:700
+
+    header {
+      position: relative;
+      background: url('mirror.jpg') no-repeat center center/cover;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-shadow: 0 0 25px rgba(0,0,0,0.8);
     }
-    .btn:hover{filter:brightness(1.06)}
-    /* ABOUT */
-    .about{max-width:880px;margin:8px auto 56px;line-height:1.6;color:#d6d6d6}
-    .about h3{margin:0 0 10px;font-size:clamp(20px,2.4vw,26px);text-align:center;color:#f3f3f3}
-    footer{color:#888;text-align:center;padding:26px 12px 40px;border-top:1px solid #111}
+
+    header h1 {
+      font-size: 3.8em;
+      margin: 0;
+      letter-spacing: 2px;
+    }
+
+    header p {
+      font-size: 1.2em;
+      margin-top: 10px;
+      opacity: 0.85;
+    }
+
+    section {
+      padding: 60px 20px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .product {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 50px;
+    }
+
+    .product img {
+      max-width: 90%;
+      height: auto;
+      border: 1px solid #222;
+      box-shadow: 0 0 15px rgba(255,255,255,0.1);
+      margin-bottom: 25px;
+    }
+
+    .product h2 {
+      font-size: 2em;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    .price {
+      font-size: 1.3em;
+      margin-bottom: 20px;
+      color: #ccc;
+    }
+
+    .buy-button {
+      background-color: #c7a94a;
+      color: #000;
+      padding: 12px 28px;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 4px;
+      transition: background 0.3s ease;
+    }
+
+    .buy-button:hover {
+      background-color: #d4b55a;
+    }
+
+    .secure {
+      font-size: 0.9em;
+      margin-top: 10px;
+      color: #777;
+    }
+
+    .description {
+      font-size: 1em;
+      color: #ddd;
+      margin-top: 40px;
+      text-align: left;
+      line-height: 1.7;
+    }
+
+    footer {
+      margin-top: 80px;
+      font-size: 0.9em;
+      color: #777;
+      padding-bottom: 40px;
+    }
   </style>
 </head>
 <body>
 
-  <!-- HERO (Mirror as background) -->
-  <header class="hero">
-    <div>
-      <h1>The Existentialist</h1>
-      <p>By Manuel Cech — Multidisciplinary Artist & Illusion Designer</p>
-    </div>
+  <header>
+    <h1>The Existentialist</h1>
+    <p>By Manuel Cech · Multidisciplinary Artist & Illusion Designer</p>
   </header>
 
-  <!-- LUCIA SECTION -->
-  <main class="wrap">
-    <section class="art" id="lucia">
-      <div>
-        <img src="lucia.JPG" alt="Lucia — Fine Art Print by Manuel Cech">
-        <p class="muted"><em>From “The Existentialist” Series — Manuel Cech</em></p>
-      </div>
-      <div>
-        <h2 class="h2">Lucia · Fine Art Print</h2>
-        <p class="muted">Museum-grade fine art giclée print.</p>
-        <div class="price">€119</div>
-        <a class="btn" href="https://buy.stripe.com/5kQ5kw6BV9XS25l5PEfMA00" target="_blank" rel="noopener">Buy Print — €119</a>
-        <p class="muted" style="margin-top:8px">Secure payment via Stripe</p>
+  <section>
+    <div class="product">
+      <img src="lucia.JPG" alt="Lucia Fine Art Print by Manuel Cech" />
+      <h2>Lucia · Fine Art Print</h2>
+      <div class="price">119 €</div>
+      <a class="buy-button" href="https://buy.stripe.com/5kQ5kw6BV9XS25l5PEfMA00" target="_blank">
+        Buy Now
+      </a>
+      <div class="secure">Secure payment via Stripe</div>
 
-        <!-- DESCRIPTION -->
-        <p style="margin-top:22px;color:#d4d4d4;line-height:1.6">
-          <em>“Lucia”</em> portrays the fragile balance between light and decay — a meditation on human endurance and identity.<br>
-          The work captures a quiet transformation, where emotion dissolves into stillness.<br>
-          Each print preserves the texture and tonal depth of the original pastel painting, created by hand on Fuerteventura in 2025.
-        </p>
+      <div class="description">
+        <p><em>“Lucia” portrays the fragile balance between light and decay — a meditation on human endurance and identity.</em><br>
+        The work captures a quiet transformation, where emotion dissolves into stillness.  
+        Each print preserves the texture and tonal depth of the original pastel painting.</p>
+        <p><em>For my beloved sister.</em></p>
       </div>
-    </section>
-  </main>
-
-  <!-- ABOUT -->
-  <section class="about" id="about">
-    <h3>About Manuel Cech</h3>
-    <p><strong>By Manuel Cech</strong><br>
-       Multidisciplinary Artist · Magician · Musician<br>
-       Based on Fuerteventura, Canary Islands.</p>
-    <p>Exploring identity, decay, illusion and transformation through Existential Realism.</p>
-    <p><strong>Art &amp; Media</strong><br>
-       — Fine Art Prints (Pastel, Acrylic &amp; Airbrush)<br>
-       — Digital Artwork · Sculpture &amp; Mask Design<br>
-       — Animatronics &amp; SFX Creations · Professional Illusion Design</p>
-    <p><strong>Background</strong><br>
-       Began performing magic at age three; later a certified pyrotechnician and illusion engineer in Germany.
-       Worked across stage productions, music videos and large-scale special effects before focusing on fine art and existential realism.</p>
-    <p><strong>Current Work</strong><br>
-       The first milestone of <em>The Existentialist</em> series, “Lucia”, was completed in 2025 — combining realism, emotion and philosophical depth.</p>
+    </div>
   </section>
 
-  <footer>© Manuel Cech 2025 — Fuerteventura</footer>
+  <footer>
+    © 2025 Manuel Cech · The Existentialist · Fuerteventura, Canary Islands
+  </footer>
+
 </body>
 </html>
