@@ -6,30 +6,29 @@
   <title>The Existentialist — Manuel Cech</title>
   <meta name="description" content="Fine art prints by Manuel Cech — The Existentialist Series." />
   <style>
-    :root{
-      --fg:#e8e8e8; --muted:#b6b6b6; --gold:#e5c84a;
-      --maxw:1100px; --border:#111;
-    }
+    :root{ --fg:#e8e8e8; --muted:#b6b6b6; --gold:#e5c84a; --border:#111; --maxw:1100px; }
     *{box-sizing:border-box}
     html,body{margin:0;padding:0;background:#000;color:var(--fg);font-family:"Times New Roman",serif}
-
     .wrap{max-width:var(--maxw);margin:0 auto;padding:0 16px}
 
-    /* HERO */
+    /* HERO – zeigt IMMER Text; falls Bild fehlt: dunkler Verlauf + grauer Fallback */
     .hero{
-      position:relative; min-height:68vh;
-      display:flex; align-items:center; justify-content:center; text-align:center;
-      background:#000 url("mirror.jpg?v=4") center/cover no-repeat;
+      position:relative; min-height:68vh; display:flex; align-items:center; justify-content:center; text-align:center;
+      background:#111; /* Fallback-Farbe */
       border-bottom:1px solid var(--border);
-      /* kein fixed, damit es auf iOS sicher lädt */
-      background-attachment:scroll;
     }
-    .hero::after{
-      content:""; position:absolute; inset:0;
+    /* Hintergrundbild separat, damit bei Fehler trotzdem Inhalt sichtbar ist */
+    .hero-bg{
+      position:absolute; inset:0;
+      background: url("mirror.jpg?v=5") center/cover no-repeat;
+      opacity:0.9;
+    }
+    .hero-shade{
+      position:absolute; inset:0;
       background:linear-gradient(180deg, rgba(0,0,0,.45), rgba(0,0,0,.65));
     }
     .hero-inner{position:relative; z-index:1; padding:48px 16px}
-    .title{font-size:clamp(36px,6vw,72px); margin:0 0 8px; text-shadow:0 1px 2px #000}
+    .title{font-size:clamp(36px,6vw,72px); margin:0 0 8px}
     .subtitle{font-size:clamp(14px,1.8vw,18px); color:var(--muted); margin:0}
 
     /* PRODUKT */
@@ -44,14 +43,84 @@
     .h2{margin:0 0 6px; font-size:clamp(20px,2.6vw,28px)}
     .muted{color:var(--muted); font-size:14px}
     .price{margin:14px 0; font-weight:bold}
-    .btn{
-      display:inline-block; padding:10px 18px; border-radius:6px; font-size:16px; font-weight:bold;
-      background:var(--gold); color:#111; border:1px solid #9e8f2a; box-shadow:0 2px 0 #7a6d1f;
-      text-decoration:none;
-    }
+    .btn{display:inline-block; padding:10px 18px; border-radius:6px; font-size:16px; font-weight:bold;
+         background:var(--gold); color:#111; border:1px solid #9e8f2a; box-shadow:0 2px 0 #7a6d1f; text-decoration:none}
     .btn:hover{filter:brightness(1.05)}
     .btn:active{transform:translateY(1px)}
-    .cta-row{display:flex; gap:12px; align-items:center; flex-wrap:wrap}
 
-    /* ABOUT */
-   
+    footer{color:#888; text-align:center; padding:26px 10px 40px; font-size:13px; border-top:1px solid var(--border)}
+    .debug{border-top:1px dashed #333; padding:16px; font-size:12px; color:#aaa}
+    .debug img{max-width:180px; height:auto; margin-right:10px; border:1px solid #222}
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-shade" aria-hidden="true"></div>
+    <div class="hero-inner wrap">
+      <h1 class="title">The Existentialist</h1>
+      <p class="subtitle">By Manuel Cech — Multidisciplinary Artist &amp; Illusion Designer</p>
+    </div>
+  </header>
+
+  <!-- PRODUKT: LUCIA -->
+  <main class="section" id="lucia">
+    <div class="wrap grid">
+      <figure class="card">
+        <div class="card-media">
+          <img src="lucia.png?v=5" alt="Lucia — Fine Art Print by Manuel Cech" loading="lazy" />
+        </div>
+        <figcaption class="card-body">
+          <div class="muted">From “The Existentialist” Series — Manuel Cech</div>
+        </figcaption>
+      </figure>
+
+      <section>
+        <h2 class="h2">Lucia · Fine Art Print</h2>
+        <p class="muted">Museum-grade fine art giclée print.</p>
+        <div class="price">€119</div>
+        <div class="cta-row">
+          <a class="btn" href="https://buy.stripe.com/5kQ5kw6BV9XS25l5PEfMA00" target="_blank" rel="noopener">Buy Print — €119</a>
+          <span class="muted">Secure payment via Stripe</span>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- DEBUG: direkte Bildanzeige, damit wir sofort sehen, ob Files geladen werden -->
+  <div class="wrap debug">
+    <div>Debug preview (nur vorübergehend):</div>
+    <div style="margin-top:8px;">
+      <img src="mirror.jpg?v=5" alt="mirror.jpg" />
+      <img src="lucia.png?v=5" alt="lucia.png" />
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section class="wrap" style="padding:44px 16px 60px; line-height:1.6">
+    <h3 style="margin:0 0 8px; font-size:clamp(20px,2.4vw,26px)">About Manuel Cech</h3>
+    <p><strong>Multidisciplinary Artist · Magician · Musician</strong><br>
+       Based on Fuerteventura, Canary Islands.</p>
+    <p>Exploring identity, decay, illusion and transformation through Existential Realism.</p>
+
+    <h3 style="margin:16px 0 8px">Art &amp; Media</h3>
+    <ul style="margin:10px 0 0; padding-left:18px">
+      <li>Fine Art Prints (Pastel, Acrylic &amp; Airbrush)</li>
+      <li>Digital Artwork</li>
+      <li>Sculpture &amp; Mask Design</li>
+      <li>Animatronics &amp; SFX Creations</li>
+      <li>Professional Illusion Design</li>
+    </ul>
+
+    <h3 style="margin:16px 0 8px">Background</h3>
+    <p>Started magic at age 3; later certified pyrotechnician and illusion engineer in Germany. Worked across stage productions, music videos and large-scale special effects before focusing on fine art and existential realism.</p>
+
+    <h3 style="margin:16px 0 8px">Current Work</h3>
+    <p>The first major artwork of <em>The Existentialist Series</em>, “Lucia”, was completed in 2025 — a new chapter combining realism, emotion and philosophical depth.</p>
+  </section>
+
+  <footer>© Manuel Cech 2025 — Fuerteventura</footer>
+</body>
+</html>
