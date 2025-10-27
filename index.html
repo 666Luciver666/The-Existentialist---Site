@@ -8,79 +8,71 @@
   <style>
     :root{
       --bg:#0b0b0b; --ink:#eaeaea; --muted:#cfcfcf;
-      --accent:#ffe16a; --accent-ink:#222; --veil:rgba(0,0,0,.45);
-      --max:1100px;
+      --accent:#ffe16a; --accent-ink:#222;
     }
-    *{box-sizing:border-box}
-    html,body{margin:0; background:var(--bg); color:var(--ink); font-family: "Times New Roman", Georgia, serif;}
-    a{color:inherit; text-decoration:none}
-    img{max-width:100%; display:block}
+    *{box-sizing:border-box;}
+    html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Times New Roman",Georgia,serif;}
+    a{color:inherit;text-decoration:none;}
+    img{max-width:100%;display:block;}
 
-    /* HERO */
+    /* HERO (Mirror static) */
     .hero{
-      position:relative; min-height:46vh; display:grid; place-items:center;
-      background:#000 url("mirror.JPG") center/cover no-repeat fixed;
+      min-height:55vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      background:#000 url("mirror.JPG") center/cover no-repeat;
       border-bottom:1px solid #222;
+      text-shadow:0 2px 10px rgba(0,0,0,.85);
+      padding:8vh 16px;
     }
-    .hero::after{
-      content:""; position:absolute; inset:0; background:linear-gradient(to bottom, var(--veil) 0%, rgba(0,0,0,.65) 70%, rgba(0,0,0,.85) 100%);
-    }
-    .hero-inner{
-      position:relative; text-align:center; padding:6vh 4vw; z-index:1;
-    }
-    h1{font-size: clamp(36px, 6vw, 64px); margin:0 0 .25em;}
-    .sub{opacity:.9; font-size:clamp(14px,2.2vw,18px)}
+    .hero h1{margin:0;font-size:clamp(36px,6vw,72px);font-weight:400;}
+    .hero p{margin:.5rem 0 0;color:#cfcfcf;font-size:clamp(14px,2vw,18px);}
 
-    /* CONTENT WRAP */
-    .wrap{max-width:var(--max); margin:0 auto; padding:36px 20px 56px;}
+    /* WRAPPER */
+    .wrap{max-width:1000px;margin:0 auto;padding:40px 20px 60px;}
 
-    /* PRODUCT */
-    .product{
-      display:grid; gap:28px; grid-template-columns: 1fr; align-items:start;
-    }
-    @media (min-width:860px){
-      .product{grid-template-columns: minmax(280px, 440px) 1fr; gap:40px;}
-    }
-    .card{
-      background:#111; border:1px solid #222; border-radius:10px; overflow:hidden;
-    }
-    .cap{margin:8px 12px 12px; font-size:12px; color:var(--muted); opacity:.9}
-
-    h2{font-size: clamp(22px, 3vw, 28px); margin:.25em 0 .35em}
-    .price{margin:.15em 0 .75em; color:var(--muted)}
+    /* PRODUCT SECTION */
+    .product{display:grid;gap:28px;grid-template-columns:1fr;}
+    @media(min-width:860px){.product{grid-template-columns:1.1fr .9fr;gap:40px;}}
+    .product img{width:100%;border:1px solid #1a1a1a;border-radius:4px;box-shadow:0 0 20px rgba(0,0,0,.4);}
+    h2{margin-top:0;font-size:clamp(22px,3vw,28px);}
+    .price{margin:.15em 0 .75em;color:var(--muted);}
     .btn{
-      display:inline-block; padding:.65em 1.1em; border-radius:8px;
-      background:var(--accent); color:var(--accent-ink); font-weight:bold; border:0;
+      display:inline-block;padding:.65em 1.1em;border-radius:8px;
+      background:var(--accent);color:var(--accent-ink);font-weight:bold;border:0;
       box-shadow:0 6px 18px rgba(255,225,106,.12), inset 0 0 0 1px rgba(0,0,0,.12);
     }
-    .secure{display:block; margin-top:.45em; font-size:12px; color:var(--muted); opacity:.85}
-
-    .desc{margin-top:18px; line-height:1.55; color:#ddd}
-    .desc p{margin:.6em 0}
+    .secure{display:block;margin-top:.45em;font-size:12px;color:var(--muted);opacity:.85;}
+    .desc{margin-top:18px;line-height:1.55;color:#ddd;}
+    .desc p{margin:.6em 0;}
 
     /* ABOUT */
-    footer{margin-top:58px; padding-top:26px; border-top:1px solid #1f1f1f; color:#d8d8d8}
-    footer h3{margin:0 0 .4em; font-size:18px}
-    .meta{font-size:12px; color:#a9a9a9; margin-top:26px; text-align:center}
+    footer{margin-top:58px;padding-top:26px;border-top:1px solid #1f1f1f;color:#d8d8d8;}
+    footer h3{margin:0 0 .4em;font-size:18px;}
+    .meta{font-size:12px;color:#a9a9a9;margin-top:26px;text-align:center;}
   </style>
 </head>
 <body>
 
-  <!-- HERO (Mirror background) -->
-  <header class="hero" aria-label="Site hero background">
-    <div class="hero-inner">
+  <!-- HERO -->
+  <header class="hero">
+    <div>
       <h1>The Existentialist</h1>
-      <div class="sub">By Manuel Cech — Multidisciplinary Artist &amp; Illusion Designer</div>
+      <p>By Manuel Cech — Multidisciplinary Artist &amp; Illusion Designer</p>
     </div>
   </header>
 
   <main class="wrap">
 
-    <!-- PRODUCT: Lucia -->
+    <!-- PRODUCT -->
     <section class="product" aria-labelledby="lucia-title">
-      <figure class="card">
+      <figure>
         <img src="lucia.JPG" alt="Lucia — fine art pastel print by Manuel Cech">
-        <figcaption class="cap">From “The Existentialist” Series — Manuel Cech</figcaption>
+        <figcaption style="font-size:13px;color:#bbb;margin-top:6px;">
+          From “The Existentialist” Series — Manuel Cech
+        </figcaption>
       </figure>
 
       <div>
@@ -92,12 +84,10 @@
         </p>
 
         <div class="desc">
-          <p><strong>Final Lucia description (approved):</strong></p>
-          <p>
-            <em>Lucia</em> portrays the fragile balance between light and decay — a meditation on human endurance and identity.
-            The work captures a quiet transformation, where emotion dissolves into stillness. Each print preserves the texture
-            and tonal depth of the original pastel painting.
-          </p>
+          <p><em>Lucia</em> portrays the fragile balance between light and decay — a meditation on human endurance and identity.
+          The work captures a quiet transformation, where emotion dissolves into stillness. Each print preserves the texture
+          and tonal depth of the original pastel painting.</p>
+
           <p><em>For my beloved sister, Lucia.</em></p>
         </div>
       </div>
@@ -106,24 +96,33 @@
     <!-- ABOUT -->
     <footer>
       <h3>About Manuel Cech</h3>
-      <p>
-        Multidisciplinary Artist · Magician · Musician<br/>
-        Based on Fuerteventura, Canary Islands.
+      <p><strong>By Manuel Cech</strong><br/>
+      Multidisciplinary Artist · Magician · Musician<br/>
+      Based on Fuerteventura, Canary Islands<br/>
+      Exploring identity, decay, illusion and transformation through Existential Realism.</p>
+
+      <p><strong>🎨 Art &amp; Media</strong><br/>
+        • Fine Art Prints (Pastel, Acrylic &amp; Airbrush)<br/>
+        • Digital Artwork<br/>
+        • Sculpture &amp; Mask Design<br/>
+        • Animatronics &amp; SFX Creations<br/>
+        • Professional Illusion Design
       </p>
-      <p>
-        Exploring identity, decay, illusion and transformation through Existential Realism.
+
+      <p><strong>🪄 Background</strong><br/>
+        Manuel Cech began performing magic at the age of three and later became a certified pyrotechnician and illusion engineer in Germany.
+        He has worked in stage productions, music videos, and large-scale special effects for over two decades before dedicating himself
+        to fine art and existential realism.
       </p>
-      <ul>
-        <li>Fine Art Prints (Pastel, Acrylic &amp; Airbrush)</li>
-        <li>Digital Artwork</li>
-        <li>Sculpture &amp; Mask Design</li>
-        <li>Animatronics &amp; SFX Creations</li>
-        <li>Professional Illusion Design</li>
-      </ul>
+
+      <p><strong>🖤 Current Work</strong><br/>
+        The first major artwork of “The Existentialist” Series, <em>Lucia</em>, was completed in 2025.
+        It marks the beginning of a new chapter combining realism, emotion, and philosophical depth.
+      </p>
+
       <p class="meta">© Manuel Cech 2025 — The Existentialist</p>
     </footer>
 
   </main>
-
 </body>
 </html>
