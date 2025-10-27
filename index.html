@@ -1,49 +1,77 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Existentialist</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Existentialist — Manuel Cech</title>
   <style>
-    body {
-      font-family: "Times New Roman", serif;
-      background-color: #000;
-      color: #c7a94a;
-      text-align: center;
+    html, body {
       margin: 0;
       padding: 0;
+      background: #0b0b0b;
+      color: #eaeaea;
+      font-family: "Times New Roman", serif;
+    }
+    .container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+    }
+    .hero {
+      width: min(90vw, 700px);
+      aspect-ratio: 1/1;
+      background: url("mirror.jpg") center/cover no-repeat;
+      border-radius: 8px;
+      box-shadow: 0 0 40px rgba(0,0,0,0.6);
+      border: 1px solid #222;
+      margin-bottom: 28px;
     }
     h1 {
-      margin-top: 120px;
-      font-size: 2.4em;
-      color: #fff;
-      letter-spacing: 2px;
+      font-size: clamp(28px, 3.5vw, 42px);
+      margin: 0;
     }
-    p {
-      font-size: 1.1em;
-      color: #ccc;
-      max-width: 600px;
-      margin: 20px auto;
+    p.sub {
+      font-size: clamp(14px, 2vw, 18px);
+      opacity: 0.8;
+      margin: 8px 0 24px 0;
     }
-    a {
+    a.btn {
       display: inline-block;
-      margin-top: 30px;
+      padding: 14px 24px;
+      border: 1px solid #777;
+      border-radius: 5px;
       text-decoration: none;
-      color: #c7a94a;
-      border: 1px solid #c7a94a;
-      padding: 10px 20px;
-      border-radius: 4px;
-      transition: 0.3s;
+      color: #fff;
+      background: #141414;
+      transition: all 0.2s ease;
     }
-    a:hover {
-      background-color: #c7a94a;
-      color: #000;
+    a.btn:hover {
+      background: #1f1f1f;
+      border-color: #aaa;
+      transform: translateY(-1px);
+    }
+    footer {
+      opacity: 0.6;
+      font-size: 12px;
+      margin-top: 40px;
     }
   </style>
 </head>
 <body>
-  <h1>The Existentialist</h1>
-  <p>By Manuel Cech – Multidisciplinary Artist & Illusion Designer</p>
-  <a href="https://buy.stripe.com/5kQ5kw6BV9XS25l5PE">Buy Fine Art Print “Lucia”</a>
+  <div class="container">
+    <div class="hero"></div>
+    <h1>Lucia · Fine Art Print</h1>
+    <p class="sub">From “The Existentialist” Series — Manuel Cech</p>
+
+    <a class="btn" href="https://buy.stripe.com/5kQ5kw6BV9XS25l5PEfMA00" target="_blank" rel="noopener">
+      Buy now · €119
+    </a>
+
+    <footer>© Manuel Cech 2025 · Fuerteventura</footer>
+  </div>
 </body>
 </html>
