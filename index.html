@@ -11,16 +11,13 @@
     html,body{margin:0;padding:0;background:#000;color:var(--fg);font-family:"Times New Roman",serif}
     .wrap{max-width:var(--maxw);margin:0 auto;padding:0 16px}
 
-    /* HERO – zeigt IMMER Text; falls Bild fehlt: dunkler Verlauf + grauer Fallback */
     .hero{
       position:relative; min-height:68vh; display:flex; align-items:center; justify-content:center; text-align:center;
-      background:#111; /* Fallback-Farbe */
-      border-bottom:1px solid var(--border);
+      background:#111; border-bottom:1px solid var(--border);
     }
-    /* Hintergrundbild separat, damit bei Fehler trotzdem Inhalt sichtbar ist */
     .hero-bg{
       position:absolute; inset:0;
-      background: url("mirror.jpg?v=5") center/cover no-repeat;
+      background: url("mirror.JPG?v=7") center/cover no-repeat;
       opacity:0.9;
     }
     .hero-shade{
@@ -31,7 +28,6 @@
     .title{font-size:clamp(36px,6vw,72px); margin:0 0 8px}
     .subtitle{font-size:clamp(14px,1.8vw,18px); color:var(--muted); margin:0}
 
-    /* PRODUKT */
     .section{background:#0a0a0a; padding:36px 0; border-top:1px solid var(--border)}
     .grid{display:grid; gap:28px; grid-template-columns:1fr; align-items:center}
     @media(min-width:820px){ .grid{grid-template-columns:1.1fr .9fr} }
@@ -49,8 +45,6 @@
     .btn:active{transform:translateY(1px)}
 
     footer{color:#888; text-align:center; padding:26px 10px 40px; font-size:13px; border-top:1px solid var(--border)}
-    .debug{border-top:1px dashed #333; padding:16px; font-size:12px; color:#aaa}
-    .debug img{max-width:180px; height:auto; margin-right:10px; border:1px solid #222}
   </style>
 </head>
 <body>
@@ -70,7 +64,7 @@
     <div class="wrap grid">
       <figure class="card">
         <div class="card-media">
-          <img src="lucia.png?v=5" alt="Lucia — Fine Art Print by Manuel Cech" loading="lazy" />
+          <img src="lucia.png?v=7" alt="Lucia — Fine Art Print by Manuel Cech" loading="lazy" />
         </div>
         <figcaption class="card-body">
           <div class="muted">From “The Existentialist” Series — Manuel Cech</div>
@@ -88,15 +82,6 @@
       </section>
     </div>
   </main>
-
-  <!-- DEBUG: direkte Bildanzeige, damit wir sofort sehen, ob Files geladen werden -->
-  <div class="wrap debug">
-    <div>Debug preview (nur vorübergehend):</div>
-    <div style="margin-top:8px;">
-      <img src="mirror.jpg?v=5" alt="mirror.jpg" />
-      <img src="lucia.png?v=5" alt="lucia.png" />
-    </div>
-  </div>
 
   <!-- ABOUT -->
   <section class="wrap" style="padding:44px 16px 60px; line-height:1.6">
