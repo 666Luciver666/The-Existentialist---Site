@@ -7,49 +7,45 @@
   <meta name="description" content="The Existentialist — Fine art prints by Manuel Cech" />
   <style>
     :root{
-      --bg:#0b0b0b; --ink:#eaeaea; --muted:#cfcfcf;
-      --accent:#ffe16a; --accent-ink:#222;
+      --bg:#0b0b0b; --ink:#eaeaea; --muted:#cfcfcf; --line:#1f1f1f;
+      --accent:#c7a94a; --accent-ink:#111; --wrap:1000px;
     }
     *{box-sizing:border-box;}
     html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Times New Roman",Georgia,serif;}
-    a{color:inherit;text-decoration:none;}
     img{max-width:100%;display:block;}
+    a{color:inherit;text-decoration:none;}
 
     /* HERO (Mirror static) */
     .hero{
-      min-height:55vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
+      min-height:55vh;display:flex;align-items:center;justify-content:center;text-align:center;
       background:#000 url("mirror.JPG") center/cover no-repeat;
-      border-bottom:1px solid #222;
-      text-shadow:0 2px 10px rgba(0,0,0,.85);
+      border-bottom:1px solid var(--line);text-shadow:0 2px 10px rgba(0,0,0,.85);
       padding:8vh 16px;
     }
     .hero h1{margin:0;font-size:clamp(36px,6vw,72px);font-weight:400;}
     .hero p{margin:.5rem 0 0;color:#cfcfcf;font-size:clamp(14px,2vw,18px);}
 
-    /* WRAPPER */
-    .wrap{max-width:1000px;margin:0 auto;padding:40px 20px 60px;}
+    .wrap{max-width:var(--wrap);margin:0 auto;padding:40px 20px 60px;}
 
-    /* PRODUCT SECTION */
-    .product{display:grid;gap:28px;grid-template-columns:1fr;}
-    @media(min-width:860px){.product{grid-template-columns:1.1fr .9fr;gap:40px;}}
-    .product img{width:100%;border:1px solid #1a1a1a;border-radius:4px;box-shadow:0 0 20px rgba(0,0,0,.4);}
-    h2{margin-top:0;font-size:clamp(22px,3vw,28px);}
-    .price{margin:.15em 0 .75em;color:var(--muted);}
+    /* GALLERY */
+    .gallery{display:grid;gap:28px;grid-template-columns:1fr;}
+    @media(min-width:860px){.gallery{grid-template-columns:1fr 1fr;}}
+    .card{border:1px solid #1a1a1a;border-radius:6px;background:#111;overflow:hidden;}
+    .card-body{padding:16px;}
+    .title{margin:0 0 6px;font-size:clamp(20px,2.6vw,26px);}
+    .caption{color:#bdbdbd;font-size:13px;margin:8px 0 0;}
+    .price{margin:8px 0 12px;color:#cfcfcf;}
     .btn{
-      display:inline-block;padding:.65em 1.1em;border-radius:8px;
-      background:var(--accent);color:var(--accent-ink);font-weight:bold;border:0;
-      box-shadow:0 6px 18px rgba(255,225,106,.12), inset 0 0 0 1px rgba(0,0,0,.12);
+      display:inline-block;padding:.65em 1.1em;border-radius:8px;background:var(--accent);color:var(--accent-ink);
+      font-weight:bold;border:1px solid #9e8f2a;box-shadow:0 6px 18px rgba(0,0,0,.15);
     }
-    .secure{display:block;margin-top:.45em;font-size:12px;color:var(--muted);opacity:.85;}
-    .desc{margin-top:18px;line-height:1.55;color:#ddd;}
+    .btn:hover{filter:brightness(1.06);}
+    .secure{display:block;margin-top:.45em;font-size:12px;color:#b9b9b9;opacity:.9;}
+    .desc{margin-top:14px;line-height:1.55;color:#ddd;}
     .desc p{margin:.6em 0;}
 
     /* ABOUT */
-    footer{margin-top:58px;padding-top:26px;border-top:1px solid #1f1f1f;color:#d8d8d8;}
+    footer{margin-top:58px;padding-top:26px;border-top:1px solid var(--line);color:#d8d8d8;}
     footer h3{margin:0 0 .4em;font-size:18px;}
     .meta{font-size:12px;color:#a9a9a9;margin-top:26px;text-align:center;}
   </style>
@@ -64,65 +60,85 @@
     </div>
   </header>
 
-  <main class="wrap">
+  <!-- CATALOG -->
+  <main class="wrap" id="catalog">
+    <h2 style="margin:0 0 18px;font-size:22px;font-weight:400;color:#dcdcdc;">Works</h2>
+    <div id="gallery" class="gallery" aria-live="polite">
+      <noscript><p class="caption">Please enable JavaScript to view the catalog.</p></noscript>
+    </div>
+  </main>
 
-    <!-- PRODUCT -->
-    <section class="product" aria-labelledby="lucia-title">
-      <figure>
-        <img src="lucia.JPG" alt="Lucia — fine art pastel print by Manuel Cech">
-        <figcaption style="font-size:13px;color:#bbb;margin-top:6px;">
-          From “The Existentialist” Series — Manuel Cech
-        </figcaption>
-      </figure>
-
-      <div>
-        <h2 id="lucia-title">Lucia · Fine Art Print</h2>
-        <p class="price">€119</p>
-        <p>
-          <a class="btn" href="https://buy.stripe.com/5kQ5kw6BV9XS25l5PEfMA00" target="_blank" rel="noopener">Buy Print · €119</a>
-          <span class="secure">Secure payment via Stripe</span>
-        </p>
-
-        <div class="desc">
-          <p><em>Lucia</em> portrays the fragile balance between light and decay — a meditation on human endurance and identity.
-          The work captures a quiet transformation, where emotion dissolves into stillness. Each print preserves the texture
-          and tonal depth of the original pastel painting.</p>
-
-          <p><em>For my beloved sister.</em></p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ABOUT -->
-    <footer>
-      <h3>About Manuel Cech</h3>
-      <p><strong>By Manuel Cech</strong><br/>
+  <!-- ABOUT -->
+  <footer class="wrap">
+    <h3>About Manuel Cech</h3>
+    <p><strong>By Manuel Cech</strong><br/>
       Multidisciplinary Artist · Magician · Musician<br/>
       Based on Fuerteventura, Canary Islands<br/>
       Exploring identity, decay, illusion and transformation through Existential Realism.</p>
 
-      <p><strong>Art &amp; Media</strong><br/>
-        • Fine Art Prints (Pastel, Acrylic &amp; Airbrush)<br/>
-        • Digital Artwork<br/>
-        • Sculpture &amp; Mask Design<br/>
-        • Animatronics &amp; SFX Creations<br/>
-        • Professional Illusion Design
-      </p>
+    <p><strong>Art &amp; Media</strong><br/>
+      • Fine Art Prints (Pastel, Acrylic &amp; Airbrush)<br/>
+      • Digital Artwork<br/>
+      • Sculpture &amp; Mask Design<br/>
+      • Animatronics &amp; SFX Creations<br/>
+      • Professional Illusion Design
+    </p>
 
-      <p><strong>Background</strong><br/>
-        Manuel Cech began performing magic at the age of three and later became a certified pyrotechnician and illusion engineer in Germany.
-        He has worked in stage productions, music videos, and large-scale special effects for over two decades before dedicating himself
-        to fine art and existential realism.
-      </p>
+    <p><strong>Background</strong><br/>
+      Manuel Cech began performing magic at the age of three and later became a certified pyrotechnician and illusion engineer in Germany.
+      He has worked in stage productions, music videos, and large-scale special effects for over two decades before dedicating himself
+      to fine art and existential realism.
+    </p>
 
-      <p><strong>Current Work</strong><br/>
-        The first major artwork of “The Existentialist” Series, <em>Lucia</em>, was completed in 2025.
-        It marks the beginning of a new chapter combining realism, emotion, and philosophical depth.
-      </p>
+    <p><strong>Current Work</strong><br/>
+      The first major artwork of “The Existentialist” Series, <em>Lucia</em>, was completed in 2025.
+      It marks the beginning of a new chapter combining realism, emotion, and philosophical depth.
+    </p>
 
-      <p class="meta">© Manuel Cech 2025 — The Existentialist</p>
-    </footer>
+    <p class="meta">© Manuel Cech 2025 — The Existentialist</p>
+  </footer>
 
-  </main>
+  <!-- DATA-DRIVEN RENDER -->
+  <script>
+    async function loadCatalog(){
+      const el = document.getElementById('gallery');
+      try{
+        const res = await fetch('data.json', {cache:'no-store'});
+        if(!res.ok) throw new Error('Failed to load data.json');
+        const items = await res.json();
+        if(!Array.isArray(items) || !items.length){
+          el.innerHTML = '<p class="caption">No works available yet.</p>';
+          return;
+        }
+        el.innerHTML = items.map(it => {
+          const title = it.title || '';
+          const image = it.image || '';
+          const caption = it.caption || '';
+          const price = (typeof it.price_eur === 'number') ? `€${it.price_eur}` : (it.price_eur || '');
+          const link = it.stripe_link || '#';
+          const desc = it.description_html || '';
+          const dedication = it.dedication_html || '';
+          return `
+            <article class="card">
+              ${image ? `<img src="${image}" alt="${title} by Manuel Cech">` : ''}
+              <div class="card-body">
+                <h3 class="title">${title}</h3>
+                ${price ? `<div class="price">${price}</div>` : ''}
+                ${link ? `<a class="btn" href="${link}" target="_blank" rel="noopener">Buy</a>` : ''}
+                <span class="secure">Secure payment via Stripe</span>
+                ${caption ? `<div class="caption">${caption}</div>` : ''}
+                ${desc ? `<div class="desc">${desc}</div>` : ''}
+                ${dedication ? `<div class="desc">${dedication}</div>` : ''}
+              </div>
+            </article>
+          `;
+        }).join('');
+      }catch(e){
+        console.error(e);
+        el.innerHTML = '<p class="caption">Could not load catalog. Please reload.</p>';
+      }
+    }
+    loadCatalog();
+  </script>
 </body>
 </html>
