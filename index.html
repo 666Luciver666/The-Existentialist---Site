@@ -52,16 +52,19 @@
       font-weight:700;
       letter-spacing:.5px;
       color:var(--accent);
-      /* deutlicher, aber edel: */
+      /* sichtbarer, aber elegant */
       text-shadow:
-        0 2px 6px rgba(0,0,0,0.60),     /* dunkler, weicher Tiefenschatten */
-        0 0 18px rgba(199,169,74,0.35); /* dezenter goldener Schimmer */
+        0 2px 6px rgba(0,0,0,0.60),
+        0 0 18px rgba(199,169,74,0.35);
     }
     .hero p{
       margin:.5rem 0 0;
       color:#d0d0d0;
       font-size:clamp(14px,2vw,18px);
-      text-shadow:0 0 6px rgba(0,0,0,0.6);
+      /* kräftigerer Schatten für bessere Lesbarkeit auf hellem Hintergrund (Zähne) */
+      text-shadow:
+        0 2px 6px rgba(0,0,0,0.70),
+        0 0 14px rgba(0,0,0,0.55);
     }
 
     .wrap{max-width:var(--wrap);margin:0 auto;padding:38px 18px 60px}
