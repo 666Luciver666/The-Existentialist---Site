@@ -52,7 +52,6 @@
       font-weight:700;
       letter-spacing:.5px;
       color:var(--accent);
-      /* sichtbarer, aber elegant */
       text-shadow:
         0 2px 6px rgba(0,0,0,0.60),
         0 0 18px rgba(199,169,74,0.35);
@@ -61,7 +60,7 @@
       margin:.5rem 0 0;
       color:#d0d0d0;
       font-size:clamp(14px,2vw,18px);
-      /* kräftigerer Schatten für bessere Lesbarkeit auf hellem Hintergrund (Zähne) */
+      /* stärkerer Schatten für Lesbarkeit am Desktop */
       text-shadow:
         0 2px 6px rgba(0,0,0,0.70),
         0 0 14px rgba(0,0,0,0.55);
@@ -70,6 +69,50 @@
     .wrap{max-width:var(--wrap);margin:0 auto;padding:38px 18px 60px}
     .section-title{margin:0 0 16px;font-size:22px;font-weight:400;color:var(--accent)}
     .muted{color:var(--muted);font-size:13px}
+
+    /* ====== CATEGORY TILES (3 Kacheln nebeneinander) ====== */
+    .tiles{
+      display:grid;gap:16px;margin:24px 0 32px;
+      grid-template-columns:1fr; /* mobile */
+    }
+    @media(min-width:720px){ .tiles{ grid-template-columns:repeat(3,1fr);} }
+
+    .tile{
+      position:relative;border:1px solid #1a1a1a;border-radius:10px;overflow:hidden;
+      background:#0e0e0e;isolation:isolate;
+    }
+    .tile-media{
+      aspect-ratio: 4/3; background:#111; overflow:hidden;
+    }
+    .tile-media img{
+      width:100%;height:100%;object-fit:cover;
+      transform:scale(1); transition:transform .35s ease;
+      filter:contrast(1.02) saturate(1.02);
+    }
+    .tile:hover .tile-media img{ transform:scale(1.04); }
+
+    .tile-head{
+      padding:12px 14px 10px;border-bottom:1px solid #1b1b1b;
+      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0));
+    }
+    .tile-head h3{
+      margin:0;font-size:18px;letter-spacing:.3px;color:var(--accent);
+    }
+    .tile-foot{
+      padding:10px 14px 14px;color:#bdbdbd;font-size:13px;min-height:38px;
+    }
+    .tile a{display:block}
+
+    /* Placeholder for Originals (no image yet) */
+    .tile.placeholder .tile-media{
+      display:flex;align-items:center;justify-content:center;
+      background:#0d0d0d;
+      border-top:1px dashed #2a2a2a;border-bottom:1px dashed #2a2a2a;
+    }
+    .tile.placeholder .tile-media .ph{
+      width:68%;max-width:280px;aspect-ratio:1/1;border:1px dashed #3a3a3a;border-radius:8px;
+      display:flex;align-items:center;justify-content:center;color:#8e8e8e;font-size:13px;
+    }
 
     /* CAROUSEL */
     .carousel{position:relative;border:1px solid #1a1a1a;border-radius:8px;background:#111;overflow:hidden}
@@ -119,6 +162,41 @@
       <p>By Manuel Cech — Multidisciplinary Artist &amp; Illusion Designer</p>
     </div>
   </header>
+
+  <!-- CATEGORY TILES -->
+  <main class="wrap">
+    <section aria-label="Explore categories">
+      <h2 class="section-title">Explore</h2>
+      <div class="tiles">
+        <!-- Fine Art Prints -->
+        <a class="tile" href="?cat=prints#catalog" aria-label="View Fine Art Prints">
+          <div class="tile-head"><h3>Fine Art Prints</h3></div>
+          <div class="tile-media">
+            <img src="lucia.JPG" alt="Lucia — Fine Art Print by Manuel Cech">
+          </div>
+          <div class="tile-foot">Pastel, Acrylic &amp; Airbrush editions.</div>
+        </a>
+
+        <!-- Digital Art -->
+        <a class="tile" href="?cat=digital#catalog" aria-label="View Digital Art">
+          <div class="tile-head"><h3>Digital Art</h3></div>
+          <div class="tile-media">
+            <img src="mirror.JPG" alt="Mirror — Digital Artwork by Manuel Cech">
+          </div>
+          <div class="tile-foot">Born in pixels, printed to last.</div>
+        </a>
+
+        <!-- Originals (placeholder) -->
+        <a class="tile placeholder" href="?cat=originals#catalog" aria-label="View Originals">
+          <div class="tile-head"><h3>Originals</h3></div>
+          <div class="tile-media">
+            <div class="ph">Coming&nbsp;soon</div>
+          </div>
+          <div class="tile-foot">Unique one-of-one works.</div>
+        </a>
+      </div>
+    </section>
+  </main>
 
   <!-- WORKS -->
   <main class="wrap" id="catalog">
@@ -175,6 +253,10 @@
       const prev  = document.getElementById('prev');
       const next  = document.getElementById('next');
 
+      // Optional: Filter per URL ?cat=prints|digital|originals
+      const params = new URLSearchParams(location.search);
+      const wantedCat = (params.get('cat') || '').toLowerCase();
+
       let items = [];
       try{
         const res = await fetch('data.json', {cache:'no-store'});
@@ -184,9 +266,21 @@
         track.innerHTML = '<div class="slide"><div class="art-body"><p class="caption">No works available yet.</p></div></div>';
         return;
       }
+
+      // Robustheit: wenn keine Items
       if(!Array.isArray(items) || !items.length){
         track.innerHTML = '<div class="slide"><div class="art-body"><p class="caption">No works available yet.</p></div></div>';
         return;
+      }
+
+      // Optional filtern (nur wenn category vorhanden)
+      let shown = items;
+      if(wantedCat){
+        shown = items.filter(it=>{
+          const c = (it.category||'').toLowerCase();
+          return c === wantedCat;
+        });
+        if(!shown.length){ shown = items; } // Fallback: zeige alles
       }
 
       const slideHTML = (it) => {
@@ -213,10 +307,12 @@
         `;
       };
 
-      const first = items[0], last = items[items.length-1];
-      track.innerHTML = [last, ...items, first].map(slideHTML).join('');
+      // Infinite loop via clones
+      const arr = shown;
+      const first = arr[0], last = arr[arr.length-1];
+      track.innerHTML = [last, ...arr, first].map(slideHTML).join('');
 
-      const slideCount = items.length;
+      const slideCount = arr.length;
       let index = 1;
 
       function go(i, animate=true){
@@ -231,17 +327,20 @@
         setActive(index-1);
       }
 
-      dots.innerHTML = items.map((_,i)=>`<div class="dot${i===0?' active':''}" data-i="${i}" role="tab" aria-label="Go to slide ${i+1}"></div>`).join('');
+      // Dots
+      dots.innerHTML = arr.map((_,i)=>`<div class="dot${i===0?' active':''}" data-i="${i}" role="tab" aria-label="Go to slide ${i+1}"></div>`).join('');
       const setActive = (i)=>{ [...dots.children].forEach((d,di)=>d.classList.toggle('active', di===i)); };
       dots.addEventListener('click',e=>{
         const d = e.target.closest('.dot'); if(!d) return;
         go(Number(d.dataset.i)+1,true);
       });
 
+      // Controls
       prev.onclick = ()=>go(index-1,true);
       next.onclick = ()=>go(index+1,true);
       track.addEventListener('transitionend', normalize);
 
+      // Touch swipe
       let startX=0, dx=0, dragging=false;
       track.addEventListener('touchstart',e=>{ dragging=true; startX=e.touches[0].clientX; dx=0; track.style.transition='none';},{passive:true});
       track.addEventListener('touchmove',e=>{
@@ -256,11 +355,13 @@
         else { go(index, true); }
       });
 
+      // Keyboard
       window.addEventListener('keydown',e=>{
         if(e.key==='ArrowRight') go(index+1,true);
         if(e.key==='ArrowLeft')  go(index-1,true);
       });
 
+      // Init
       go(index,false);
     }
     buildCarousel();
