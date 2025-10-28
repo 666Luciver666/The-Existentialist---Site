@@ -5,74 +5,213 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>The Existentialist — Manuel Cech</title>
   <meta name="description" content="The Existentialist — Fine art prints by Manuel Cech" />
+
+  <!-- 🔹 SEO & Social Preview -->
+  <meta name="author" content="Manuel Cech" />
+  <meta name="keywords" content="Manuel Cech, The Existentialist, Existential Realism, Art, Fine Art, Fuerteventura, Painter, Illusion Designer, Pastel, Acrylic, Digital Art" />
+  <meta property="og:title" content="The Existentialist — Manuel Cech" />
+  <meta property="og:description" content="Existential Realism in art — exploring identity, decay and transformation through pastel, acrylic and illusion." />
+  <meta property="og:image" content="https://theexistentialist.art/mirror.JPG" />
+  <meta property="og:url" content="https://theexistentialist.art" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="The Existentialist — Manuel Cech" />
+  <meta name="twitter:description" content="Existential Realism in art — exploring identity, decay and transformation." />
+  <meta name="twitter:image" content="https://theexistentialist.art/mirror.JPG" />
+
+  <!-- 🔹 Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="apple-touch-icon" href="favicon.png" />
+  <meta name="theme-color" content="#0b0b0b" />
+
   <style>
     :root{
       --bg:#0b0b0b; --ink:#eaeaea; --muted:#cfcfcf; --line:#1f1f1f;
       --accent:#c7a94a; --accent-ink:#111; --wrap:1000px;
     }
-    *{box-sizing:border-box;}
-    html,body{margin:0;background:var(--bg);color:var(--ink);
-      font-family:"Times New Roman",Georgia,serif;}
-    img{max-width:100%;display:block;}
-    a{color:inherit;text-decoration:none;}
+    *{box-sizing:border-box}
+    html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Times New Roman",Georgia,serif}
+    img{max-width:100%;display:block}
+    a{color:inherit;text-decoration:none}
 
-    /* HERO (Mirror static) */
+    /* HERO (static Mirror) */
     .hero{
-      min-height:55vh;display:flex;align-items:center;justify-content:center;
-      text-align:center;background:#000 url("mirror.JPG") center/cover no-repeat;
+      min-height:54vh;display:flex;align-items:flex-end;justify-content:center;text-align:center;
+      background:#000 url("mirror.JPG") center/cover no-repeat;
       border-bottom:1px solid var(--line);
+      text-shadow:0 2px 10px rgba(0,0,0,.85);
+      padding:10vh 16px 6vh;
     }
     .hero h1{
-      font-size:3rem;margin:0;color:var(--accent);
-      text-shadow:0 1px 2px rgba(0,0,0,0.45); /* feiner Schatten */
+      margin:0;
+      font-size:clamp(38px,6vw,72px);
+      font-weight:700;
+      letter-spacing:.5px;
+      color:var(--accent);
+      text-shadow:0 1.3px 2.4px rgba(0,0,0,0.45); /* feiner, subtiler Schatten */
     }
     .hero p{
-      font-size:1.1rem;margin-top:.5rem;color:var(--ink);
+      margin:.5rem 0 0;
+      color:#d0d0d0;
+      font-size:clamp(14px,2vw,18px);
     }
 
-    /* SECTION */
-    section{max-width:var(--wrap);margin:0 auto;padding:4rem 1rem;}
-    h2{color:var(--accent);margin-bottom:.5rem;}
-    p{line-height:1.6;color:var(--muted);}
-    .art{
-      display:grid;grid-template-columns:1fr 1fr;gap:2rem;
-      align-items:center;border-top:1px solid var(--line);padding-top:4rem;
-    }
-    @media(max-width:800px){.art{grid-template-columns:1fr;}}
+    .wrap{max-width:var(--wrap);margin:0 auto;padding:38px 18px 60px}
+    .section-title{margin:0 0 16px;font-size:22px;font-weight:400;color:var(--accent)}
+    .muted{color:var(--muted);font-size:13px}
 
-    /* FOOTER */
-    footer{
-      text-align:center;padding:3rem 1rem;border-top:1px solid var(--line);
-      color:var(--muted);font-size:.9rem;
+    /* CAROUSEL */
+    .carousel{position:relative;border:1px solid #1a1a1a;border-radius:8px;background:#111;overflow:hidden}
+    .viewport{overflow:hidden}
+    .track{display:flex;will-change:transform;transition:transform .45s ease}
+    .slide{min-width:100%;display:grid;gap:24px;grid-template-columns:1fr;padding:18px}
+    @media(min-width:860px){.slide{grid-template-columns:1fr 1fr}}
+    .art-img{background:#0e0e0e;border-radius:6px;overflow:hidden}
+    .art-body{padding:4px 4px 0 4px}
+    .title{margin:0 0 6px;font-size:clamp(20px,2.6vw,26px);color:var(--accent)}
+    .price{margin:6px 0 12px;color:#cfcfcf}
+    .btn{
+      display:inline-block;padding:.65em 1.1em;border-radius:8px;background:var(--accent);color:var(--accent-ink);
+      font-weight:bold;border:1px solid #9e8f2a;box-shadow:0 6px 18px rgba(0,0,0,.15)
     }
+    .btn:hover{filter:brightness(1.06)}
+    .secure{display:block;margin-top:.45em;font-size:12px;color:#b9b9b9;opacity:.9}
+    .caption{color:#bdbdbd;font-size:13px;margin:10px 0 0}
+    .desc{margin-top:12px;line-height:1.55;color:#ddd}
+    .desc p{margin:.6em 0}
+
+    /* Controls */
+    .ctrl{position:absolute;inset:0;pointer-events:none}
+    .arrow{
+      pointer-events:auto;position:absolute;top:50%;transform:translateY(-50%);
+      background:#161616cc;border:1px solid #2a2a2a;color:#fff;width:42px;height:42px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none
+    }
+    .arrow:hover{background:#1c1c1c}
+    .prev{left:8px} .next{right:8px}
+    .dots{position:absolute;left:0;right:0;bottom:10px;display:flex;gap:8px;justify-content:center;pointer-events:auto}
+    .dot{width:8px;height:8px;border-radius:50%;background:#5f5f5f;opacity:.6;cursor:pointer}
+    .dot.active{background:#d8d8d8;opacity:1}
+
+    /* ABOUT */
+    footer{margin-top:58px;padding-top:26px;border-top:1px solid var(--line);color:#d8d8d8}
+    footer h3{margin:0 0 .4em;font-size:18px;color:var(--accent)}
+    .meta{font-size:12px;color:#a9a9a9;margin-top:26px;text-align:center}
   </style>
 </head>
 
 <body>
+
   <!-- HERO -->
-  <div class="hero">
+  <header class="hero" role="banner">
     <div>
       <h1>The Existentialist</h1>
-      <p>Manuel Cech · Multidisciplinary Artist & Illusion Designer</p>
+      <p>By Manuel Cech — Multidisciplinary Artist &amp; Illusion Designer</p>
     </div>
-  </div>
+  </header>
 
-  <!-- ARTWORK SECTION -->
-  <section class="art">
-    <img src="lucia.JPG" alt="Lucia — Fine Art Print by Manuel Cech">
-    <div>
-      <h2>Lucia (2025)</h2>
-      <p>
-        Pastel on Pastelmat<br><br>
-        The first work of a new era — between light and decay.<br>
-        For my beloved sister.
-      </p>
-    </div>
-  </section>
+  <!-- WORKS -->
+  <main class="wrap" id="catalog">
+    <h2 class="section-title">Works <span class="muted">— swipe or use arrows.</span></h2>
 
-  <!-- FOOTER -->
-  <footer>
-    © 2025 Manuel Cech · The Existentialist Series
+    <section class="carousel" aria-roledescription="carousel" aria-label="Artwork carousel">
+      <div class="viewport">
+        <div id="track" class="track"></div>
+      </div>
+      <div class="ctrl" aria-hidden="false">
+        <button class="arrow prev" id="prev" aria-label="Previous">‹</button>
+        <button class="arrow next" id="next" aria-label="Next">›</button>
+        <div id="dots" class="dots" role="tablist"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ABOUT -->
+  <footer class="wrap">
+    <h3>About Manuel Cech</h3>
+    <p>
+      Multidisciplinary Artist · Magician · Musician<br/>
+      Based on Fuerteventura, Canary Islands<br/>
+      Exploring identity, decay, illusion and transformation through Existential Realism.
+    </p>
+
+    <p><strong>Art &amp; Media</strong><br/>
+      • Fine Art Prints (Pastel, Acrylic &amp; Airbrush)<br/>
+      • Digital Artwork<br/>
+      • Sculpture &amp; Mask Design<br/>
+      • Animatronics &amp; SFX Creations<br/>
+      • Professional Illusion Design
+    </p>
+
+    <p><strong>Background</strong><br/>
+      Manuel Cech began performing magic at the age of three and later became a certified pyrotechnician and illusion engineer in Germany.
+      He has worked in stage productions, music videos, and large-scale special effects for over two decades before dedicating himself
+      to fine art and existential realism.
+    </p>
+
+    <p><strong>Current Work</strong><br/>
+      The first major artwork of “The Existentialist” Series, <em>Lucia</em>, was completed in 2025.
+      It marks the beginning of a new chapter combining realism, emotion, and philosophical depth.
+    </p>
+
+    <p class="meta">© Manuel Cech 2025 — The Existentialist</p>
   </footer>
+
+  <!-- DATA-DRIVEN CAROUSEL -->
+  <script>
+    async function buildCarousel(){
+      const track=document.getElementById('track');
+      const dots=document.getElementById('dots');
+      const prev=document.getElementById('prev');
+      const next=document.getElementById('next');
+
+      let items=[];
+      try{
+        const res=await fetch('data.json',{cache:'no-store'});
+        if(!res.ok) throw 0;
+        items=await res.json();
+      }catch(e){
+        track.innerHTML='<div class="slide"><div class="art-body"><p class="caption">No works available yet.</p></div></div>';
+        return;
+      }
+      if(!Array.isArray(items)||!items.length){
+        track.innerHTML='<div class="slide"><div class="art-body"><p class="caption">No works available yet.</p></div></div>';
+        return;
+      }
+
+      const slideHTML=it=>{
+        const t=it.title||'',i=it.image||'',p=typeof it.price_eur==='number'?`€${it.price_eur}`:(it.price_eur||'');
+        const l=it.stripe_link||'#',c=it.caption||'',d=it.description_html||'',s=it.dedication_html||'';
+        return `<article class="slide" role="group" aria-label="${t}">
+          <div class="art-img">${i?`<img src="${i}" alt="${t} by Manuel Cech">`:''}</div>
+          <div class="art-body">
+            <h3 class="title">${t}</h3>${p?`<div class="price">${p}</div>`:''}
+            ${l?`<a class="btn" href="${l}" target="_blank" rel="noopener">Buy</a>`:''}
+            <span class="secure">Secure payment via Stripe</span>
+            ${c?`<div class="caption">${c}</div>`:''}
+            ${d?`<div class="desc">${d}</div>`:''}
+            ${s?`<div class="desc">${s}</div>`:''}
+          </div></article>`;
+      };
+
+      const first=items[0],last=items[items.length-1];
+      track.innerHTML=[last,...items,first].map(slideHTML).join('');
+      const n=items.length;let i=1;
+      function go(x,a=true){track.style.transition=a?'transform .45s ease':'none';i=x;track.style.transform=`translateX(${-i*100}%)`;}
+      function norm(){if(i===0){i=n;go(i,false);}else if(i===n+1){i=1;go(i,false);}setActive(i-1);}
+      dots.innerHTML=items.map((_,j)=>`<div class="dot${j===0?' active':''}" data-i="${j}" role="tab"></div>`).join('');
+      const setActive=j=>[...dots.children].forEach((d,k)=>d.classList.toggle('active',k===j));
+      dots.addEventListener('click',e=>{const d=e.target.closest('.dot');if(!d)return;go(Number(d.dataset.i)+1,true);});
+      prev.onclick=()=>go(i-1,true);next.onclick=()=>go(i+1,true);track.addEventListener('transitionend',norm);
+      let sx=0,dx=0,drag=false;
+      track.addEventListener('touchstart',e=>{drag=true;sx=e.touches[0].clientX;dx=0;track.style.transition='none';},{passive:true});
+      track.addEventListener('touchmove',e=>{if(!drag)return;dx=e.touches[0].clientX-sx;const p=dx/track.parentElement.clientWidth*100;
+        track.style.transform=`translateX(${-i*100+p}%)`;},{passive:true});
+      track.addEventListener('touchend',()=>{if(!drag)return;drag=false;if(Math.abs(dx)>40){go(i+(dx<0?1:-1),true);}else{go(i,true);} });
+      window.addEventListener('keydown',e=>{if(e.key==='ArrowRight')go(i+1,true);if(e.key==='ArrowLeft')go(i-1,true);});
+      go(i,false);
+    }
+    buildCarousel();
+  </script>
 </body>
 </html>
