@@ -15,7 +15,7 @@
     img{max-width:100%;display:block}
     a{color:inherit;text-decoration:none}
 
-    /* ===== HERO (exactly as before: static Mirror) ===== */
+    /* ===== HERO (static Mirror) ===== */
     .hero{
       min-height:54vh;display:flex;align-items:flex-end;justify-content:center;text-align:center;
       background:#000 url("mirror.JPG") center/cover no-repeat;
@@ -26,17 +26,18 @@
     .hero p{margin:.5rem 0 0;color:#d0d0d0;font-size:clamp(14px,2vw,18px)}
 
     .wrap{max-width:var(--wrap);margin:0 auto;padding:38px 18px 60px}
-    .section-title{margin:0 0 16px;font-size:22px;font-weight:400;color:#dcdcdc}
+    .section-title{margin:0 0 16px;font-size:22px;font-weight:400;color:var(--accent)}
     .muted{color:var(--muted);font-size:13px}
 
-    /* ===== CAROUSEL (replaces the simple list, rest unchanged) ===== */
+    /* ===== CAROUSEL ===== */
     .carousel{position:relative;border:1px solid #1a1a1a;border-radius:8px;background:#111;overflow:hidden}
-    .track{display:flex;transition:transform .45s ease}
-    .slide{min-width:100%;display:grid;gap:24px;grid-template-columns:1fr}
+    .viewport{overflow:hidden}
+    .track{display:flex;will-change:transform;transition:transform .45s ease}
+    .slide{min-width:100%;display:grid;gap:24px;grid-template-columns:1fr;padding:18px}
     @media(min-width:860px){.slide{grid-template-columns:1fr 1fr}}
-    .art-img{background:#0e0e0e}
-    .art-body{padding:18px}
-    .title{margin:0 0 6px;font-size:clamp(20px,2.6vw,26px)}
+    .art-img{background:#0e0e0e;border-radius:6px;overflow:hidden}
+    .art-body{padding:4px 4px 0 4px}
+    .title{margin:0 0 6px;font-size:clamp(20px,2.6vw,26px);color:var(--accent)}
     .price{margin:6px 0 12px;color:#cfcfcf}
     .btn{
       display:inline-block;padding:.65em 1.1em;border-radius:8px;background:var(--accent);color:var(--accent-ink);
@@ -61,15 +62,15 @@
     .dot{width:8px;height:8px;border-radius:50%;background:#5f5f5f;opacity:.6;cursor:pointer}
     .dot.active{background:#d8d8d8;opacity:1}
 
-    /* ===== ABOUT (unchanged) ===== */
+    /* ===== ABOUT ===== */
     footer{margin-top:58px;padding-top:26px;border-top:1px solid var(--line);color:#d8d8d8}
-    footer h3{margin:0 0 .4em;font-size:18px}
+    footer h3{margin:0 0 .4em;font-size:18px;color:var(--accent)}
     .meta{font-size:12px;color:#a9a9a9;margin-top:26px;text-align:center}
   </style>
 </head>
 <body>
 
-  <!-- HERO (unchanged) -->
+  <!-- HERO -->
   <header class="hero" role="banner">
     <div>
       <h1>The Existentialist</h1>
@@ -77,12 +78,14 @@
     </div>
   </header>
 
-  <!-- WORKS (same section header; now a proper carousel) -->
+  <!-- WORKS -->
   <main class="wrap" id="catalog">
-    <h2 class="section-title">Works <span class="muted">— swipe left/right (or use arrows) — looped view.</span></h2>
+    <h2 class="section-title">Works <span class="muted">— swipe / arrows — looped & auto-play.</span></h2>
 
     <section class="carousel" aria-roledescription="carousel" aria-label="Artwork carousel">
-      <div id="track" class="track"></div>
+      <div class="viewport">
+        <div id="track" class="track"></div>
+      </div>
       <div class="ctrl" aria-hidden="false">
         <button class="arrow prev" id="prev" aria-label="Previous">‹</button>
         <button class="arrow next" id="next" aria-label="Next">›</button>
@@ -91,7 +94,7 @@
     </section>
   </main>
 
-  <!-- ABOUT (unchanged) -->
+  <!-- ABOUT -->
   <footer class="wrap">
     <h3>About Manuel Cech</h3>
     <p><strong>By Manuel Cech</strong><br/>
@@ -121,13 +124,16 @@
     <p class="meta">© Manuel Cech 2025 — The Existentialist</p>
   </footer>
 
-  <!-- DATA-DRIVEN CAROUSEL (only new part) -->
+  <!-- DATA-DRIVEN, ANIMATED, INFINITE CAROUSEL -->
   <script>
     async function buildCarousel(){
       const track = document.getElementById('track');
       const dots  = document.getElementById('dots');
-      let items = [];
+      const prev  = document.getElementById('prev');
+      const next  = document.getElementById('next');
 
+      // Load data
+      let items = [];
       try{
         const res = await fetch('data.json', {cache:'no-store'});
         if(!res.ok) throw 0;
@@ -136,14 +142,13 @@
         track.innerHTML = '<div class="slide"><div class="art-body"><p class="caption">No works available yet.</p></div></div>';
         return;
       }
-
       if(!Array.isArray(items) || !items.length){
         track.innerHTML = '<div class="slide"><div class="art-body"><p class="caption">No works available yet.</p></div></div>';
         return;
       }
 
-      // Slides markup
-      track.innerHTML = items.map(it => {
+      // Render slides
+      const slideHTML = (it) => {
         const title = it.title || '';
         const image = it.image || '';
         const price = (typeof it.price_eur === 'number') ? `€${it.price_eur}` : (it.price_eur || '');
@@ -152,7 +157,7 @@
         const desc = it.description_html || '';
         const dedication = it.dedication_html || '';
         return `
-          <article class="slide">
+          <article class="slide" role="group" aria-label="${title}">
             <div class="art-img">${image ? `<img src="${image}" alt="${title} by Manuel Cech">` : ''}</div>
             <div class="art-body">
               <h3 class="title">${title}</h3>
@@ -165,42 +170,80 @@
             </div>
           </article>
         `;
-      }).join('');
+      };
 
-      // State
+      // Infinite loop via clones (first & last)
+      const first = items[0], last = items[items.length-1];
+      const dom = [last, ...items, first].map(slideHTML).join('');
+      track.innerHTML = dom;
+
       const slideCount = items.length;
-      let index = 0;
+      let index = 1; // start at first real slide
+      let width = 0;
+
+      const updateWidth = ()=>{ width = track.getBoundingClientRect().width; go(index, false); };
+      new ResizeObserver(updateWidth).observe(track.parentElement);
 
       // Dots
       dots.innerHTML = items.map((_,i)=>`<div class="dot${i===0?' active':''}" data-i="${i}" role="tab" aria-label="Go to slide ${i+1}"></div>`).join('');
-      function setActive(i){
-        [...dots.children].forEach((d,di)=>d.classList.toggle('active', di===i));
+      const setActive = (i)=>{ [...dots.children].forEach((d,di)=>d.classList.toggle('active', di===i)); };
+
+      // Nav
+      function go(i, animate=true){
+        if(animate) track.style.transition = 'transform .45s ease';
+        else track.style.transition = 'none';
+        index = i;
+        track.style.transform = `translateX(${-index*100}%)`;
       }
 
-      // Navigation
-      function go(i){
-        index = (i + slideCount) % slideCount;
-        const x = -index * 100;
-        track.style.transform = `translateX(${x}%)`;
-        setActive(index);
+      function normalize(){
+        // snap from clones back to real without visible jump
+        if(index === 0){            // left clone (last real)
+          index = slideCount;
+          go(index, false);
+        }else if(index === slideCount+1){ // right clone (first real)
+          index = 1;
+          go(index, false);
+        }
+        setActive(index-1);
       }
-      document.getElementById('prev').onclick = ()=>go(index-1);
-      document.getElementById('next').onclick = ()=>go(index+1);
-      dots.onclick = (e)=>{ const d=e.target.closest('.dot'); if(d){ go(+d.dataset.i); } };
+
+      prev.onclick = ()=>{ go(index-1,true); };
+      next.onclick = ()=>{ go(index+1,true); };
+
+      track.addEventListener('transitionend', normalize);
 
       // Touch swipe
-      let startX=0, dx=0, touching=false;
-      track.addEventListener('touchstart',e=>{ touching=true; startX=e.touches[0].clientX; dx=0; },{passive:true});
-      track.addEventListener('touchmove',e=>{ if(!touching) return; dx=e.touches[0].clientX-startX; },{passive:true});
-      track.addEventListener('touchend',()=>{ touching=false; if(Math.abs(dx)>40){ go(index + (dx<0?1:-1)); } });
-
-      // Keyboard arrows
-      window.addEventListener('keydown',e=>{
-        if(e.key==='ArrowRight') go(index+1);
-        if(e.key==='ArrowLeft')  go(index-1);
+      let startX=0, dx=0, dragging=false;
+      track.addEventListener('touchstart',e=>{ dragging=true; startX=e.touches[0].clientX; dx=0; track.style.transition='none';},{passive:true});
+      track.addEventListener('touchmove',e=>{
+        if(!dragging) return;
+        dx = e.touches[0].clientX - startX;
+        const percent = dx / track.parentElement.clientWidth * 100;
+        track.style.transform = `translateX(${-index*100 + percent}%)`;
+      },{passive:true});
+      track.addEventListener('touchend',()=>{
+        if(!dragging) return; dragging=false;
+        if(Math.abs(dx) > 40){ go(index + (dx<0?1:-1), true); }
+        else { go(index, true); }
       });
 
-      go(0); // initial
+      // Keyboard
+      window.addEventListener('keydown',e=>{
+        if(e.key==='ArrowRight') go(index+1,true);
+        if(e.key==='ArrowLeft')  go(index-1,true);
+      });
+
+      // Auto-play (pause on hover/touch/focus)
+      let timer = null;
+      const startAuto = ()=>{ stopAuto(); timer = setInterval(()=>go(index+1,true), 5000); };
+      const stopAuto  = ()=>{ if(timer) clearInterval(timer); timer=null; };
+      ['mouseenter','focusin','touchstart'].forEach(ev=>track.parentElement.addEventListener(ev, stopAuto, {passive:true}));
+      ['mouseleave','focusout','touchend'].forEach(ev=>track.parentElement.addEventListener(ev, startAuto, {passive:true}));
+
+      // init
+      go(index,false);
+      startAuto();
     }
     buildCarousel();
   </script>
