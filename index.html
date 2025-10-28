@@ -3,101 +3,81 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>The Existentialist — Manuel Cech</title>
-  <meta name="description" content="The Existentialist — Fine art prints by Manuel Cech" />
+  <title>The Existentialist — Manuel Cech | Fine Art Prints</title>
+
+  <!-- SEO -->
+  <meta name="description" content="The Existentialist — Fine Art Prints by Manuel Cech. Exploring identity, decay, illusion, and transformation through Existential Realism. Based on Fuerteventura, Canary Islands." />
+  <meta name="keywords" content="The Existentialist, The Existentialist Series, Manuel Cech, existential realism, dark art, fine art prints, pastel, acrylic, airbrush, sculpture, animatronics, illusion design, identity and decay, transformation art, macabre portrait, surreal realism, existentialist art, dark art collectors, Fuerteventura artist, Canary Islands artist, Lucia fine art print, Mirror artwork, contemporary realism, limited edition prints" />
+  <meta name="author" content="Manuel Cech" />
+  <meta name="robots" content="index, follow" />
+
   <style>
     :root{
       --bg:#0b0b0b; --ink:#eaeaea; --muted:#cfcfcf; --line:#1f1f1f;
       --accent:#c7a94a; --accent-ink:#111; --wrap:1000px;
     }
-    *{box-sizing:border-box}
-    html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Times New Roman",Georgia,serif}
-    img{max-width:100%;display:block}
-    a{color:inherit;text-decoration:none}
+    *{box-sizing:border-box;}
+    html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Times New Roman",Georgia,serif;}
+    img{max-width:100%;display:block;}
+    a{color:inherit;text-decoration:none;}
 
-    /* HERO (static Mirror) */
+    /* HERO */
     .hero{
-      min-height:54vh;display:flex;align-items:flex-end;justify-content:center;text-align:center;
+      min-height:55vh;display:flex;align-items:center;justify-content:center;text-align:center;
       background:#000 url("mirror.JPG") center/cover no-repeat;
       border-bottom:1px solid var(--line);text-shadow:0 2px 10px rgba(0,0,0,.85);
-      padding:10vh 16px 6vh;
+      padding:8vh 16px;
     }
-    .hero h1{margin:0;font-size:clamp(38px,6vw,72px);font-weight:700;letter-spacing:.5px}
-    .hero p{margin:.5rem 0 0;color:#d0d0d0;font-size:clamp(14px,2vw,18px)}
+    .hero h1{margin:0;font-size:clamp(36px,6vw,72px);font-weight:400;color:var(--accent);}
+    .hero p{margin:.5rem 0 0;color:#cfcfcf;font-size:clamp(14px,2vw,18px);}
 
-    .wrap{max-width:var(--wrap);margin:0 auto;padding:38px 18px 60px}
-    .section-title{margin:0 0 16px;font-size:22px;font-weight:400;color:var(--accent)}
-    .muted{color:var(--muted);font-size:13px}
+    .wrap{max-width:var(--wrap);margin:0 auto;padding:40px 20px 60px;}
 
-    /* CAROUSEL */
-    .carousel{position:relative;border:1px solid #1a1a1a;border-radius:8px;background:#111;overflow:hidden}
-    .viewport{overflow:hidden}
-    .track{display:flex;will-change:transform;transition:transform .45s ease}
-    .slide{min-width:100%;display:grid;gap:24px;grid-template-columns:1fr;padding:18px}
-    @media(min-width:860px){.slide{grid-template-columns:1fr 1fr}}
-    .art-img{background:#0e0e0e;border-radius:6px;overflow:hidden}
-    .art-body{padding:4px 4px 0 4px}
-    .title{margin:0 0 6px;font-size:clamp(20px,2.6vw,26px);color:var(--accent)}
-    .price{margin:6px 0 12px;color:#cfcfcf}
+    /* GALLERY */
+    .gallery{display:grid;gap:28px;grid-template-columns:1fr;}
+    @media(min-width:860px){.gallery{grid-template-columns:1fr 1fr;}}
+    .card{border:1px solid #1a1a1a;border-radius:6px;background:#111;overflow:hidden;}
+    .card-body{padding:16px;}
+    .title{margin:0 0 6px;font-size:clamp(20px,2.6vw,26px);color:var(--accent);}
+    .caption{color:#bdbdbd;font-size:13px;margin:8px 0 0;}
+    .price{margin:8px 0 12px;color:#cfcfcf;}
     .btn{
       display:inline-block;padding:.65em 1.1em;border-radius:8px;background:var(--accent);color:var(--accent-ink);
-      font-weight:bold;border:1px solid #9e8f2a;box-shadow:0 6px 18px rgba(0,0,0,.15)
+      font-weight:bold;border:1px solid #9e8f2a;box-shadow:0 6px 18px rgba(0,0,0,.15);
     }
-    .btn:hover{filter:brightness(1.06)}
-    .secure{display:block;margin-top:.45em;font-size:12px;color:#b9b9b9;opacity:.9}
-    .caption{color:#bdbdbd;font-size:13px;margin:10px 0 0}
-    .desc{margin-top:12px;line-height:1.55;color:#ddd}
-    .desc p{margin:.6em 0}
-
-    /* Controls */
-    .ctrl{position:absolute;inset:0;pointer-events:none}
-    .arrow{
-      pointer-events:auto;position:absolute;top:50%;transform:translateY(-50%);
-      background:#161616cc;border:1px solid #2a2a2a;color:#fff;width:42px;height:42px;border-radius:50%;
-      display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none
-    }
-    .arrow:hover{background:#1c1c1c}
-    .prev{left:8px} .next{right:8px}
-    .dots{position:absolute;left:0;right:0;bottom:10px;display:flex;gap:8px;justify-content:center;pointer-events:auto}
-    .dot{width:8px;height:8px;border-radius:50%;background:#5f5f5f;opacity:.6;cursor:pointer}
-    .dot.active{background:#d8d8d8;opacity:1}
+    .btn:hover{filter:brightness(1.06);}
+    .secure{display:block;margin-top:.45em;font-size:12px;color:#b9b9b9;opacity:.9;}
+    .desc{margin-top:14px;line-height:1.55;color:#ddd;}
+    .desc p{margin:.6em 0;}
 
     /* ABOUT */
-    footer{margin-top:58px;padding-top:26px;border-top:1px solid var(--line);color:#d8d8d8}
-    footer h3{margin:0 0 .4em;font-size:18px;color:var(--accent)}
-    .meta{font-size:12px;color:#a9a9a9;margin-top:26px;text-align:center}
+    footer{margin-top:58px;padding-top:26px;border-top:1px solid var(--line);color:#d8d8d8;}
+    footer h3{margin:0 0 .4em;font-size:18px;color:var(--accent);}
+    .meta{font-size:12px;color:#a9a9a9;margin-top:26px;text-align:center;}
   </style>
 </head>
 <body>
 
   <!-- HERO -->
-  <header class="hero" role="banner">
+  <header class="hero">
     <div>
       <h1>The Existentialist</h1>
       <p>By Manuel Cech — Multidisciplinary Artist &amp; Illusion Designer</p>
     </div>
   </header>
 
-  <!-- WORKS -->
+  <!-- CATALOG -->
   <main class="wrap" id="catalog">
-    <h2 class="section-title">Works <span class="muted">— swipe or use arrows.</span></h2>
-
-    <section class="carousel" aria-roledescription="carousel" aria-label="Artwork carousel">
-      <div class="viewport">
-        <div id="track" class="track"></div>
-      </div>
-      <div class="ctrl" aria-hidden="false">
-        <button class="arrow prev" id="prev" aria-label="Previous">‹</button>
-        <button class="arrow next" id="next" aria-label="Next">›</button>
-        <div id="dots" class="dots" role="tablist"></div>
-      </div>
-    </section>
+    <h2 style="margin:0 0 18px;font-size:22px;font-weight:400;color:#dcdcdc;">Works</h2>
+    <div id="gallery" class="gallery" aria-live="polite">
+      <noscript><p class="caption">Please enable JavaScript to view the catalog.</p></noscript>
+    </div>
   </main>
 
-  <!-- ABOUT (without the “By Manuel Cech” line) -->
+  <!-- ABOUT -->
   <footer class="wrap">
     <h3>About Manuel Cech</h3>
-    <p>
+    <p><strong>By Manuel Cech</strong><br/>
       Multidisciplinary Artist · Magician · Musician<br/>
       Based on Fuerteventura, Canary Islands<br/>
       Exploring identity, decay, illusion and transformation through Existential Realism.
@@ -125,111 +105,47 @@
     <p class="meta">© Manuel Cech 2025 — The Existentialist</p>
   </footer>
 
-  <!-- DATA-DRIVEN, MANUAL CAROUSEL (no autoplay) -->
+  <!-- DATA -->
   <script>
-    async function buildCarousel(){
-      const track = document.getElementById('track');
-      const dots  = document.getElementById('dots');
-      const prev  = document.getElementById('prev');
-      const next  = document.getElementById('next');
-
-      // Load data
-      let items = [];
+    async function loadCatalog(){
+      const el = document.getElementById('gallery');
       try{
         const res = await fetch('data.json', {cache:'no-store'});
-        if(!res.ok) throw 0;
-        items = await res.json();
+        if(!res.ok) throw new Error('Failed to load data.json');
+        const items = await res.json();
+        if(!Array.isArray(items) || !items.length){
+          el.innerHTML = '<p class="caption">No works available yet.</p>';
+          return;
+        }
+        el.innerHTML = items.map(it => {
+          const title = it.title || '';
+          const image = it.image || '';
+          const caption = it.caption || '';
+          const price = (typeof it.price_eur === 'number') ? `€${it.price_eur}` : (it.price_eur || '');
+          const link = it.stripe_link || '#';
+          const desc = it.description_html || '';
+          const dedication = it.dedication_html || '';
+          return `
+            <article class="card">
+              ${image ? `<img src="${image}" alt="${title} by Manuel Cech — Existential Realism Fine Art Print">` : ''}
+              <div class="card-body">
+                <h3 class="title">${title}</h3>
+                ${price ? `<div class="price">${price}</div>` : ''}
+                ${link ? `<a class="btn" href="${link}" target="_blank" rel="noopener">Buy</a>` : ''}
+                <span class="secure">Secure payment via Stripe</span>
+                ${caption ? `<div class="caption">${caption}</div>` : ''}
+                ${desc ? `<div class="desc">${desc}</div>` : ''}
+                ${dedication ? `<div class="desc">${dedication}</div>` : ''}
+              </div>
+            </article>
+          `;
+        }).join('');
       }catch(e){
-        track.innerHTML = '<div class="slide"><div class="art-body"><p class="caption">No works available yet.</p></div></div>';
-        return;
+        console.error(e);
+        el.innerHTML = '<p class="caption">Could not load catalog. Please reload.</p>';
       }
-      if(!Array.isArray(items) || !items.length){
-        track.innerHTML = '<div class="slide"><div class="art-body"><p class="caption">No works available yet.</p></div></div>';
-        return;
-      }
-
-      // Render slides
-      const slideHTML = (it) => {
-        const title = it.title || '';
-        const image = it.image || '';
-        const price = (typeof it.price_eur === 'number') ? `€${it.price_eur}` : (it.price_eur || '');
-        const link  = it.stripe_link || '#';
-        const caption = it.caption || '';
-        const desc = it.description_html || '';
-        const dedication = it.dedication_html || '';
-        return `
-          <article class="slide" role="group" aria-label="${title}">
-            <div class="art-img">${image ? `<img src="${image}" alt="${title} by Manuel Cech">` : ''}</div>
-            <div class="art-body">
-              <h3 class="title">${title}</h3>
-              ${price ? `<div class="price">${price}</div>` : ''}
-              ${link ? `<a class="btn" href="${link}" target="_blank" rel="noopener">Buy</a>` : ''}
-              <span class="secure">Secure payment via Stripe</span>
-              ${caption ? `<div class="caption">${caption}</div>` : ''}
-              ${desc ? `<div class="desc">${desc}</div>` : ''}
-              ${dedication ? `<div class="desc">${dedication}</div>` : ''}
-            </div>
-          </article>
-        `;
-      };
-
-      // Infinite loop via clones
-      const first = items[0], last = items[items.length-1];
-      track.innerHTML = [last, ...items, first].map(slideHTML).join('');
-
-      const slideCount = items.length;
-      let index = 1; // start at first real slide
-
-      function go(i, animate=true){
-        track.style.transition = animate ? 'transform .45s ease' : 'none';
-        index = i;
-        track.style.transform = `translateX(${-index*100}%)`;
-      }
-
-      function normalize(){
-        if(index === 0){ index = slideCount; go(index,false); }
-        else if(index === slideCount+1){ index = 1; go(index,false); }
-        setActive(index-1);
-      }
-
-      // Dots
-      dots.innerHTML = items.map((_,i)=>`<div class="dot${i===0?' active':''}" data-i="${i}" role="tab" aria-label="Go to slide ${i+1}"></div>`).join('');
-      const setActive = (i)=>{ [...dots.children].forEach((d,di)=>d.classList.toggle('active', di===i)); };
-      dots.addEventListener('click',e=>{
-        const d = e.target.closest('.dot'); if(!d) return;
-        go(Number(d.dataset.i)+1,true);
-      });
-
-      // Controls
-      prev.onclick = ()=>go(index-1,true);
-      next.onclick = ()=>go(index+1,true);
-      track.addEventListener('transitionend', normalize);
-
-      // Touch swipe
-      let startX=0, dx=0, dragging=false;
-      track.addEventListener('touchstart',e=>{ dragging=true; startX=e.touches[0].clientX; dx=0; track.style.transition='none';},{passive:true});
-      track.addEventListener('touchmove',e=>{
-        if(!dragging) return;
-        dx = e.touches[0].clientX - startX;
-        const percent = dx / track.parentElement.clientWidth * 100;
-        track.style.transform = `translateX(${-index*100 + percent}%)`;
-      },{passive:true});
-      track.addEventListener('touchend',()=>{
-        if(!dragging) return; dragging=false;
-        if(Math.abs(dx) > 40){ go(index + (dx<0?1:-1), true); }
-        else { go(index, true); }
-      });
-
-      // Keyboard
-      window.addEventListener('keydown',e=>{
-        if(e.key==='ArrowRight') go(index+1,true);
-        if(e.key==='ArrowLeft')  go(index-1,true);
-      });
-
-      // init
-      go(index,false);
     }
-    buildCarousel();
+    loadCatalog();
   </script>
 </body>
 </html>
