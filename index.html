@@ -1,151 +1,86 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>The Existentialist — Manuel Cech | Fine Art Prints</title>
-
-  <!-- SEO -->
-  <meta name="description" content="The Existentialist — Fine Art Prints by Manuel Cech. Exploring identity, decay, illusion, and transformation through Existential Realism. Based on Fuerteventura, Canary Islands." />
-  <meta name="keywords" content="The Existentialist, The Existentialist Series, Manuel Cech, existential realism, dark art, fine art prints, pastel, acrylic, airbrush, sculpture, animatronics, illusion design, identity and decay, transformation art, macabre portrait, surreal realism, existentialist art, dark art collectors, Fuerteventura artist, Canary Islands artist, Lucia fine art print, Mirror artwork, contemporary realism, limited edition prints" />
-  <meta name="author" content="Manuel Cech" />
-  <meta name="robots" content="index, follow" />
-
-  <style>
-    :root{
-      --bg:#0b0b0b; --ink:#eaeaea; --muted:#cfcfcf; --line:#1f1f1f;
-      --accent:#c7a94a; --accent-ink:#111; --wrap:1000px;
-    }
-    *{box-sizing:border-box;}
-    html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Times New Roman",Georgia,serif;}
-    img{max-width:100%;display:block;}
-    a{color:inherit;text-decoration:none;}
-
-    /* HERO */
-    .hero{
-      min-height:55vh;display:flex;align-items:center;justify-content:center;text-align:center;
-      background:#000 url("mirror.JPG") center/cover no-repeat;
-      border-bottom:1px solid var(--line);text-shadow:0 2px 10px rgba(0,0,0,.85);
-      padding:8vh 16px;
-    }
-    .hero h1{margin:0;font-size:clamp(36px,6vw,72px);font-weight:400;color:var(--accent);}
-    .hero p{margin:.5rem 0 0;color:#cfcfcf;font-size:clamp(14px,2vw,18px);}
-
-    .wrap{max-width:var(--wrap);margin:0 auto;padding:40px 20px 60px;}
-
-    /* GALLERY */
-    .gallery{display:grid;gap:28px;grid-template-columns:1fr;}
-    @media(min-width:860px){.gallery{grid-template-columns:1fr 1fr;}}
-    .card{border:1px solid #1a1a1a;border-radius:6px;background:#111;overflow:hidden;}
-    .card-body{padding:16px;}
-    .title{margin:0 0 6px;font-size:clamp(20px,2.6vw,26px);color:var(--accent);}
-    .caption{color:#bdbdbd;font-size:13px;margin:8px 0 0;}
-    .price{margin:8px 0 12px;color:#cfcfcf;}
-    .btn{
-      display:inline-block;padding:.65em 1.1em;border-radius:8px;background:var(--accent);color:var(--accent-ink);
-      font-weight:bold;border:1px solid #9e8f2a;box-shadow:0 6px 18px rgba(0,0,0,.15);
-    }
-    .btn:hover{filter:brightness(1.06);}
-    .secure{display:block;margin-top:.45em;font-size:12px;color:#b9b9b9;opacity:.9;}
-    .desc{margin-top:14px;line-height:1.55;color:#ddd;}
-    .desc p{margin:.6em 0;}
-
-    /* ABOUT */
-    footer{margin-top:58px;padding-top:26px;border-top:1px solid var(--line);color:#d8d8d8;}
-    footer h3{margin:0 0 .4em;font-size:18px;color:var(--accent);}
-    .meta{font-size:12px;color:#a9a9a9;margin-top:26px;text-align:center;}
-  </style>
-</head>
-<body>
-
-  <!-- HERO -->
-  <header class="hero">
-    <div>
-      <h1>The Existentialist</h1>
-      <p>By Manuel Cech — Multidisciplinary Artist &amp; Illusion Designer</p>
+<section class="hero">
+  <div class="hero-content">
+    <h1>The Existentialist</h1>
+    <p>Manuel Cech · Multidisciplinary Artist & Illusion Designer</p>
+  </div>
+  <div class="art-slide">
+    <img src="lucia.JPG" alt="Lucia — Fine Art Print by Manuel Cech" />
+    <div class="art-text">
+      <h2>Lucia (2025)</h2>
+      <p>
+        Pastel on Pastelmat<br />
+        The first work of a new era — between light and decay.<br />
+        For my beloved sister.
+      </p>
     </div>
-  </header>
+  </div>
+</section>
 
-  <!-- CATALOG -->
-  <main class="wrap" id="catalog">
-    <h2 style="margin:0 0 18px;font-size:22px;font-weight:400;color:#dcdcdc;">Works</h2>
-    <div id="gallery" class="gallery" aria-live="polite">
-      <noscript><p class="caption">Please enable JavaScript to view the catalog.</p></noscript>
-    </div>
-  </main>
+<style>
+:root {
+  --bg: #0b0b0b;
+  --ink: #eaeaea;
+  --accent: #c7a94a; /* gold */
+}
 
-  <!-- ABOUT -->
-  <footer class="wrap">
-    <h3>About Manuel Cech</h3>
-    <p><strong>By Manuel Cech</strong><br/>
-      Multidisciplinary Artist · Magician · Musician<br/>
-      Based on Fuerteventura, Canary Islands<br/>
-      Exploring identity, decay, illusion and transformation through Existential Realism.
-    </p>
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Times New Roman", Georgia, serif;
+}
 
-    <p><strong>Art &amp; Media</strong><br/>
-      • Fine Art Prints (Pastel, Acrylic &amp; Airbrush)<br/>
-      • Digital Artwork<br/>
-      • Sculpture &amp; Mask Design<br/>
-      • Animatronics &amp; SFX Creations<br/>
-      • Professional Illusion Design
-    </p>
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 4rem 1rem;
+}
 
-    <p><strong>Background</strong><br/>
-      Manuel Cech began performing magic at the age of three and later became a certified pyrotechnician and illusion engineer in Germany.
-      He has worked in stage productions, music videos, and large-scale special effects for over two decades before dedicating himself
-      to fine art and existential realism.
-    </p>
+.hero-content h1 {
+  color: var(--accent);
+  font-size: 3rem;
+  letter-spacing: 1px;
+  margin: 0;
+  text-shadow: 0 0.8px 2px rgba(0, 0, 0, 0.45); /* feiner Schatten */
+}
 
-    <p><strong>Current Work</strong><br/>
-      The first major artwork of “The Existentialist” Series, <em>Lucia</em>, was completed in 2025.
-      It marks the beginning of a new chapter combining realism, emotion, and philosophical depth.
-    </p>
+.hero-content p {
+  margin-top: 0.5rem;
+  color: var(--ink);
+  font-size: 1.1rem;
+  text-shadow: 0 0.6px 1.5px rgba(0, 0, 0, 0.4); /* leichter, edler Schatten */
+}
 
-    <p class="meta">© Manuel Cech 2025 — The Existentialist</p>
-  </footer>
+.art-slide {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3rem;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
 
-  <!-- DATA -->
-  <script>
-    async function loadCatalog(){
-      const el = document.getElementById('gallery');
-      try{
-        const res = await fetch('data.json', {cache:'no-store'});
-        if(!res.ok) throw new Error('Failed to load data.json');
-        const items = await res.json();
-        if(!Array.isArray(items) || !items.length){
-          el.innerHTML = '<p class="caption">No works available yet.</p>';
-          return;
-        }
-        el.innerHTML = items.map(it => {
-          const title = it.title || '';
-          const image = it.image || '';
-          const caption = it.caption || '';
-          const price = (typeof it.price_eur === 'number') ? `€${it.price_eur}` : (it.price_eur || '');
-          const link = it.stripe_link || '#';
-          const desc = it.description_html || '';
-          const dedication = it.dedication_html || '';
-          return `
-            <article class="card">
-              ${image ? `<img src="${image}" alt="${title} by Manuel Cech — Existential Realism Fine Art Print">` : ''}
-              <div class="card-body">
-                <h3 class="title">${title}</h3>
-                ${price ? `<div class="price">${price}</div>` : ''}
-                ${link ? `<a class="btn" href="${link}" target="_blank" rel="noopener">Buy</a>` : ''}
-                <span class="secure">Secure payment via Stripe</span>
-                ${caption ? `<div class="caption">${caption}</div>` : ''}
-                ${desc ? `<div class="desc">${desc}</div>` : ''}
-                ${dedication ? `<div class="desc">${dedication}</div>` : ''}
-              </div>
-            </article>
-          `;
-        }).join('');
-      }catch(e){
-        console.error(e);
-        el.innerHTML = '<p class="caption">Could not load catalog. Please reload.</p>';
-      }
-    }
-    loadCatalog();
-  </script>
-</body>
-</html>
+.art-slide img {
+  max-width: 400px;
+  border: 1px solid #1f1f1f;
+}
+
+.art-text {
+  max-width: 400px;
+  text-align: left;
+}
+
+.art-text h2 {
+  color: var(--accent);
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.art-text p {
+  line-height: 1.5;
+  color: var(--ink);
+}
+</style>
