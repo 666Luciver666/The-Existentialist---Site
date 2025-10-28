@@ -7,6 +7,18 @@
     "stripe_link": "https://buy.stripe.com/5kQ5kw6BV9XS25l5PEfMA00",
     "caption": "From “The Existentialist” Series — Manuel Cech",
     "description_html": "<p><em>Lucia</em> portrays the fragile balance between light and decay — a meditation on human endurance and identity. The work captures a quiet transformation, where emotion dissolves into stillness. Each print preserves the texture and tonal depth of the original pastel painting.</p>",
-    "dedication_html": "<p><em>For my beloved sister.</em></p>"
+    "dedication_html": "<p><em>For my beloved sister.</em></p>",
+    "category": "prints"
+  },
+  {
+    "slug": "mirror-2025",
+    "title": "Mirror · Digital Artwork (2025)",
+    "image": "mirror.JPG",
+    "price_eur": null,
+    "stripe_link": "",
+    "caption": "Existential Realism — identity, decay and transformation.",
+    "description_html": "<p><em>Mirror</em> is a self-portrait study exploring erosion, memory and the thin line between presence and absence.</p>",
+    "dedication_html": "",
+    "category": "digital"
   }
 ]
