@@ -80,7 +80,7 @@
 
   <!-- WORKS -->
   <main class="wrap" id="catalog">
-    <h2 class="section-title">Works <span class="muted">— swipe / arrows — looped & auto-play.</span></h2>
+    <h2 class="section-title">Works <span class="muted">— swipe or use arrows.</span></h2>
 
     <section class="carousel" aria-roledescription="carousel" aria-label="Artwork carousel">
       <div class="viewport">
@@ -124,7 +124,7 @@
     <p class="meta">© Manuel Cech 2025 — The Existentialist</p>
   </footer>
 
-  <!-- DATA-DRIVEN, ANIMATED, INFINITE CAROUSEL -->
+  <!-- DATA-DRIVEN, MANUAL CAROUSEL (no autoplay) -->
   <script>
     async function buildCarousel(){
       const track = document.getElementById('track');
@@ -172,45 +172,36 @@
         `;
       };
 
-      // Infinite loop via clones (first & last)
+      // Infinite loop via clones
       const first = items[0], last = items[items.length-1];
-      const dom = [last, ...items, first].map(slideHTML).join('');
-      track.innerHTML = dom;
+      track.innerHTML = [last, ...items, first].map(slideHTML).join('');
 
       const slideCount = items.length;
       let index = 1; // start at first real slide
-      let width = 0;
 
-      const updateWidth = ()=>{ width = track.getBoundingClientRect().width; go(index, false); };
-      new ResizeObserver(updateWidth).observe(track.parentElement);
-
-      // Dots
-      dots.innerHTML = items.map((_,i)=>`<div class="dot${i===0?' active':''}" data-i="${i}" role="tab" aria-label="Go to slide ${i+1}"></div>`).join('');
-      const setActive = (i)=>{ [...dots.children].forEach((d,di)=>d.classList.toggle('active', di===i)); };
-
-      // Nav
       function go(i, animate=true){
-        if(animate) track.style.transition = 'transform .45s ease';
-        else track.style.transition = 'none';
+        track.style.transition = animate ? 'transform .45s ease' : 'none';
         index = i;
         track.style.transform = `translateX(${-index*100}%)`;
       }
 
       function normalize(){
-        // snap from clones back to real without visible jump
-        if(index === 0){            // left clone (last real)
-          index = slideCount;
-          go(index, false);
-        }else if(index === slideCount+1){ // right clone (first real)
-          index = 1;
-          go(index, false);
-        }
+        if(index === 0){ index = slideCount; go(index,false); }
+        else if(index === slideCount+1){ index = 1; go(index,false); }
         setActive(index-1);
       }
 
-      prev.onclick = ()=>{ go(index-1,true); };
-      next.onclick = ()=>{ go(index+1,true); };
+      // Dots
+      dots.innerHTML = items.map((_,i)=>`<div class="dot${i===0?' active':''}" data-i="${i}" role="tab" aria-label="Go to slide ${i+1}"></div>`).join('');
+      const setActive = (i)=>{ [...dots.children].forEach((d,di)=>d.classList.toggle('active', di===i)); };
+      dots.addEventListener('click',e=>{
+        const d = e.target.closest('.dot'); if(!d) return;
+        go(Number(d.dataset.i)+1,true);
+      });
 
+      // Controls
+      prev.onclick = ()=>go(index-1,true);
+      next.onclick = ()=>go(index+1,true);
       track.addEventListener('transitionend', normalize);
 
       // Touch swipe
@@ -234,16 +225,8 @@
         if(e.key==='ArrowLeft')  go(index-1,true);
       });
 
-      // Auto-play (pause on hover/touch/focus)
-      let timer = null;
-      const startAuto = ()=>{ stopAuto(); timer = setInterval(()=>go(index+1,true), 5000); };
-      const stopAuto  = ()=>{ if(timer) clearInterval(timer); timer=null; };
-      ['mouseenter','focusin','touchstart'].forEach(ev=>track.parentElement.addEventListener(ev, stopAuto, {passive:true}));
-      ['mouseleave','focusout','touchend'].forEach(ev=>track.parentElement.addEventListener(ev, startAuto, {passive:true}));
-
       // init
       go(index,false);
-      startAuto();
     }
     buildCarousel();
   </script>
