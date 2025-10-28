@@ -3,84 +3,197 @@
     <h1>The Existentialist</h1>
     <p>Manuel Cech · Multidisciplinary Artist & Illusion Designer</p>
   </div>
-  <div class="art-slide">
-    <img src="lucia.JPG" alt="Lucia — Fine Art Print by Manuel Cech" />
-    <div class="art-text">
-      <h2>Lucia (2025)</h2>
-      <p>
-        Pastel on Pastelmat<br />
-        The first work of a new era — between light and decay.<br />
-        For my beloved sister.
-      </p>
+
+  <!-- CAROUSEL -->
+  <div class="carousel-wrap">
+    <button class="nav prev" aria-label="Previous" onclick="scrollCarousel(-1)">&#10094;</button>
+
+    <div class="carousel" id="carousel">
+      <!-- SLIDE 1 — LUCIA -->
+      <article class="slide">
+        <div class="slide-grid">
+          <img src="lucia.JPG" alt="Lucia — Fine Art Print by Manuel Cech">
+          <div class="slide-text">
+            <h2>Lucia (2025)</h2>
+            <p>
+              Pastel on Pastelmat<br>
+              The first work of a new era — between light and decay.<br>
+              For my beloved sister.
+            </p>
+            <!-- Optional: Buy-Button/Link -->
+            <!-- <a class="buy" href="YOUR_STRIPE_LINK_LUCIA" target="_blank" rel="noopener">Buy Lucia — €119</a> -->
+          </div>
+        </div>
+      </article>
+
+      <!-- SLIDE 2 — MIRROR (Beispiel/Platzhalter) -->
+      <article class="slide">
+        <div class="slide-grid">
+          <img src="mirror.JPG" alt="Mirror — Digital Artwork by Manuel Cech">
+          <div class="slide-text">
+            <h2>Mirror (2025)</h2>
+            <p>
+              Digital Artwork (foundation for a future painting).<br>
+              Identity fractured, yet whole in the remains.
+            </p>
+            <!-- <a class="buy" href="YOUR_STRIPE_LINK_MIRROR" target="_blank" rel="noopener">Buy Mirror — €119</a> -->
+          </div>
+        </div>
+      </article>
+
+      <!-- SLIDE 3 — NEXT WORK (Platzhalter löschen/ersetzen) -->
+      <article class="slide">
+        <div class="slide-grid">
+          <img src="placeholder.jpg" alt="Upcoming work">
+          <div class="slide-text">
+            <h2>Upcoming Work</h2>
+            <p>Coming soon — part of The Existentialist Series.</p>
+          </div>
+        </div>
+      </article>
     </div>
+
+    <button class="nav next" aria-label="Next" onclick="scrollCarousel(1)">&#10095;</button>
   </div>
+
+  <!-- DOTS -->
+  <div class="dots" id="dots" aria-hidden="true"></div>
 </section>
 
 <style>
-:root {
-  --bg: #0b0b0b;
-  --ink: #eaeaea;
-  --accent: #c7a94a; /* gold */
+:root{
+  --bg:#0b0b0b; --ink:#eaeaea; --muted:#cfcfcf; --line:#1f1f1f;
+  --accent:#c7a94a; --accent-ink:#111;
 }
 
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--ink);
-  font-family: "Times New Roman", Georgia, serif;
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Times New Roman",Georgia,serif}
+img{max-width:100%;display:block}
+
+/* HERO */
+.hero{padding:3.5rem 1rem 2rem;max-width:1100px;margin:0 auto}
+.hero-content{text-align:center;margin-bottom:1.5rem}
+.hero-content h1{
+  color:var(--accent);
+  font-size:3rem; letter-spacing:.5px; margin:.2rem 0 .3rem;
+  text-shadow:0 .8px 2px rgba(0,0,0,.45); /* feiner Schatten */
+}
+.hero-content p{
+  margin:.2rem 0 0;
+  font-size:1.05rem;
+  color:var(--ink);
+  text-shadow:0 .6px 1.5px rgba(0,0,0,.4); /* feiner Schatten */
 }
 
-.hero {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 4rem 1rem;
+/* CAROUSEL WRAP */
+.carousel-wrap{
+  position:relative;
+  margin-top:1rem;
 }
 
-.hero-content h1 {
-  color: var(--accent);
-  font-size: 3rem;
-  letter-spacing: 1px;
-  margin: 0;
-  text-shadow: 0 0.8px 2px rgba(0, 0, 0, 0.45); /* feiner Schatten */
+/* CAROUSEL (Scroll-Snap: mobil wischbar, ohne JS) */
+.carousel{
+  display:flex; gap:1rem;
+  overflow-x:auto; scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  scroll-behavior:smooth;
+  padding: .5rem .25rem 1rem;
+}
+.slide{
+  flex:0 0 100%;
+  scroll-snap-align:center;
+  border:1px solid var(--line);
+  background:#0d0d0d;
+  padding:1rem;
 }
 
-.hero-content p {
-  margin-top: 0.5rem;
-  color: var(--ink);
-  font-size: 1.1rem;
-  text-shadow: 0 0.6px 1.5px rgba(0, 0, 0, 0.4); /* leichter, edler Schatten */
+/* Slide-Inhalt: Bild + Text nebeneinander (auf Mobil untereinander) */
+.slide-grid{
+  display:grid; gap:1.2rem;
+  grid-template-columns: 1.2fr 1fr;
+}
+@media (max-width:800px){
+  .slide-grid{grid-template-columns:1fr}
 }
 
-.art-slide {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin-top: 3rem;
-  gap: 2rem;
-  flex-wrap: wrap;
+/* Bild */
+.slide img{
+  border:1px solid var(--line);
+  background:#000;
 }
 
-.art-slide img {
-  max-width: 400px;
-  border: 1px solid #1f1f1f;
+/* Text */
+.slide-text{align-self:center}
+.slide-text h2{
+  color:var(--accent);
+  margin:.2rem 0 .4rem; font-size:1.4rem;
 }
+.slide-text p{
+  margin:0; line-height:1.5; color:var(--ink);
+}
+.buy{
+  display:inline-block; margin-top:.9rem; padding:.55rem .9rem;
+  border:1px solid var(--accent); color:var(--accent);
+  text-decoration:none; font-size:.95rem; letter-spacing:.2px;
+}
+.buy:hover{background:var(--accent); color:var(--accent-ink)}
 
-.art-text {
-  max-width: 400px;
-  text-align: left;
+/* Pfeile */
+.nav{
+  position:absolute; top:50%; transform:translateY(-50%);
+  background:rgba(0,0,0,.35); border:1px solid var(--line);
+  color:var(--ink); width:40px; height:40px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; user-select:none;
 }
+.nav:hover{background:rgba(0,0,0,.55)}
+.prev{left:-6px}
+.next{right:-6px}
+@media (max-width:700px){ .prev{left:4px} .next{right:4px} }
 
-.art-text h2 {
-  color: var(--accent);
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
+/* Dots */
+.dots{display:flex; gap:.5rem; justify-content:center; margin-top:.4rem}
+.dots button{
+  width:8px;height:8px;border-radius:50%;
+  border:1px solid var(--muted); background:transparent; padding:0; cursor:pointer
 }
-
-.art-text p {
-  line-height: 1.5;
-  color: var(--ink);
-}
+.dots button.active{background:var(--accent); border-color:var(--accent)}
 </style>
+
+<script>
+(function(){
+  const track = document.getElementById('carousel');
+  const dotsWrap = document.getElementById('dots');
+
+  // Create dots based on slide count
+  const slides = Array.from(track.querySelectorAll('.slide'));
+  slides.forEach((_, i) => {
+    const b = document.createElement('button');
+    b.setAttribute('aria-label', 'Go to slide ' + (i+1));
+    b.addEventListener('click', () => {
+      track.scrollTo({ left: slides[i].offsetLeft - track.offsetLeft, behavior: 'smooth' });
+    });
+    dotsWrap.appendChild(b);
+  });
+
+  function setActiveDot(){
+    const idx = Math.round(track.scrollLeft / track.clientWidth);
+    dotsWrap.querySelectorAll('button').forEach((d,i)=>d.classList.toggle('active', i===idx));
+  }
+  setActiveDot();
+
+  let ticking = false;
+  track.addEventListener('scroll', () => {
+    if (!ticking){
+      window.requestAnimationFrame(() => { setActiveDot(); ticking=false; });
+      ticking=true;
+    }
+  });
+
+  // Expose arrow control
+  window.scrollCarousel = function(dir){
+    const w = track.clientWidth;
+    track.scrollBy({ left: dir * w, behavior: 'smooth' });
+  }
+})();
+</script>
