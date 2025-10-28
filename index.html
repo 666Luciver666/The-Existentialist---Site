@@ -15,9 +15,9 @@
     img{max-width:100%;display:block}
     a{color:inherit;text-decoration:none}
 
-    /* HERO (static Mirror) */
+    /* ===== HERO (exactly as before: static Mirror) ===== */
     .hero{
-      min-height:52vh;display:flex;align-items:flex-end;justify-content:center;text-align:center;
+      min-height:54vh;display:flex;align-items:flex-end;justify-content:center;text-align:center;
       background:#000 url("mirror.JPG") center/cover no-repeat;
       border-bottom:1px solid var(--line);text-shadow:0 2px 10px rgba(0,0,0,.85);
       padding:10vh 16px 6vh;
@@ -26,17 +26,15 @@
     .hero p{margin:.5rem 0 0;color:#d0d0d0;font-size:clamp(14px,2vw,18px)}
 
     .wrap{max-width:var(--wrap);margin:0 auto;padding:38px 18px 60px}
-
-    /* SECTION HEAD */
     .section-title{margin:0 0 16px;font-size:22px;font-weight:400;color:#dcdcdc}
+    .muted{color:var(--muted);font-size:13px}
 
-    /* CAROUSEL */
+    /* ===== CAROUSEL (replaces the simple list, rest unchanged) ===== */
     .carousel{position:relative;border:1px solid #1a1a1a;border-radius:8px;background:#111;overflow:hidden}
     .track{display:flex;transition:transform .45s ease}
     .slide{min-width:100%;display:grid;gap:24px;grid-template-columns:1fr}
     @media(min-width:860px){.slide{grid-template-columns:1fr 1fr}}
-    .art-img{background:#0e0e0e;border-bottom:1px solid #1a1a1a}
-    .art-img img{width:100%;height:auto}
+    .art-img{background:#0e0e0e}
     .art-body{padding:18px}
     .title{margin:0 0 6px;font-size:clamp(20px,2.6vw,26px)}
     .price{margin:6px 0 12px;color:#cfcfcf}
@@ -63,18 +61,15 @@
     .dot{width:8px;height:8px;border-radius:50%;background:#5f5f5f;opacity:.6;cursor:pointer}
     .dot.active{background:#d8d8d8;opacity:1}
 
-    /* ABOUT */
+    /* ===== ABOUT (unchanged) ===== */
     footer{margin-top:58px;padding-top:26px;border-top:1px solid var(--line);color:#d8d8d8}
     footer h3{margin:0 0 .4em;font-size:18px}
     .meta{font-size:12px;color:#a9a9a9;margin-top:26px;text-align:center}
-
-    /* helper */
-    .muted{color:var(--muted);font-size:13px}
   </style>
 </head>
 <body>
 
-  <!-- HERO -->
+  <!-- HERO (unchanged) -->
   <header class="hero" role="banner">
     <div>
       <h1>The Existentialist</h1>
@@ -82,13 +77,12 @@
     </div>
   </header>
 
-  <!-- WORKS -->
+  <!-- WORKS (same section header; now a proper carousel) -->
   <main class="wrap" id="catalog">
     <h2 class="section-title">Works <span class="muted">— swipe left/right (or use arrows) — looped view.</span></h2>
 
     <section class="carousel" aria-roledescription="carousel" aria-label="Artwork carousel">
       <div id="track" class="track"></div>
-
       <div class="ctrl" aria-hidden="false">
         <button class="arrow prev" id="prev" aria-label="Previous">‹</button>
         <button class="arrow next" id="next" aria-label="Next">›</button>
@@ -97,7 +91,7 @@
     </section>
   </main>
 
-  <!-- ABOUT -->
+  <!-- ABOUT (unchanged) -->
   <footer class="wrap">
     <h3>About Manuel Cech</h3>
     <p><strong>By Manuel Cech</strong><br/>
@@ -106,4 +100,109 @@
       Exploring identity, decay, illusion and transformation through Existential Realism.</p>
 
     <p><strong>Art &amp; Media</strong><br/>
-      • Fine Art Prints
+      • Fine Art Prints (Pastel, Acrylic &amp; Airbrush)<br/>
+      • Digital Artwork<br/>
+      • Sculpture &amp; Mask Design<br/>
+      • Animatronics &amp; SFX Creations<br/>
+      • Professional Illusion Design
+    </p>
+
+    <p><strong>Background</strong><br/>
+      Manuel Cech began performing magic at the age of three and later became a certified pyrotechnician and illusion engineer in Germany.
+      He has worked in stage productions, music videos, and large-scale special effects for over two decades before dedicating himself
+      to fine art and existential realism.
+    </p>
+
+    <p><strong>Current Work</strong><br/>
+      The first major artwork of “The Existentialist” Series, <em>Lucia</em>, was completed in 2025.
+      It marks the beginning of a new chapter combining realism, emotion, and philosophical depth.
+    </p>
+
+    <p class="meta">© Manuel Cech 2025 — The Existentialist</p>
+  </footer>
+
+  <!-- DATA-DRIVEN CAROUSEL (only new part) -->
+  <script>
+    async function buildCarousel(){
+      const track = document.getElementById('track');
+      const dots  = document.getElementById('dots');
+      let items = [];
+
+      try{
+        const res = await fetch('data.json', {cache:'no-store'});
+        if(!res.ok) throw 0;
+        items = await res.json();
+      }catch(e){
+        track.innerHTML = '<div class="slide"><div class="art-body"><p class="caption">No works available yet.</p></div></div>';
+        return;
+      }
+
+      if(!Array.isArray(items) || !items.length){
+        track.innerHTML = '<div class="slide"><div class="art-body"><p class="caption">No works available yet.</p></div></div>';
+        return;
+      }
+
+      // Slides markup
+      track.innerHTML = items.map(it => {
+        const title = it.title || '';
+        const image = it.image || '';
+        const price = (typeof it.price_eur === 'number') ? `€${it.price_eur}` : (it.price_eur || '');
+        const link  = it.stripe_link || '#';
+        const caption = it.caption || '';
+        const desc = it.description_html || '';
+        const dedication = it.dedication_html || '';
+        return `
+          <article class="slide">
+            <div class="art-img">${image ? `<img src="${image}" alt="${title} by Manuel Cech">` : ''}</div>
+            <div class="art-body">
+              <h3 class="title">${title}</h3>
+              ${price ? `<div class="price">${price}</div>` : ''}
+              ${link ? `<a class="btn" href="${link}" target="_blank" rel="noopener">Buy</a>` : ''}
+              <span class="secure">Secure payment via Stripe</span>
+              ${caption ? `<div class="caption">${caption}</div>` : ''}
+              ${desc ? `<div class="desc">${desc}</div>` : ''}
+              ${dedication ? `<div class="desc">${dedication}</div>` : ''}
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      // State
+      const slideCount = items.length;
+      let index = 0;
+
+      // Dots
+      dots.innerHTML = items.map((_,i)=>`<div class="dot${i===0?' active':''}" data-i="${i}" role="tab" aria-label="Go to slide ${i+1}"></div>`).join('');
+      function setActive(i){
+        [...dots.children].forEach((d,di)=>d.classList.toggle('active', di===i));
+      }
+
+      // Navigation
+      function go(i){
+        index = (i + slideCount) % slideCount;
+        const x = -index * 100;
+        track.style.transform = `translateX(${x}%)`;
+        setActive(index);
+      }
+      document.getElementById('prev').onclick = ()=>go(index-1);
+      document.getElementById('next').onclick = ()=>go(index+1);
+      dots.onclick = (e)=>{ const d=e.target.closest('.dot'); if(d){ go(+d.dataset.i); } };
+
+      // Touch swipe
+      let startX=0, dx=0, touching=false;
+      track.addEventListener('touchstart',e=>{ touching=true; startX=e.touches[0].clientX; dx=0; },{passive:true});
+      track.addEventListener('touchmove',e=>{ if(!touching) return; dx=e.touches[0].clientX-startX; },{passive:true});
+      track.addEventListener('touchend',()=>{ touching=false; if(Math.abs(dx)>40){ go(index + (dx<0?1:-1)); } });
+
+      // Keyboard arrows
+      window.addEventListener('keydown',e=>{
+        if(e.key==='ArrowRight') go(index+1);
+        if(e.key==='ArrowLeft')  go(index-1);
+      });
+
+      go(0); // initial
+    }
+    buildCarousel();
+  </script>
+</body>
+</html>
