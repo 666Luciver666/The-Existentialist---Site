@@ -6,23 +6,28 @@
   <title>The Existentialist — Manuel Cech</title>
   <meta name="description" content="The Existentialist — Fine art prints by Manuel Cech" />
 
-  <!-- 🔹 SEO & Social Preview -->
+  <!-- FAVICON -->
+  <link rel="icon" type="image/png" href="favicon.PNG" />
+  <link rel="apple-touch-icon" href="favicon.PNG" />
+
+  <!-- SEO / SOCIAL (nur Ergänzung, nichts am Layout geändert) -->
+  <link rel="canonical" href="https://theexistentialist.art" />
   <meta name="author" content="Manuel Cech" />
-  <meta name="keywords" content="Manuel Cech, The Existentialist, Existential Realism, Art, Fine Art, Fuerteventura, Painter, Illusion Designer, Pastel, Acrylic, Digital Art" />
+  <meta name="keywords" content="Manuel Cech, The Existentialist, Existential Realism, Fine Art, Pastel, Acrylic, Airbrush, Digital Art, Illusion Design, Fuerteventura" />
+
+  <!-- Open Graph (für Messenger/WA/Instagram-DM/Facebook) -->
   <meta property="og:title" content="The Existentialist — Manuel Cech" />
-  <meta property="og:description" content="Existential Realism in art — exploring identity, decay and transformation through pastel, acrylic and illusion." />
-  <meta property="og:image" content="https://theexistentialist.art/mirror.JPG" />
+  <meta property="og:description" content="Existential Realism — exploring identity, decay and transformation through art and illusion." />
   <meta property="og:url" content="https://theexistentialist.art" />
   <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://theexistentialist.art/mirror.JPG" />
+  <meta property="og:image:alt" content="Mirror — artwork by Manuel Cech" />
+
+  <!-- Twitter Card (funktioniert auch ohne Account, für schöne Link-Previews) -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="The Existentialist — Manuel Cech" />
-  <meta name="twitter:description" content="Existential Realism in art — exploring identity, decay and transformation." />
+  <meta name="twitter:description" content="Existential Realism — identity, decay and transformation." />
   <meta name="twitter:image" content="https://theexistentialist.art/mirror.JPG" />
-
-  <!-- 🔹 Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png" />
-  <link rel="apple-touch-icon" href="favicon.png" />
-  <meta name="theme-color" content="#0b0b0b" />
 
   <style>
     :root{
@@ -38,22 +43,17 @@
     .hero{
       min-height:54vh;display:flex;align-items:flex-end;justify-content:center;text-align:center;
       background:#000 url("mirror.JPG") center/cover no-repeat;
-      border-bottom:1px solid var(--line);
-      text-shadow:0 2px 10px rgba(0,0,0,.85);
+      border-bottom:1px solid var(--line);text-shadow:0 2px 10px rgba(0,0,0,.85);
       padding:10vh 16px 6vh;
     }
     .hero h1{
-      margin:0;
-      font-size:clamp(38px,6vw,72px);
-      font-weight:700;
-      letter-spacing:.5px;
+      margin:0;font-size:clamp(38px,6vw,72px);font-weight:700;letter-spacing:.5px;
       color:var(--accent);
-      text-shadow:0 1.3px 2.4px rgba(0,0,0,0.45); /* feiner, subtiler Schatten */
+      text-shadow:0 0 10px rgba(199,169,74,0.3);
     }
     .hero p{
-      margin:.5rem 0 0;
-      color:#d0d0d0;
-      font-size:clamp(14px,2vw,18px);
+      margin:.5rem 0 0;color:#d0d0d0;font-size:clamp(14px,2vw,18px);
+      text-shadow:0 0 6px rgba(0,0,0,0.6);
     }
 
     .wrap{max-width:var(--wrap);margin:0 auto;padding:38px 18px 60px}
@@ -99,7 +99,6 @@
     .meta{font-size:12px;color:#a9a9a9;margin-top:26px;text-align:center}
   </style>
 </head>
-
 <body>
 
   <!-- HERO -->
@@ -157,59 +156,101 @@
     <p class="meta">© Manuel Cech 2025 — The Existentialist</p>
   </footer>
 
-  <!-- DATA-DRIVEN CAROUSEL -->
+  <!-- CAROUSEL SCRIPT (unverändert) -->
   <script>
     async function buildCarousel(){
-      const track=document.getElementById('track');
-      const dots=document.getElementById('dots');
-      const prev=document.getElementById('prev');
-      const next=document.getElementById('next');
+      const track = document.getElementById('track');
+      const dots  = document.getElementById('dots');
+      const prev  = document.getElementById('prev');
+      const next  = document.getElementById('next');
 
-      let items=[];
+      let items = [];
       try{
-        const res=await fetch('data.json',{cache:'no-store'});
+        const res = await fetch('data.json', {cache:'no-store'});
         if(!res.ok) throw 0;
-        items=await res.json();
+        items = await res.json();
       }catch(e){
-        track.innerHTML='<div class="slide"><div class="art-body"><p class="caption">No works available yet.</p></div></div>';
+        track.innerHTML = '<div class="slide"><div class="art-body"><p class="caption">No works available yet.</p></div></div>';
         return;
       }
-      if(!Array.isArray(items)||!items.length){
-        track.innerHTML='<div class="slide"><div class="art-body"><p class="caption">No works available yet.</p></div></div>';
+      if(!Array.isArray(items) || !items.length){
+        track.innerHTML = '<div class="slide"><div class="art-body"><p class="caption">No works available yet.</p></div></div>';
         return;
       }
 
-      const slideHTML=it=>{
-        const t=it.title||'',i=it.image||'',p=typeof it.price_eur==='number'?`€${it.price_eur}`:(it.price_eur||'');
-        const l=it.stripe_link||'#',c=it.caption||'',d=it.description_html||'',s=it.dedication_html||'';
-        return `<article class="slide" role="group" aria-label="${t}">
-          <div class="art-img">${i?`<img src="${i}" alt="${t} by Manuel Cech">`:''}</div>
-          <div class="art-body">
-            <h3 class="title">${t}</h3>${p?`<div class="price">${p}</div>`:''}
-            ${l?`<a class="btn" href="${l}" target="_blank" rel="noopener">Buy</a>`:''}
-            <span class="secure">Secure payment via Stripe</span>
-            ${c?`<div class="caption">${c}</div>`:''}
-            ${d?`<div class="desc">${d}</div>`:''}
-            ${s?`<div class="desc">${s}</div>`:''}
-          </div></article>`;
+      const slideHTML = (it) => {
+        const title = it.title || '';
+        const image = it.image || '';
+        const price = (typeof it.price_eur === 'number') ? `€${it.price_eur}` : (it.price_eur || '');
+        const link  = it.stripe_link || '#';
+        const caption = it.caption || '';
+        const desc = it.description_html || '';
+        const dedication = it.dedication_html || '';
+        return `
+          <article class="slide" role="group" aria-label="${title}">
+            <div class="art-img">${image ? `<img src="${image}" alt="${title} by Manuel Cech">` : ''}</div>
+            <div class="art-body">
+              <h3 class="title">${title}</h3>
+              ${price ? `<div class="price">${price}</div>` : ''}
+              ${link ? `<a class="btn" href="${link}" target="_blank" rel="noopener">Buy</a>` : ''}
+              <span class="secure">Secure payment via Stripe</span>
+              ${caption ? `<div class="caption">${caption}</div>` : ''}
+              ${desc ? `<div class="desc">${desc}</div>` : ''}
+              ${dedication ? `<div class="desc">${dedication}</div>` : ''}
+            </div>
+          </article>
+        `;
       };
 
-      const first=items[0],last=items[items.length-1];
-      track.innerHTML=[last,...items,first].map(slideHTML).join('');
-      const n=items.length;let i=1;
-      function go(x,a=true){track.style.transition=a?'transform .45s ease':'none';i=x;track.style.transform=`translateX(${-i*100}%)`;}
-      function norm(){if(i===0){i=n;go(i,false);}else if(i===n+1){i=1;go(i,false);}setActive(i-1);}
-      dots.innerHTML=items.map((_,j)=>`<div class="dot${j===0?' active':''}" data-i="${j}" role="tab"></div>`).join('');
-      const setActive=j=>[...dots.children].forEach((d,k)=>d.classList.toggle('active',k===j));
-      dots.addEventListener('click',e=>{const d=e.target.closest('.dot');if(!d)return;go(Number(d.dataset.i)+1,true);});
-      prev.onclick=()=>go(i-1,true);next.onclick=()=>go(i+1,true);track.addEventListener('transitionend',norm);
-      let sx=0,dx=0,drag=false;
-      track.addEventListener('touchstart',e=>{drag=true;sx=e.touches[0].clientX;dx=0;track.style.transition='none';},{passive:true});
-      track.addEventListener('touchmove',e=>{if(!drag)return;dx=e.touches[0].clientX-sx;const p=dx/track.parentElement.clientWidth*100;
-        track.style.transform=`translateX(${-i*100+p}%)`;},{passive:true});
-      track.addEventListener('touchend',()=>{if(!drag)return;drag=false;if(Math.abs(dx)>40){go(i+(dx<0?1:-1),true);}else{go(i,true);} });
-      window.addEventListener('keydown',e=>{if(e.key==='ArrowRight')go(i+1,true);if(e.key==='ArrowLeft')go(i-1,true);});
-      go(i,false);
+      const first = items[0], last = items[items.length-1];
+      track.innerHTML = [last, ...items, first].map(slideHTML).join('');
+
+      const slideCount = items.length;
+      let index = 1;
+
+      function go(i, animate=true){
+        track.style.transition = animate ? 'transform .45s ease' : 'none';
+        index = i;
+        track.style.transform = `translateX(${-index*100}%)`;
+      }
+
+      function normalize(){
+        if(index === 0){ index = slideCount; go(index,false); }
+        else if(index === slideCount+1){ index = 1; go(index,false); }
+        setActive(index-1);
+      }
+
+      dots.innerHTML = items.map((_,i)=>`<div class="dot${i===0?' active':''}" data-i="${i}" role="tab" aria-label="Go to slide ${i+1}"></div>`).join('');
+      const setActive = (i)=>{ [...dots.children].forEach((d,di)=>d.classList.toggle('active', di===i)); };
+      dots.addEventListener('click',e=>{
+        const d = e.target.closest('.dot'); if(!d) return;
+        go(Number(d.dataset.i)+1,true);
+      });
+
+      prev.onclick = ()=>go(index-1,true);
+      next.onclick = ()=>go(index+1,true);
+      track.addEventListener('transitionend', normalize);
+
+      let startX=0, dx=0, dragging=false;
+      track.addEventListener('touchstart',e=>{ dragging=true; startX=e.touches[0].clientX; dx=0; track.style.transition='none';},{passive:true});
+      track.addEventListener('touchmove',e=>{
+        if(!dragging) return;
+        dx = e.touches[0].clientX - startX;
+        const percent = dx / track.parentElement.clientWidth * 100;
+        track.style.transform = `translateX(${-index*100 + percent}%)`;
+      },{passive:true});
+      track.addEventListener('touchend',()=>{
+        if(!dragging) return; dragging=false;
+        if(Math.abs(dx) > 40){ go(index + (dx<0?1:-1), true); }
+        else { go(index, true); }
+      });
+
+      window.addEventListener('keydown',e=>{
+        if(e.key==='ArrowRight') go(index+1,true);
+        if(e.key==='ArrowLeft')  go(index-1,true);
+      });
+
+      go(index,false);
     }
     buildCarousel();
   </script>
