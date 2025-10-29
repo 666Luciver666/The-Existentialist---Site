@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>The Existentialist — Manuel Cech</title>
   <meta name="description" content="The Existentialist — Fine art prints by Manuel Cech" />
+
+  <!-- FAVICON exact filename + cache-buster -->
   <link rel="icon" type="image/png" href="favicon.PNG?v=3" />
   <link rel="apple-touch-icon" href="favicon.PNG?v=3" />
 
@@ -18,7 +20,7 @@
     img{max-width:100%;display:block}
     a{color:inherit;text-decoration:none}
 
-    /* HERO */
+    /* HERO (unverändert) */
     .hero{
       min-height:54vh;display:flex;align-items:flex-end;justify-content:center;text-align:center;
       background:#000 url("mirror.JPG") center/cover no-repeat;
@@ -75,14 +77,28 @@
     .desc{margin-top:12px;line-height:1.55;color:#ddd}
     .desc p{margin:.6em 0}
 
-    /* CATEGORY NOTES */
+    /* CATEGORY NOTES (optional) */
     #category-notes{display:none;margin-top:18px;padding:18px 16px;border:1px solid #1a1a1a;border-radius:8px;background:#101010;color:#d9d9d9;line-height:1.6;}
     #category-notes h4{margin:0 0 .4em;font-size:16px;color:var(--accent);}
 
-    /* FOOTER */
-    footer{margin-top:58px;padding-top:26px;border-top:1px solid var(--line);color:#d8d8d8}
-    footer h3{margin:0 0 .4em;font-size:18px;color:var(--accent)}
+    /* EXTRA LUFT am Seitenende (nur bei Kategorien sichtbar) */
+    .bottom-spacer{display:none;height:18vh;}
+    .show-spacer .bottom-spacer{display:block;}
+
+    /* MAIN FOOTER (nur Startseite sichtbar – in JS gesteuert) */
+    footer.main{margin-top:58px;padding-top:26px;border-top:1px solid var(--line);color:#d8d8d8}
+    footer.main h3{margin:0 0 .4em;font-size:18px;color:var(--accent)}
     .meta{font-size:12px;color:#a9a9a9;margin-top:26px;text-align:center}
+
+    /* PERSISTENTER COPYRIGHT-STRIP — immer sichtbar */
+    .copyright-strip{
+      border-top:1px solid var(--line);
+      padding:16px 18px;
+      text-align:center;
+      color:#bdbdbd;
+      font-size:12px;
+      background:#0b0b0b;
+    }
   </style>
 </head>
 <body>
@@ -95,18 +111,25 @@
   </header>
 
   <main class="wrap">
+    <!-- Startseiten-Anchor für „zurück zu Kacheln“ -->
     <div id="explore"></div>
+
     <div id="catalog" class="catalog"></div>
     <section id="category-notes" aria-live="polite"></section>
+
+    <!-- Extra Luft am Ende der Kategorie-Seiten -->
+    <div id="spacer" class="bottom-spacer"></div>
   </main>
 
-  <footer id="about" class="wrap">
+  <!-- Haupt-Footer (nur auf Startseite sichtbar) -->
+  <footer id="about" class="wrap main">
     <h3>About Manuel Cech</h3>
     <p>
       Multidisciplinary Artist · Magician · Musician<br/>
       Based on Fuerteventura, Canary Islands<br/>
       Exploring identity, decay, illusion and transformation through Existential Realism.
     </p>
+
     <p><strong>Art &amp; Media</strong><br/>
       • Fine Art Prints (Pastel, Acrylic &amp; Airbrush)<br/>
       • Digital Artwork<br/>
@@ -114,21 +137,38 @@
       • Animatronics &amp; SFX Creations<br/>
       • Professional Illusion Design
     </p>
+
     <p><strong>Background</strong><br/>
       Manuel Cech began performing magic at the age of three and later became a certified pyrotechnician and illusion engineer in Germany.
       He has worked in stage productions, music videos, and large-scale special effects for over two decades before dedicating himself
       to fine art and existential realism.
     </p>
+
     <p><strong>Current Work</strong><br/>
       The first major artwork of “The Existentialist” Series, <em>Lucia</em>, was completed in 2025.
+      It marks the beginning of a new chapter combining realism, emotion, and philosophical depth.
     </p>
+
     <p class="meta">© Manuel Cech 2025 — The Existentialist</p>
   </footer>
 
+  <!-- Persistenter Copyright-Streifen – IMMER sichtbar -->
+  <div class="copyright-strip">
+    Copyright Manuel Cech 2025, der Extensionalist.
+  </div>
+
   <script>
-  (function toggleFooter(){
-    const cat = new URLSearchParams(location.search).get('cat');
-    if(cat){ document.getElementById('about').style.display='none'; }
+  // Footer nur auf Startseite anzeigen; Spacer auf Kategorien zeigen
+  (function setupLayout(){
+    const params = new URLSearchParams(location.search);
+    const isCategory = params.has('cat');
+    if(isCategory){
+      // Haupt-Footer ausblenden
+      const about = document.getElementById('about');
+      if(about) about.style.display='none';
+      // Extra Luft am Seitenende aktivieren
+      document.body.classList.add('show-spacer');
+    }
   })();
 
   async function build(){
@@ -138,9 +178,10 @@
     const params = new URLSearchParams(location.search);
     const cat = (params.get('cat') || '').toLowerCase();
 
+    // Startseite mit Kacheln
     if(!cat){
       explore.innerHTML = `
-        <section class="tiles">
+        <section class="tiles" id="tiles">
           <a href="?cat=prints" class="tile">
             <div class="tile-head"><h3>Fine Art Prints</h3></div>
             <div class="tile-media"><img src="lucia.JPG" alt="Lucia — Fine Art Print"></div>
@@ -160,7 +201,8 @@
       return;
     }
 
-    explore.innerHTML = `<div class="backline"><a href="./">← Back to Explore</a></div>`;
+    // Kategorie
+    document.getElementById('explore').innerHTML = `<div class="backline"><a href="./#explore">← Back to Explore</a></div>`;
     catalog.style.display = 'block';
 
     try{
@@ -187,6 +229,7 @@
         catalog.innerHTML = `<section class="carousel"><div class="viewport"><div class="track">${slides}</div></div></section>`;
       }
 
+      // Kategorie-Infos (optional)
       const withNotes = shown.find(it => it.category_notes_html && String(it.category_notes_html).trim().length);
       if(withNotes){
         const titleMap = {prints:'Fine Art Print — Details', digital:'Digital Art — Details', originals:'Original — Details'};
@@ -194,25 +237,30 @@
         notesEl.style.display = 'block';
       } else {
         notesEl.style.display = 'none';
+        notesEl.innerHTML = '';
       }
 
     }catch(e){
       catalog.innerHTML = `<p>Error loading works.</p>`;
       notesEl.style.display = 'none';
+      notesEl.innerHTML = '';
     }
   }
   build();
 
-  // Auto-scroll to artworks section on category load
+  // Auto-scroll: Kategorie → Werke; Startseite (mit #explore) → Kacheln
   window.addEventListener('DOMContentLoaded', ()=>{
     const params = new URLSearchParams(location.search);
     if(params.has('cat')){
       setTimeout(()=>{
         const target = document.getElementById('catalog');
-        if(target){
-          target.scrollIntoView({behavior:'smooth', block:'start'});
-        }
+        if(target){ target.scrollIntoView({behavior:'smooth', block:'start'}); }
       }, 300);
+    } else if(location.hash === '#explore'){
+      setTimeout(()=>{
+        const tiles = document.getElementById('tiles') || document.getElementById('explore');
+        if(tiles){ tiles.scrollIntoView({behavior:'smooth', block:'start'}); }
+      }, 50);
     }
   });
   </script>
