@@ -64,7 +64,7 @@
     .catalog{display:none; margin-bottom:24px;}
     .carousel{position:relative;border:1px solid #1a1a1a;border-radius:8px;background:#111;overflow:hidden}
     .viewport{overflow:hidden}
-    .track{display:flex;transition:transform .45s ease}
+    .track{display:flex;will-change:transform;transition:transform .45s ease}
     .slide{min-width:100%;display:grid;gap:24px;grid-template-columns:1fr;padding:18px}
     @media(min-width:860px){.slide{grid-template-columns:1fr 1fr}}
     .art-img{background:#0e0e0e;border-radius:6px;overflow:hidden}
@@ -76,6 +76,19 @@
     .caption{color:#bdbdbd;font-size:13px;margin:10px 0 0}
     .desc{margin-top:12px;line-height:1.55;color:#ddd}
     .desc p{margin:.6em 0}
+
+    /* Carousel controls (added) */
+    .ctrl{position:absolute;inset:0;pointer-events:none}
+    .arrow{
+      pointer-events:auto;position:absolute;top:50%;transform:translateY(-50%);
+      background:#161616cc;border:1px solid #2a2a2a;color:#fff;width:42px;height:42px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none
+    }
+    .arrow:hover{background:#1c1c1c}
+    .prev{left:8px} .next{right:8px}
+    .dots{position:absolute;left:0;right:0;bottom:10px;display:flex;gap:8px;justify-content:center;pointer-events:auto}
+    .dot{width:8px;height:8px;border-radius:50%;background:#5f5f5f;opacity:.6;cursor:pointer}
+    .dot.active{background:#d8d8d8;opacity:1}
 
     /* CATEGORY NOTES */
     #category-notes{display:none;margin-top:18px;padding:18px 16px;border:1px solid #1a1a1a;border-radius:8px;background:#101010;color:#d9d9d9;line-height:1.6;}
@@ -106,7 +119,7 @@
   <header class="hero">
     <div>
       <h1>The Existentialist</h1>
-      <p>By Manuel Cech — Multidisciplinary Artist &amp; Illusion Designer</p>
+    <p>By Manuel Cech — Multidisciplinary Artist &amp; Illusion Designer</p>
     </div>
   </header>
 
@@ -143,13 +156,13 @@
       The first major artwork of “The Existentialist” Series, <em>Lucia</em>, was completed in 2025.
     </p>
 
-    <!-- Unified copyright line -->
-    <p class="meta">© 2025 Manuel Cech. The Existentialist.</p>
+    <!-- Unified copyright line (dynamic year) -->
+    <p class="meta">© <span data-year></span> Manuel Cech. The Existentialist.</p>
   </footer>
 
-  <!-- Unified copyright strip -->
+  <!-- Unified copyright strip (dynamic year) -->
   <div class="copyright-strip">
-    © 2025 Manuel Cech. The Existentialist.
+    © <span data-year></span> Manuel Cech. The Existentialist.
   </div>
 
   <script>
@@ -166,6 +179,7 @@
     }
   })();
 
+  // ---- Build content (explore or category) ----
   async function build(){
     const explore = document.getElementById('explore');
     const catalog = document.getElementById('catalog');
@@ -203,25 +217,84 @@
       const items = await res.json();
       const shown = items.filter(it => (it.category||'').toLowerCase() === cat);
 
-      if(!shown.length){
-        catalog.innerHTML = `<section class="carousel"><div class="viewport"><div class="track"><article class="slide"><div class="art-body"><p class="caption">No works in this category yet.</p></div></article></div></div></section>`;
-      } else {
-        const slides = shown.map(it=>`
-          <article class="slide" role="group" aria-label="${it.title||''}">
-            <div class="art-img">${it.image?`<img src="${it.image}" alt="${it.title||'Artwork'} by Manuel Cech">`:''}</div>
-            <div class="art-body">
-              <h3 class="title">${it.title||''}</h3>
-              ${typeof it.price_eur==='number'?`<div class="price">€${it.price_eur}</div>`:''}
-              ${it.stripe_link?`<a class="btn" href="${it.stripe_link}" target="_blank" rel="noopener">Buy</a>`:''}
-              ${it.caption?`<div class="caption">${it.caption}</div>`:''}
-              ${it.description_html||''}
-              ${it.dedication_html||''}
-            </div>
-          </article>
-        `).join('');
-        catalog.innerHTML = `<section class="carousel"><div class="viewport"><div class="track">${slides}</div></div></section>`;
-      }
+      // Build carousel with controls even if only 1 item (controls will be harmless)
+      const slides = (shown.length ? shown : [{
+        title:'No works in this category yet.',
+        image:'', price_eur:'', stripe_link:'', caption:'', description_html:'', dedication_html:''
+      }]).map(it=>`
+        <article class="slide" role="group" aria-label="${it.title||''}">
+          <div class="art-img">${it.image?`<img src="${it.image}" alt="${it.title||'Artwork'} by Manuel Cech">`:''}</div>
+          <div class="art-body">
+            <h3 class="title">${it.title||''}</h3>
+            ${typeof it.price_eur==='number'?`<div class="price">€${it.price_eur}</div>`:''}
+            ${it.stripe_link?`<a class="btn" href="${it.stripe_link}" target="_blank" rel="noopener">Buy</a>`:''}
+            ${it.caption?`<div class="caption">${it.caption}</div>`:''}
+            ${it.description_html||''}
+            ${it.dedication_html||''}
+          </div>
+        </article>
+      `).join('');
 
+      catalog.innerHTML = `
+        <section class="carousel" aria-roledescription="carousel" aria-label="Artwork carousel">
+          <div class="viewport">
+            <div id="track" class="track">
+              ${slides}
+            </div>
+          </div>
+          <div class="ctrl" aria-hidden="false">
+            <button class="arrow prev" id="prev" aria-label="Previous">‹</button>
+            <button class="arrow next" id="next" aria-label="Next">›</button>
+            <div id="dots" class="dots" role="tablist"></div>
+          </div>
+        </section>
+      `;
+
+      // Dots
+      const dots = document.getElementById('dots');
+      const total = Math.max(shown.length, 1);
+      dots.innerHTML = Array.from({length: total}, (_,i)=>`<div class="dot${i===0?' active':''}" data-i="${i}" role="tab" aria-label="Go to slide ${i+1}"></div>`).join('');
+
+      // Carousel logic
+      const track = document.getElementById('track');
+      const prev  = document.getElementById('prev');
+      const next  = document.getElementById('next');
+      let index = 0;
+
+      function setActive(i){
+        [...dots.children].forEach((d,di)=>d.classList.toggle('active', di===i));
+      }
+      function go(i){
+        index = (i + total) % total;
+        track.style.transform = `translateX(${-index*100}%)`;
+        setActive(index);
+      }
+      prev.onclick = ()=> go(index-1);
+      next.onclick = ()=> go(index+1);
+      dots.addEventListener('click', e=>{
+        const d = e.target.closest('.dot'); if(!d) return;
+        go(Number(d.dataset.i));
+      });
+
+      // Touch swipe
+      let sx=0, dx=0, dragging=false;
+      const viewport = track.parentElement;
+      viewport.addEventListener('touchstart', e=>{
+        dragging=true; sx=e.touches[0].clientX; dx=0; track.style.transition='none';
+      }, {passive:true});
+      viewport.addEventListener('touchmove', e=>{
+        if(!dragging) return;
+        dx = e.touches[0].clientX - sx;
+        const percent = dx / viewport.clientWidth * 100;
+        track.style.transform = `translateX(${ -index*100 + percent }%)`;
+      }, {passive:true});
+      viewport.addEventListener('touchend', ()=>{
+        if(!dragging) return; dragging=false; track.style.transition='transform .45s ease';
+        if(Math.abs(dx) > 40){ go(index + (dx<0?1:-1)); }
+        else { go(index); }
+      });
+
+      // Category notes (unchanged)
       const withNotes = shown.find(it => it.category_notes_html && String(it.category_notes_html).trim().length);
       if(withNotes){
         const titleMap = {prints:'Fine Art Print — Details', digital:'Digital Art — Details', originals:'Original — Details'};
@@ -233,13 +306,14 @@
       }
 
     }catch(e){
-      catalog.innerHTML = `<p>Error loading works.</p>`;
-      notesEl.style.display = 'none';
-      notesEl.innerHTML = '';
+      catalog.innerHTML = `<section class="carousel"><div class="viewport"><div class="track"><article class="slide"><div class="art-body"><p class="caption">Error loading works.</p></div></article></div></div></section>`;
+      const notesEl = document.getElementById('category-notes');
+      notesEl.style.display = 'none'; notesEl.innerHTML = '';
     }
   }
   build();
 
+  // Autoscroll behavior (unchanged)
   window.addEventListener('DOMContentLoaded', ()=>{
     const params = new URLSearchParams(location.search);
     if(params.has('cat')){
@@ -254,6 +328,24 @@
       }, 50);
     }
   });
+
+  // ---- Dynamic Year (auto update at midnight) ----
+  (function dynamicYear(){
+    function applyYear(){
+      const y = new Date().getFullYear();
+      document.querySelectorAll('[data-year]').forEach(el=> el.textContent = y);
+    }
+    applyYear();
+
+    // schedule rollover at local midnight
+    const now = new Date();
+    const next = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1, 0, 0, 0);
+    const ms = next - now;
+    setTimeout(function tick(){
+      applyYear();
+      setInterval(applyYear, 24*60*60*1000);
+    }, ms);
+  })();
   </script>
 </body>
 </html>
