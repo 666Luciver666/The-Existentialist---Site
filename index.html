@@ -6,6 +6,7 @@
   <title>The Existentialist — Manuel Cech</title>
   <meta name="description" content="The Existentialist — Fine art prints by Manuel Cech" />
 
+  <!-- FAVICON exact filename + cache-buster (do not rename) -->
   <link rel="icon" type="image/png" href="favicon.PNG?v=3" />
   <link rel="apple-touch-icon" href="favicon.PNG?v=3" />
 
@@ -19,6 +20,7 @@
     img{max-width:100%;display:block}
     a{color:inherit;text-decoration:none}
 
+    /* HERO */
     .hero{
       min-height:54vh;display:flex;align-items:flex-end;justify-content:center;text-align:center;
       background:#000 url("mirror.JPG") center/cover no-repeat;
@@ -36,6 +38,7 @@
 
     .wrap{max-width:var(--wrap);margin:0 auto;padding:38px 18px 60px}
 
+    /* OVERVIEW TILES */
     .tiles{display:grid;gap:16px;margin:24px 0 32px;grid-template-columns:1fr;}
     @media(min-width:720px){ .tiles{ grid-template-columns:repeat(3,1fr);} }
     .tile{position:relative;border:1px solid #1a1a1a;border-radius:10px;overflow:hidden;background:#0e0e0e;transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease;}
@@ -46,9 +49,14 @@
     .tile-media img{width:100%;height:100%;object-fit:cover;transition:transform .35s ease;}
     .tile:hover .tile-media img{transform:scale(1.05);}
     .tile-foot{padding:10px 14px 14px;color:#bdbdbd;font-size:13px;min-height:38px;}
+
+    .tile.placeholder .tile-media{display:flex;align-items:center;justify-content:center;background:#0d0d0d;border-top:1px dashed #2a2a2a;border-bottom:1px dashed #2a2a2a;}
+    .tile.placeholder .tile-media .ph{width:68%;max-width:280px;aspect-ratio:1/1;border:1px dashed #3a3a3a;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#8e8e8e;font-size:13px;}
+
     .tile.disabled{opacity:.85;cursor:not-allowed;}
     .tile.disabled:hover{transform:none;box-shadow:none;border-color:#1a1a1a;}
 
+    /* BACK TO EXPLORE / generic link-button */
     .backline{text-align:center;margin:0 0 24px;}
     .backline a, .btn-link{
       display:inline-block;padding:.6em 1.4em;border:1px solid #eaeaea;border-radius:6px;
@@ -56,6 +64,7 @@
     }
     .backline a:hover, .btn-link:hover{background:#eaeaea;color:#111;transform:translateY(-2px);}
 
+    /* CATALOG / CAROUSEL */
     .catalog{display:none;margin-bottom:24px;}
     .carousel{position:relative;border:1px solid #1a1a1a;border-radius:8px;background:#111;overflow:hidden}
     .viewport{overflow:hidden}
@@ -68,7 +77,11 @@
     .price{margin:6px 0 12px;color:#cfcfcf}
     .btn{display:inline-block;padding:.65em 1.1em;border-radius:8px;background:var(--accent);color:var(--accent-ink);font-weight:bold;border:1px solid #9e8f2a;box-shadow:0 6px 18px rgba(0,0,0,.15)}
     .btn:hover{filter:brightness(1.06)}
+    .caption{color:#bdbdbd;font-size:13px;margin:10px 0 0}
+    .desc{margin-top:12px;line-height:1.55;color:#ddd}
+    .desc p{margin:.6em 0}
 
+    /* Carousel controls */
     .ctrl{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;gap:10px}
     .arrow{
       background:#161616;border:1px solid #333;color:#fff;width:40px;height:40px;border-radius:50%;
@@ -79,18 +92,30 @@
     .dot{width:8px;height:8px;border-radius:50%;background:#5f5f5f;opacity:.6;cursor:pointer}
     .dot.active{background:#d8d8d8;opacity:1}
 
+    /* CATEGORY NOTES */
     #category-notes{display:none;margin-top:18px;padding:18px 16px;border:1px solid #1a1a1a;border-radius:8px;background:#101010;color:#d9d9d9;line-height:1.6;}
     #category-notes h4{margin:0 0 .4em;font-size:16px;color:var(--accent);}
 
+    /* EXTRA LUFT am Seitenende in Unterseiten */
     .bottom-spacer{display:none;height:14vh;}
     .show-spacer .bottom-spacer{display:block;}
 
+    /* MAIN FOOTER (Home) */
     footer.main{margin-top:24px;padding-top:26px;border-top:1px solid var(--line);color:#d8d8d8}
     footer.main h3{margin:0 0 .4em;font-size:18px;color:var(--accent)}
     .meta{font-size:12px;color:#a9a9a9;margin-top:18px;text-align:center}
 
-    .copyright-strip{border-top:1px solid var(--line);padding:16px 18px;text-align:center;color:#bdbdbd;font-size:12px;background:#0b0b0b;}
+    /* ALWAYS VISIBLE COPYRIGHT STRIP */
+    .copyright-strip{
+      border-top:1px solid var(--line);
+      padding:16px 18px;
+      text-align:center;
+      color:#bdbdbd;
+      font-size:12px;
+      background:#0b0b0b;
+    }
 
+    /* About page layout */
     .about-block{display:grid;gap:18px;grid-template-columns:1fr}
     @media(min-width:860px){ .about-block{grid-template-columns:1fr 1fr;} }
     .about-img{background:#0f0f0f;border:1px solid #1a1a1a;border-radius:8px;overflow:hidden;}
@@ -106,122 +131,238 @@
     </div>
   </header>
 
-  <main class="wrap">
+  <main class="wrap" id="main">
     <div id="explore"></div>
     <div id="catalog" class="catalog"></div>
-    <section id="category-notes"></section>
+    <section id="category-notes" aria-live="polite"></section>
     <div id="spacer" class="bottom-spacer"></div>
   </main>
 
+  <!-- Footer with ONLY the About button + copyright line on Home -->
   <footer id="aboutFooter" class="wrap main">
-    <h3><a class="btn-link" href="?page=about">About Manuel Cech</a></h3>
-    <p class="meta">© <span id="year"></span> Manuel Cech. The Existentialist.</p>
+    <h3>
+      <a class="btn-link" href="?page=about" aria-label="Open about page">About Manuel Cech</a>
+    </h3>
+    <p class="meta">© <span id="year">2025</span> Manuel Cech. The Existentialist.</p>
   </footer>
 
+  <!-- Unified copyright strip (always visible) -->
   <div class="copyright-strip">
-    © <span id="year2"></span> Manuel Cech. The Existentialist.
+    © <span id="yearStrip">2025</span> Manuel Cech. The Existentialist.
   </div>
 
   <script>
-  const y=new Date().getFullYear();
-  document.getElementById('year').textContent=y;
-  document.getElementById('year2').textContent=y;
-
+  // Auto year
   (function(){
-    const params=new URLSearchParams(location.search);
-    const isCat=params.has('cat');
-    const isAbout=(params.get('page')||'')==='about';
-    const aboutFooter=document.getElementById('aboutFooter');
-    if(isCat||isAbout){aboutFooter.style.display='none';document.body.classList.add('show-spacer');}
-    else{aboutFooter.style.display='block';document.body.classList.remove('show-spacer');}
+    const y = String(new Date().getFullYear());
+    document.getElementById('year').textContent = y;
+    document.getElementById('yearStrip').textContent = y;
+  })();
+
+  // Layout toggles for category/about pages
+  (function setupLayout(){
+    const params = new URLSearchParams(location.search);
+    const isCategory = params.has('cat');
+    const isAbout = (params.get('page')||'') === 'about';
+    const aboutFooter = document.getElementById('aboutFooter');
+
+    if(isCategory || isAbout){
+      aboutFooter.style.display = 'none';
+      document.body.classList.add('show-spacer');
+    } else {
+      aboutFooter.style.display = 'block';
+      document.body.classList.remove('show-spacer');
+    }
   })();
 
   async function build(){
-    const explore=document.getElementById('explore');
-    const catalog=document.getElementById('catalog');
-    const notes=document.getElementById('category-notes');
-    const params=new URLSearchParams(location.search);
-    const cat=(params.get('cat')||'').toLowerCase();
-    const page=(params.get('page')||'').toLowerCase();
+    const explore = document.getElementById('explore');
+    const catalog = document.getElementById('catalog');
+    const notesEl = document.getElementById('category-notes');
+    const params = new URLSearchParams(location.search);
+    const cat = (params.get('cat') || '').toLowerCase();
+    const page = (params.get('page') || '').toLowerCase();
 
-    if(page==='about'){
-      explore.innerHTML='<div class="backline"><a href="./#explore">← Back to Explore</a></div>';
-      catalog.style.display='block';
-      catalog.innerHTML=`<section class="about-block">
-        <div class="about-img"><img src="mi.jpg" alt="Manuel Cech"></div>
-        <div class="art-body">
-          <h3 class="title">About Manuel Cech</h3>
-          <p>Multidisciplinary Artist · Magician · Musician</p>
-          <p>Based on Fuerteventura, Canary Islands.</p>
-          <p>Exploring identity, decay, illusion and transformation through Existential Realism.</p>
-        </div>
-      </section>`;
+    /* ---------- ABOUT PAGE (restored full content) ---------- */
+    if(page === 'about'){
+      explore.innerHTML = `<div class="backline"><a href="./#explore">← Back to Explore</a></div>`;
+      catalog.style.display = 'block';
+      notesEl.style.display = 'none'; notesEl.innerHTML = '';
+      catalog.innerHTML = `
+        <section class="about-block">
+          <div class="about-img">
+            <img src="mi.jpg" alt="Manuel Cech" loading="lazy" decoding="async">
+          </div>
+          <div class="art-body">
+            <h3 class="title">About Manuel Cech</h3>
+
+            <p><strong>Multidisciplinary Artist · Magician · Musician</strong><br/>
+            Based on Fuerteventura, Canary Islands.<br/>
+            Exploring identity, decay, illusion and transformation through <em>Existential Realism</em>.</p>
+
+            <p><strong>Art &amp; Media</strong><br/>
+              • Fine Art Prints (Pastel, Acrylic &amp; Airbrush)<br/>
+              • Digital Artwork<br/>
+              • Sculpture &amp; Mask Design<br/>
+              • Animatronics &amp; SFX Creations<br/>
+              • Professional Illusion Design
+            </p>
+
+            <p><strong>Background</strong><br/>
+              Manuel Cech began performing magic at the age of three and later became a certified pyrotechnician and illusion engineer in Germany.
+              He has worked across stage productions, music videos and large-scale special effects for over two decades before dedicating himself
+              to fine art and existential realism. His technical craft and illusion thinking inform the precision and atmosphere of his images.
+            </p>
+
+            <p><strong>Current Work</strong><br/>
+              The first major artwork of “The Existentialist” Series, <em>Lucia</em> (Pastel on Pastelmat), was completed on April 4, 2025.
+              It marks a new chapter that combines realism, emotion and philosophical depth — a practice grounded in material sensitivity and
+              the tension between light and decay.
+            </p>
+
+            <p><strong>Themes</strong><br/>
+              Identity · Transformation · Memory · Decay — rendered with restrained aesthetics on a dark, minimal stage to keep the focus on the work itself.
+            </p>
+          </div>
+        </section>`;
+      // Focus the content immediately
+      setTimeout(()=>{ catalog.scrollIntoView({behavior:'smooth',block:'start'}); }, 50);
       return;
     }
 
+    /* ---------- HOME (no category) ---------- */
     if(!cat){
-      catalog.style.display='none';
-      explore.innerHTML=`
+      catalog.style.display = 'none';
+      notesEl.style.display = 'none'; notesEl.innerHTML = '';
+      explore.innerHTML = `
         <section class="tiles" id="tiles">
-          <a href="?cat=prints" class="tile"><div class="tile-head"><h3>Fine Art Prints</h3></div>
-          <div class="tile-media"><img src="lucia.JPG" alt="Lucia"></div>
-          <div class="tile-foot">Pastel · Acrylic · Airbrush</div></a>
+          <a href="?cat=prints" class="tile" aria-label="Open Fine Art Prints">
+            <div class="tile-head"><h3>Fine Art Prints</h3></div>
+            <div class="tile-media">
+              <img src="lucia.JPG" alt="Lucia — Fine Art Print" loading="lazy" decoding="async">
+            </div>
+            <div class="tile-foot">Pastel · Acrylic · Airbrush</div>
+          </a>
 
-          <a href="?cat=digital" class="tile"><div class="tile-head"><h3>Digital Art</h3></div>
-          <div class="tile-media"><img src="mirror.JPG" alt="Mirror"></div>
-          <div class="tile-foot">Digital Fine Art Prints</div></a>
+          <a href="?cat=digital" class="tile" aria-label="Open Digital Art">
+            <div class="tile-head"><h3>Digital Art</h3></div>
+            <div class="tile-media">
+              <img src="mirror.JPG" alt="Mirror — Digital Art" loading="lazy" decoding="async">
+            </div>
+            <div class="tile-foot">Digital Fine Art Prints</div>
+          </a>
 
-          <div class="tile disabled"><div class="tile-head"><h3>Originals</h3></div>
-          <div class="tile-media"><img src="originals.jpg" alt="Originals"></div>
-          <div class="tile-foot">Unique originals coming soon</div></div>
+          <!-- Originals: image shown, but click disabled until content exists -->
+          <div class="tile disabled" aria-disabled="true" title="Coming soon">
+            <div class="tile-head"><h3>Originals</h3></div>
+            <div class="tile-media">
+              <img src="originals.jpg" alt="Originals — placeholder" loading="lazy" decoding="async">
+            </div>
+            <div class="tile-foot">Unique originals coming soon</div>
+          </div>
         </section>`;
       return;
     }
 
-    explore.innerHTML='<div class="backline"><a href="./#explore">← Back to Explore</a></div>';
-    catalog.style.display='block';
-    try{
-      const res=await fetch('data.json',{cache:'no-store'});
-      const items=await res.json();
-      const shown=items.filter(it=>(it.category||'').toLowerCase()===cat);
+    /* ---------- CATEGORY PAGES (with carousel controls) ---------- */
+    document.getElementById('explore').innerHTML = `<div class="backline"><a href="./#explore">← Back to Explore</a></div>`;
+    catalog.style.display = 'block';
 
-      let slides='';
-      if(shown.length){
-        slides=shown.map(it=>`
-          <article class="slide"><div class="art-img">${it.image?`<img src="${it.image}" alt="${it.title}">`:''}</div>
-          <div class="art-body"><h3 class="title">${it.title}</h3>
-          ${it.price_eur?`<div class="price">€${it.price_eur}</div>`:''}
-          ${it.stripe_link?`<a class="btn" href="${it.stripe_link}" target="_blank">Buy</a>`:''}
-          ${it.caption?`<div class="caption">${it.caption}</div>`:''}</div></article>`).join('');
+    try{
+      const res = await fetch('data.json',{cache:'no-store'});
+      const items = await res.json();
+      const shown = items.filter(it => (it.category||'').toLowerCase() === cat);
+
+      if(!shown.length){
+        catalog.innerHTML = `
+          <section class="carousel">
+            <div class="viewport"><div class="track">
+              <article class="slide"><div class="art-body"><p class="caption">No works in this category yet.</p></div></article>
+            </div></div>
+            <div class="ctrl">
+              <button id="prev" class="arrow" aria-label="Previous slide">‹</button>
+              <div id="dots" class="dots"></div>
+              <button id="next" class="arrow" aria-label="Next slide">›</button>
+            </div>
+          </section>`;
       } else {
-        slides='<article class="slide"><div class="art-body"><p class="caption">No works yet.</p></div></article>';
+        const slides = shown.map(it=>`
+          <article class="slide" role="group" aria-label="${it.title||''}">
+            <div class="art-img">
+              ${it.image?`<img src="${it.image}" alt="${it.title||'Artwork'} by Manuel Cech" loading="lazy" decoding="async">`:''}
+            </div>
+            <div class="art-body">
+              <h3 class="title">${it.title||''}</h3>
+              ${typeof it.price_eur==='number'?`<div class="price">€${it.price_eur}</div>`:''}
+              ${it.stripe_link?`<a class="btn" href="${it.stripe_link}" target="_blank" rel="noopener">Buy</a>`:''}
+              ${it.caption?`<div class="caption">${it.caption}</div>`:''}
+              ${it.description_html||''}
+              ${it.dedication_html||''}
+            </div>
+          </article>
+        `).join('');
+
+        catalog.innerHTML = `
+          <section class="carousel">
+            <div class="viewport"><div class="track">${slides}</div></div>
+            <div class="ctrl">
+              <button id="prev" class="arrow" aria-label="Previous slide">‹</button>
+              <div id="dots" class="dots"></div>
+              <button id="next" class="arrow" aria-label="Next slide">›</button>
+            </div>
+          </section>`;
       }
 
-      catalog.innerHTML=`
-        <section class="carousel">
-          <div class="viewport"><div class="track">${slides}</div></div>
-          <div class="ctrl"><button id="prev" class="arrow">‹</button>
-          <div id="dots" class="dots"></div>
-          <button id="next" class="arrow">›</button></div>
-        </section>`;
+      // Activate controls (even if only one slide; dots/controls still render)
+      const track = catalog.querySelector('.track');
+      const slideEls = Array.from(track.children);
+      const prev = catalog.querySelector('#prev');
+      const next = catalog.querySelector('#next');
+      const dots = catalog.querySelector('#dots');
+      let idx = 0;
 
-      const track=catalog.querySelector('.track');
-      const slideEls=Array.from(track.children);
-      const prev=catalog.querySelector('#prev');
-      const next=catalog.querySelector('#next');
-      const dots=catalog.querySelector('#dots');
-      let idx=0;
       function render(){
-        track.style.transform=`translateX(${-idx*100}%)`;
-        dots.innerHTML=slideEls.map((_,i)=>`<div class="dot ${i===idx?'active':''}" data-i="${i}"></div>`).join('');
+        track.style.transform = `translateX(${-idx*100}%)`;
+        dots.innerHTML = slideEls.map((_,i)=>`<div class="dot ${i===idx?'active':''}" data-i="${i}" aria-label="Go to slide ${i+1}"></div>`).join('');
       }
       render();
-      prev.onclick=()=>{idx=(idx-1+slideEls.length)%slideEls.length;render();}
-      next.onclick=()=>{idx=(idx+1)%slideEls.length;render();}
-      dots.onclick=e=>{const d=e.target.closest('.dot');if(!d)return;idx=+d.dataset.i;render();}
-    }catch(e){catalog.innerHTML='<p>Error loading works.</p>';}
+
+      prev.onclick = ()=>{ idx = (idx-1+slideEls.length)%slideEls.length; render(); };
+      next.onclick = ()=>{ idx = (idx+1)%slideEls.length; render(); };
+      dots.onclick = e => { const d = e.target.closest('.dot'); if(!d) return; idx = +d.dataset.i; render(); };
+
+      // Focus the content immediately
+      setTimeout(()=>{ catalog.scrollIntoView({behavior:'smooth', block:'start'}); }, 50);
+
+      // Optional notes block (unchanged logic)
+      const withNotes = shown.find(it => it.category_notes_html && String(it.category_notes_html).trim().length);
+      const notesEl = document.getElementById('category-notes');
+      if(withNotes){
+        const titleMap = {prints:'Fine Art Print — Details', digital:'Digital Art — Details', originals:'Original — Details'};
+        notesEl.innerHTML = `<h4>${titleMap[cat] || 'Details'}</h4>${withNotes.category_notes_html}`;
+        notesEl.style.display = 'block';
+      } else {
+        notesEl.style.display = 'none';
+        notesEl.innerHTML = '';
+      }
+
+    }catch(e){
+      catalog.innerHTML = `<p>Error loading works.</p>`;
+      const notesEl = document.getElementById('category-notes');
+      notesEl.style.display = 'none';
+      notesEl.innerHTML = '';
+    }
   }
   build();
+
+  // Hash back to tiles
+  window.addEventListener('DOMContentLoaded', ()=>{
+    if(location.hash === '#explore'){
+      setTimeout(()=>{
+        document.getElementById('tiles')?.scrollIntoView({behavior:'smooth', block:'start'});
+      }, 50);
+    }
+  });
   </script>
 </body>
 </html>
