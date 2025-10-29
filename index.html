@@ -6,7 +6,7 @@
   <title>The Existentialist — Manuel Cech</title>
   <meta name="description" content="The Existentialist — Fine art prints by Manuel Cech" />
 
-  <!-- FAVICON exact filename + cache-buster -->
+  <!-- FAVICON exact filename + cache-buster (do not rename) -->
   <link rel="icon" type="image/png" href="favicon.PNG?v=3" />
   <link rel="apple-touch-icon" href="favicon.PNG?v=3" />
 
@@ -49,6 +49,12 @@
     .tile-media img{width:100%;height:100%;object-fit:cover;transition:transform .35s ease;}
     .tile:hover .tile-media img{transform:scale(1.05);}
     .tile-foot{padding:10px 14px 14px;color:#bdbdbd;font-size:13px;min-height:38px;}
+
+    /* disabled tile (Originals when empty) */
+    .tile.disabled{opacity:.7;cursor:not-allowed;}
+    .tile.disabled:hover{transform:none;box-shadow:none;border-color:#1a1a1a;}
+    .tile.disabled .tile-media img{transform:none;}
+
     .tile.placeholder .tile-media{display:flex;align-items:center;justify-content:center;background:#0d0d0d;border-top:1px dashed #2a2a2a;border-bottom:1px dashed #2a2a2a;}
     .tile.placeholder .tile-media .ph{width:68%;max-width:280px;aspect-ratio:1/1;border:1px dashed #3a3a3a;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#8e8e8e;font-size:13px;}
 
@@ -64,7 +70,7 @@
     .catalog{display:none; margin-bottom:24px;}
     .carousel{position:relative;border:1px solid #1a1a1a;border-radius:8px;background:#111;overflow:hidden}
     .viewport{overflow:hidden}
-    .track{display:flex;will-change:transform;transition:transform .45s ease}
+    .track{display:flex;transition:transform .45s ease}
     .slide{min-width:100%;display:grid;gap:24px;grid-template-columns:1fr;padding:18px}
     @media(min-width:860px){.slide{grid-template-columns:1fr 1fr}}
     .art-img{background:#0e0e0e;border-radius:6px;overflow:hidden}
@@ -77,24 +83,11 @@
     .desc{margin-top:12px;line-height:1.55;color:#ddd}
     .desc p{margin:.6em 0}
 
-    /* Carousel controls (added) */
-    .ctrl{position:absolute;inset:0;pointer-events:none}
-    .arrow{
-      pointer-events:auto;position:absolute;top:50%;transform:translateY(-50%);
-      background:#161616cc;border:1px solid #2a2a2a;color:#fff;width:42px;height:42px;border-radius:50%;
-      display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none
-    }
-    .arrow:hover{background:#1c1c1c}
-    .prev{left:8px} .next{right:8px}
-    .dots{position:absolute;left:0;right:0;bottom:10px;display:flex;gap:8px;justify-content:center;pointer-events:auto}
-    .dot{width:8px;height:8px;border-radius:50%;background:#5f5f5f;opacity:.6;cursor:pointer}
-    .dot.active{background:#d8d8d8;opacity:1}
-
     /* CATEGORY NOTES */
     #category-notes{display:none;margin-top:18px;padding:18px 16px;border:1px solid #1a1a1a;border-radius:8px;background:#101010;color:#d9d9d9;line-height:1.6;}
     #category-notes h4{margin:0 0 .4em;font-size:16px;color:var(--accent);}
 
-    /* EXTRA LUFT am Seitenende */
+    /* EXTRA LUFT am Seitenende (nur in Kategorien) */
     .bottom-spacer{display:none;height:14vh;}
     .show-spacer .bottom-spacer{display:block;}
 
@@ -119,7 +112,7 @@
   <header class="hero">
     <div>
       <h1>The Existentialist</h1>
-    <p>By Manuel Cech — Multidisciplinary Artist &amp; Illusion Designer</p>
+      <p>By Manuel Cech — Multidisciplinary Artist &amp; Illusion Designer</p>
     </div>
   </header>
 
@@ -152,20 +145,23 @@
       to fine art and existential realism.
     </p>
 
-    <p><strong>Current Work</strong><br/>
-      The first major artwork of “The Existentialist” Series, <em>Lucia</em>, was completed in 2025.
-    </p>
-
-    <!-- Unified copyright line (dynamic year) -->
-    <p class="meta">© <span data-year></span> Manuel Cech. The Existentialist.</p>
+    <p class="meta">© <span id="yearA"></span> Manuel Cech. The Existentialist.</p>
   </footer>
 
-  <!-- Unified copyright strip (dynamic year) -->
   <div class="copyright-strip">
-    © <span data-year></span> Manuel Cech. The Existentialist.
+    © <span id="yearB"></span> Manuel Cech. The Existentialist.
   </div>
 
   <script>
+  // auto-year everywhere
+  (function(){
+    const y = new Date().getFullYear();
+    const a = document.getElementById('yearA');
+    const b = document.getElementById('yearB');
+    if(a) a.textContent = y;
+    if(b) b.textContent = y;
+  })();
+
   (function setupLayout(){
     const params = new URLSearchParams(location.search);
     const isCategory = params.has('cat');
@@ -179,15 +175,26 @@
     }
   })();
 
-  // ---- Build content (explore or category) ----
-  async function build(){
+  // Renders homepage tiles; Originals tile becomes a link only if data.json has originals entries
+  async function renderExploreWithOriginalsCheck(){
     const explore = document.getElementById('explore');
-    const catalog = document.getElementById('catalog');
-    const notesEl = document.getElementById('category-notes');
-    const params = new URLSearchParams(location.search);
-    const cat = (params.get('cat') || '').toLowerCase();
+    try{
+      const res = await fetch('data.json', {cache:'no-store'});
+      const items = await res.json();
+      const hasOriginals = Array.isArray(items) && items.some(it => String(it.category||'').toLowerCase()==='originals');
 
-    if(!cat){
+      const originalsTile = hasOriginals
+        ? `<a href="?cat=originals" class="tile" aria-label="Open Originals">
+             <div class="tile-head"><h3>Originals</h3></div>
+             <div class="tile-media"><img src="originals.jpg" alt="Original Works — placeholder"></div>
+             <div class="tile-foot">Unique one-of-one works</div>
+           </a>`
+        : `<div class="tile disabled" aria-disabled="true" title="Coming soon">
+             <div class="tile-head"><h3>Originals</h3></div>
+             <div class="tile-media"><img src="originals.jpg" alt="Originals — coming soon"></div>
+             <div class="tile-foot">Coming soon</div>
+           </div>`;
+
       explore.innerHTML = `
         <section class="tiles" id="tiles">
           <a href="?cat=prints" class="tile">
@@ -200,13 +207,40 @@
             <div class="tile-media"><img src="mirror.JPG" alt="Mirror — Digital Art"></div>
             <div class="tile-foot">Digital Fine Art Prints</div>
           </a>
-          <a href="?cat=originals" class="tile placeholder">
-            <div class="tile-head"><h3>Originals</h3></div>
-            <div class="tile-media"><div class="ph">No works yet</div></div>
-            <div class="tile-foot">Unique originals coming soon</div>
-          </a>
+          ${originalsTile}
         </section>`;
-      return;
+    }catch(e){
+      // Fallback: render without data check, Originals disabled
+      explore.innerHTML = `
+        <section class="tiles" id="tiles">
+          <a href="?cat=prints" class="tile">
+            <div class="tile-head"><h3>Fine Art Prints</h3></div>
+            <div class="tile-media"><img src="lucia.JPG" alt="Lucia — Fine Art Print"></div>
+            <div class="tile-foot">Pastel · Acrylic · Airbrush</div>
+          </a>
+          <a href="?cat=digital" class="tile">
+            <div class="tile-head"><h3>Digital Art</h3></div>
+            <div class="tile-media"><img src="mirror.JPG" alt="Mirror — Digital Art"></div>
+            <div class="tile-foot">Digital Fine Art Prints</div>
+          </a>
+          <div class="tile disabled" aria-disabled="true" title="Coming soon">
+            <div class="tile-head"><h3>Originals</h3></div>
+            <div class="tile-media"><img src="originals.jpg" alt="Originals — coming soon"></div>
+            <div class="tile-foot">Coming soon</div>
+          </div>
+        </section>`;
+    }
+  }
+
+  async function build(){
+    const explore = document.getElementById('explore');
+    const catalog = document.getElementById('catalog');
+    const notesEl = document.getElementById('category-notes');
+    const params = new URLSearchParams(location.search);
+    const cat = (params.get('cat') || '').toLowerCase();
+
+    if(!cat){
+      return renderExploreWithOriginalsCheck();
     }
 
     document.getElementById('explore').innerHTML = `<div class="backline"><a href="./#explore">← Back to Explore</a></div>`;
@@ -217,84 +251,25 @@
       const items = await res.json();
       const shown = items.filter(it => (it.category||'').toLowerCase() === cat);
 
-      // Build carousel with controls even if only 1 item (controls will be harmless)
-      const slides = (shown.length ? shown : [{
-        title:'No works in this category yet.',
-        image:'', price_eur:'', stripe_link:'', caption:'', description_html:'', dedication_html:''
-      }]).map(it=>`
-        <article class="slide" role="group" aria-label="${it.title||''}">
-          <div class="art-img">${it.image?`<img src="${it.image}" alt="${it.title||'Artwork'} by Manuel Cech">`:''}</div>
-          <div class="art-body">
-            <h3 class="title">${it.title||''}</h3>
-            ${typeof it.price_eur==='number'?`<div class="price">€${it.price_eur}</div>`:''}
-            ${it.stripe_link?`<a class="btn" href="${it.stripe_link}" target="_blank" rel="noopener">Buy</a>`:''}
-            ${it.caption?`<div class="caption">${it.caption}</div>`:''}
-            ${it.description_html||''}
-            ${it.dedication_html||''}
-          </div>
-        </article>
-      `).join('');
-
-      catalog.innerHTML = `
-        <section class="carousel" aria-roledescription="carousel" aria-label="Artwork carousel">
-          <div class="viewport">
-            <div id="track" class="track">
-              ${slides}
+      if(!shown.length){
+        catalog.innerHTML = `<section class="carousel"><div class="viewport"><div class="track"><article class="slide"><div class="art-body"><p class="caption">No works in this category yet.</p></div></article></div></div></section>`;
+      } else {
+        const slides = shown.map(it=>`
+          <article class="slide" role="group" aria-label="${it.title||''}">
+            <div class="art-img">${it.image?`<img src="${it.image}" alt="${it.title||'Artwork'} by Manuel Cech">`:''}</div>
+            <div class="art-body">
+              <h3 class="title">${it.title||''}</h3>
+              ${typeof it.price_eur==='number'?`<div class="price">€${it.price_eur}</div>`:''}
+              ${it.stripe_link?`<a class="btn" href="${it.stripe_link}" target="_blank" rel="noopener">Buy</a>`:''}
+              ${it.caption?`<div class="caption">${it.caption}</div>`:''}
+              ${it.description_html||''}
+              ${it.dedication_html||''}
             </div>
-          </div>
-          <div class="ctrl" aria-hidden="false">
-            <button class="arrow prev" id="prev" aria-label="Previous">‹</button>
-            <button class="arrow next" id="next" aria-label="Next">›</button>
-            <div id="dots" class="dots" role="tablist"></div>
-          </div>
-        </section>
-      `;
-
-      // Dots
-      const dots = document.getElementById('dots');
-      const total = Math.max(shown.length, 1);
-      dots.innerHTML = Array.from({length: total}, (_,i)=>`<div class="dot${i===0?' active':''}" data-i="${i}" role="tab" aria-label="Go to slide ${i+1}"></div>`).join('');
-
-      // Carousel logic
-      const track = document.getElementById('track');
-      const prev  = document.getElementById('prev');
-      const next  = document.getElementById('next');
-      let index = 0;
-
-      function setActive(i){
-        [...dots.children].forEach((d,di)=>d.classList.toggle('active', di===i));
+          </article>
+        `).join('');
+        catalog.innerHTML = `<section class="carousel"><div class="viewport"><div class="track">${slides}</div></div></section>`;
       }
-      function go(i){
-        index = (i + total) % total;
-        track.style.transform = `translateX(${-index*100}%)`;
-        setActive(index);
-      }
-      prev.onclick = ()=> go(index-1);
-      next.onclick = ()=> go(index+1);
-      dots.addEventListener('click', e=>{
-        const d = e.target.closest('.dot'); if(!d) return;
-        go(Number(d.dataset.i));
-      });
 
-      // Touch swipe
-      let sx=0, dx=0, dragging=false;
-      const viewport = track.parentElement;
-      viewport.addEventListener('touchstart', e=>{
-        dragging=true; sx=e.touches[0].clientX; dx=0; track.style.transition='none';
-      }, {passive:true});
-      viewport.addEventListener('touchmove', e=>{
-        if(!dragging) return;
-        dx = e.touches[0].clientX - sx;
-        const percent = dx / viewport.clientWidth * 100;
-        track.style.transform = `translateX(${ -index*100 + percent }%)`;
-      }, {passive:true});
-      viewport.addEventListener('touchend', ()=>{
-        if(!dragging) return; dragging=false; track.style.transition='transform .45s ease';
-        if(Math.abs(dx) > 40){ go(index + (dx<0?1:-1)); }
-        else { go(index); }
-      });
-
-      // Category notes (unchanged)
       const withNotes = shown.find(it => it.category_notes_html && String(it.category_notes_html).trim().length);
       if(withNotes){
         const titleMap = {prints:'Fine Art Print — Details', digital:'Digital Art — Details', originals:'Original — Details'};
@@ -306,14 +281,14 @@
       }
 
     }catch(e){
-      catalog.innerHTML = `<section class="carousel"><div class="viewport"><div class="track"><article class="slide"><div class="art-body"><p class="caption">Error loading works.</p></div></article></div></div></section>`;
-      const notesEl = document.getElementById('category-notes');
-      notesEl.style.display = 'none'; notesEl.innerHTML = '';
+      catalog.innerHTML = `<p>Error loading works.</p>`;
+      notesEl.style.display = 'none';
+      notesEl.innerHTML = '';
     }
   }
   build();
 
-  // Autoscroll behavior (unchanged)
+  // focus positions on load
   window.addEventListener('DOMContentLoaded', ()=>{
     const params = new URLSearchParams(location.search);
     if(params.has('cat')){
@@ -328,24 +303,6 @@
       }, 50);
     }
   });
-
-  // ---- Dynamic Year (auto update at midnight) ----
-  (function dynamicYear(){
-    function applyYear(){
-      const y = new Date().getFullYear();
-      document.querySelectorAll('[data-year]').forEach(el=> el.textContent = y);
-    }
-    applyYear();
-
-    // schedule rollover at local midnight
-    const now = new Date();
-    const next = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1, 0, 0, 0);
-    const ms = next - now;
-    setTimeout(function tick(){
-      applyYear();
-      setInterval(applyYear, 24*60*60*1000);
-    }, ms);
-  })();
   </script>
 </body>
 </html>
