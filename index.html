@@ -225,7 +225,6 @@
             </p>
           </div>
         </section>`;
-      // Focus the content (about) immediately
       setTimeout(()=>{ catalog.scrollIntoView({behavior:'smooth',block:'start'}); }, 50);
       return;
     }
@@ -332,21 +331,20 @@
       if(next) next.onclick = ()=>{ idx = (idx+1)%slideEls.length; render(); };
       if(dots) dots.onclick = e => { const d = e.target.closest('.dot'); if(!d) return; idx = +d.dataset.i; render(); };
 
-      // >>> Correct focus: scroll to the carousel (not the backline)
+      // >>> Correct focus: scroll to the carousel with ~2cm extra offset
       setTimeout(()=>{
         const car = catalog.querySelector('.carousel');
         if(car){
-          // Position the carousel nicely with a small top offset so the backline is not dominant
           const rect = car.getBoundingClientRect();
-          const y = rect.top + window.scrollY - 16; // 16px offset to keep a hint of the backline
+          const FOCUS_OFFSET = 64; // ~1.7–2.0 cm on typical displays
+          const y = rect.top + window.scrollY - FOCUS_OFFSET;
           window.scrollTo({ top: y, behavior: 'smooth' });
         } else {
-          // Fallback: keep previous behavior
           catalog.scrollIntoView({behavior:'smooth', block:'start'});
         }
       }, 60);
 
-      // Optional notes block (unchanged)
+      // Notes (optional)
       const withNotes = shown.find(it => it.category_notes_html && String(it.category_notes_html).trim().length);
       if(withNotes){
         const titleMap = {prints:'Fine Art Print — Details', digital:'Digital Art — Details', originals:'Original — Details'};
