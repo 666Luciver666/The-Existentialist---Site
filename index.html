@@ -6,24 +6,8 @@
   <title>The Existentialist — Manuel Cech</title>
   <meta name="description" content="The Existentialist — Fine art prints by Manuel Cech" />
 
-  <!-- FAVICON -->
   <link rel="icon" type="image/png" href="favicon.PNG" />
   <link rel="apple-touch-icon" href="favicon.PNG" />
-
-  <!-- SEO / SOCIAL -->
-  <link rel="canonical" href="https://theexistentialist.art" />
-  <meta name="author" content="Manuel Cech" />
-  <meta name="keywords" content="Manuel Cech, The Existentialist, Existential Realism, Fine Art, Pastel, Acrylic, Airbrush, Digital Art, Illusion Design, Fuerteventura" />
-  <meta property="og:title" content="The Existentialist — Manuel Cech" />
-  <meta property="og:description" content="Existential Realism — exploring identity, decay and transformation through art and illusion." />
-  <meta property="og:url" content="https://theexistentialist.art" />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://theexistentialist.art/mirror.JPG" />
-  <meta property="og:image:alt" content="Mirror — artwork by Manuel Cech" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="The Existentialist — Manuel Cech" />
-  <meta name="twitter:description" content="Existential Realism — identity, decay and transformation." />
-  <meta name="twitter:image" content="https://theexistentialist.art/mirror.JPG" />
 
   <style>
     :root{
@@ -43,88 +27,49 @@
       padding:10vh 16px 6vh;
     }
     .hero h1{
-      margin:0;
-      font-size:clamp(38px,6vw,72px);
-      font-weight:700;
-      letter-spacing:.5px;
+      margin:0;font-size:clamp(38px,6vw,72px);font-weight:700;letter-spacing:.5px;
       color:var(--accent);
-      text-shadow:
-        0 2px 6px rgba(0,0,0,0.60),
-        0 0 18px rgba(199,169,74,0.35);
+      text-shadow:0 2px 6px rgba(0,0,0,0.60),0 0 18px rgba(199,169,74,0.35);
     }
     .hero p{
-      margin:.5rem 0 0;
-      color:#d0d0d0;
-      font-size:clamp(14px,2vw,18px);
-      text-shadow:
-        0 2px 6px rgba(0,0,0,0.70),
-        0 0 14px rgba(0,0,0,0.55);
+      margin:.5rem 0 0;color:#d0d0d0;font-size:clamp(14px,2vw,18px);
+      text-shadow:0 2px 6px rgba(0,0,0,0.70),0 0 14px rgba(0,0,0,0.55);
     }
 
     .wrap{max-width:var(--wrap);margin:0 auto;padding:38px 18px 60px}
 
-    /* ===== CATEGORY TILES ===== */
+    /* CATEGORY TILES (Übersicht) */
     .tiles{
-      display:grid;gap:16px;margin:24px 0 32px;
+      display:grid;gap:16px;margin:24px 0 32px; /* Übersicht bleibt kompakt */
       grid-template-columns:1fr;
     }
     @media(min-width:720px){ .tiles{ grid-template-columns:repeat(3,1fr);} }
 
     .tile{
-      position:relative;
-      border:1px solid #1a1a1a;
-      border-radius:10px;
-      overflow:hidden;
-      background:#0e0e0e;
-      isolation:isolate;
-      transition:transform .3s ease, box-shadow .3s ease;
+      position:relative;border:1px solid #1a1a1a;border-radius:10px;
+      overflow:hidden;background:#0e0e0e;
+      transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease;
     }
-    .tile:hover {
-      transform:translateY(-6px);
-      box-shadow:0 10px 24px rgba(0,0,0,0.35);
-      border-color:#2a2a2a;
-    }
-    .tile-head{
-      padding:12px 14px 10px;border-bottom:1px solid #1b1b1b;
-      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0));
-    }
-    .tile-head h3{ margin:0;font-size:18px;letter-spacing:.3px;color:var(--accent); }
-    .tile-media{ aspect-ratio:3/4; background:#111; overflow:hidden; }
-    .tile-media img{ width:100%;height:100%;object-fit:cover; transition:transform .35s ease; }
-    .tile:hover .tile-media img{ transform:scale(1.05); }
-    .tile-foot{ padding:10px 14px 14px;color:#bdbdbd;font-size:13px;min-height:38px; }
-    .tile a{display:block}
-    .tile.placeholder .tile-media{
-      display:flex;align-items:center;justify-content:center;
-      background:#0d0d0d;border-top:1px dashed #2a2a2a;border-bottom:1px dashed #2a2a2a;
-    }
-    .tile.placeholder .tile-media .ph{
-      width:68%;max-width:280px;aspect-ratio:1/1;border:1px dashed #3a3a3a;border-radius:8px;
-      display:flex;align-items:center;justify-content:center;color:#8e8e8e;font-size:13px;
-    }
+    .tile:hover{transform:translateY(-6px);box-shadow:0 10px 24px rgba(0,0,0,.35);border-color:#2a2a2a;}
+    .tile-head{padding:12px 14px 10px;border-bottom:1px solid #1b1b1b;background:linear-gradient(180deg,rgba(255,255,255,0.03),rgba(0,0,0,0));}
+    .tile-head h3{margin:0;font-size:18px;letter-spacing:.3px;color:var(--accent);}
+    .tile-media{aspect-ratio:3/4;background:#111;overflow:hidden;}
+    .tile-media img{width:100%;height:100%;object-fit:cover;transition:transform .35s ease;}
+    .tile:hover .tile-media img{transform:scale(1.05);}
+    .tile-foot{padding:10px 14px 14px;color:#bdbdbd;font-size:13px;min-height:38px;}
+    .tile.placeholder .tile-media{display:flex;align-items:center;justify-content:center;background:#0d0d0d;border-top:1px dashed #2a2a2a;border-bottom:1px dashed #2a2a2a;}
+    .tile.placeholder .tile-media .ph{width:68%;max-width:280px;aspect-ratio:1/1;border:1px dashed #3a3a3a;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#8e8e8e;font-size:13px;}
 
-    /* ===== BACK TO EXPLORE BUTTON ===== */
-    .backline{
-      margin:0 0 24px;
-      text-align:center;
-    }
+    /* BACK TO EXPLORE (in Kategorien) */
+    .backline{text-align:center;margin:0 0 24px;}
     .backline a{
-      display:inline-block;
-      padding:.6em 1.4em;
-      border:1px solid #eaeaea;
-      border-radius:6px;
-      color:#eaeaea;
-      font-size:14px;
-      transition:all .25s ease;
+      display:inline-block;padding:.6em 1.4em;border:1px solid #eaeaea;border-radius:6px;
+      color:#eaeaea;font-size:14px;transition:all .25s ease;
     }
-    .backline a:hover{
-      background:#eaeaea;
-      color:#111;
-      transform:translateY(-2px);
-    }
+    .backline a:hover{background:#eaeaea;color:#111;transform:translateY(-2px);}
 
-    /* ===== CAROUSEL ===== */
-    .catalog{display:none;}
+    /* CATEGORY CONTENT */
+    .catalog{display:none; margin-bottom:120px;} /* 👈 Extra-Luft in Unterkategorie */
     .carousel{position:relative;border:1px solid #1a1a1a;border-radius:8px;background:#111;overflow:hidden}
     .viewport{overflow:hidden}
     .track{display:flex;transition:transform .45s ease}
@@ -134,12 +79,8 @@
     .art-body{padding:4px 4px 0 4px}
     .title{margin:0 0 6px;font-size:clamp(20px,2.6vw,26px);color:var(--accent)}
     .price{margin:6px 0 12px;color:#cfcfcf}
-    .btn{
-      display:inline-block;padding:.65em 1.1em;border-radius:8px;background:var(--accent);color:var(--accent-ink);
-      font-weight:bold;border:1px solid #9e8f2a;box-shadow:0 6px 18px rgba(0,0,0,.15)
-    }
+    .btn{display:inline-block;padding:.65em 1.1em;border-radius:8px;background:var(--accent);color:var(--accent-ink);font-weight:bold;border:1px solid #9e8f2a;box-shadow:0 6px 18px rgba(0,0,0,.15)}
     .btn:hover{filter:brightness(1.06)}
-    .secure{display:block;margin-top:.45em;font-size:12px;color:#b9b9b9;opacity:.9}
     .caption{color:#bdbdbd;font-size:13px;margin:10px 0 0}
     .desc{margin-top:12px;line-height:1.55;color:#ddd}
     .desc p{margin:.6em 0}
@@ -168,32 +109,22 @@
     <p>Multidisciplinary Artist · Magician · Musician<br/>
     Based on Fuerteventura, Canary Islands<br/>
     Exploring identity, decay, illusion and transformation through Existential Realism.</p>
-    <p><strong>Art &amp; Media</strong><br/>
-    • Fine Art Prints (Pastel, Acrylic &amp; Airbrush)<br/>
-    • Digital Artwork<br/>
-    • Sculpture &amp; Mask Design<br/>
-    • Animatronics &amp; SFX Creations<br/>
-    • Professional Illusion Design</p>
-    <p><strong>Background</strong><br/>
-    Manuel Cech began performing magic at the age of three and later became a certified pyrotechnician and illusion engineer in Germany.
-    He has worked in stage productions, music videos, and large-scale special effects for over two decades before dedicating himself
-    to fine art and existential realism.</p>
     <p class="meta">© Manuel Cech 2025 — The Existentialist</p>
   </footer>
 
   <script>
   async function build(){
-    const explore = document.getElementById('explore');
-    const catalog = document.getElementById('catalog');
-    const about   = document.getElementById('about');
-    const cat = new URLSearchParams(location.search).get('cat');
+    const explore=document.getElementById('explore');
+    const catalog=document.getElementById('catalog');
+    const about=document.getElementById('about');
+    const cat=new URLSearchParams(location.search).get('cat');
 
-    // Footer ausblenden bei Unterkategorien
-    if(cat){ about.style.display = 'none'; }
+    // Footer nur auf Startseite zeigen
+    if(cat){ about.style.display='none'; }
 
-    // Wenn keine Kategorie: 3 Kacheln anzeigen
+    // Startseite: Explore-Kacheln
     if(!cat){
-      explore.innerHTML = `
+      explore.innerHTML=`
         <section class="tiles">
           <a href="?cat=prints" class="tile">
             <div class="tile-head"><h3>Fine Art Prints</h3></div>
@@ -214,16 +145,16 @@
       return;
     }
 
-    // Kategorieansicht
-    explore.innerHTML = `<div class="backline"><a href="./">← Back to Explore</a></div>`;
-    catalog.style.display = 'block';
+    // Unterkategorie: Button + Katalog
+    explore.innerHTML=`<div class="backline"><a href="./">← Back to Explore</a></div>`;
+    catalog.style.display='block';
 
     try{
       const res = await fetch('data.json',{cache:'no-store'});
       const items = await res.json();
-      const filtered = items.filter(x=>x.category===cat);
+      const filtered = items.filter(x => (x.category||'')===cat);
       if(!filtered.length){
-        catalog.innerHTML = `<p>No works in this category yet.</p>`;
+        catalog.innerHTML = `<section class="carousel"><div class="viewport"><div class="track"><article class="slide"><div class="art-body"><p class="caption">No works in this category yet.</p></div></article></div></div></section>`;
         return;
       }
       const slides = filtered.map(it=>`
@@ -231,8 +162,8 @@
           <div class="art-img">${it.image?`<img src="${it.image}" alt="${it.title}">`:''}</div>
           <div class="art-body">
             <h3 class="title">${it.title}</h3>
-            ${it.price_eur?`<div class="price">€${it.price_eur}</div>`:''}
-            ${it.stripe_link?`<a class="btn" href="${it.stripe_link}" target="_blank">Buy</a>`:''}
+            ${typeof it.price_eur==='number'?`<div class="price">€${it.price_eur}</div>`:''}
+            ${it.stripe_link?`<a class="btn" href="${it.stripe_link}" target="_blank" rel="noopener">Buy</a>`:''}
             ${it.caption?`<div class="caption">${it.caption}</div>`:''}
             ${it.description_html||''}
             ${it.dedication_html||''}
