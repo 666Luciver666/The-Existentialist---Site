@@ -49,12 +49,14 @@
     .tile-media img{width:100%;height:100%;object-fit:cover;transition:transform .35s ease;}
     .tile:hover .tile-media img{transform:scale(1.05);}
     .tile-foot{padding:10px 14px 14px;color:#bdbdbd;font-size:13px;min-height:38px;}
+
     .tile.placeholder .tile-media{display:flex;align-items:center;justify-content:center;background:#0d0d0d;border-top:1px dashed #2a2a2a;border-bottom:1px dashed #2a2a2a;}
     .tile.placeholder .tile-media .ph{width:68%;max-width:280px;aspect-ratio:1/1;border:1px dashed #3a3a3a;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#8e8e8e;font-size:13px;}
-    .tile.disabled{opacity:.7;cursor:not-allowed;}
+
+    .tile.disabled{opacity:.85;cursor:not-allowed;}
     .tile.disabled:hover{transform:none;box-shadow:none;border-color:#1a1a1a;}
 
-    /* BACK TO EXPLORE / BACK generic */
+    /* BACK TO EXPLORE / generic link-button */
     .backline{text-align:center;margin:0 0 24px;}
     .backline a, .btn-link{
       display:inline-block;padding:.6em 1.4em;border:1px solid #eaeaea;border-radius:6px;
@@ -87,10 +89,10 @@
     .bottom-spacer{display:none;height:14vh;}
     .show-spacer .bottom-spacer{display:block;}
 
-    /* MAIN FOOTER */
-    footer.main{margin-top:58px;padding-top:26px;border-top:1px solid var(--line);color:#d8d8d8}
+    /* MAIN FOOTER (Home) */
+    footer.main{margin-top:24px;padding-top:26px;border-top:1px solid var(--line);color:#d8d8d8}
     footer.main h3{margin:0 0 .4em;font-size:18px;color:var(--accent)}
-    .meta{font-size:12px;color:#a9a9a9;margin-top:26px;text-align:center}
+    .meta{font-size:12px;color:#a9a9a9;margin-top:18px;text-align:center}
 
     /* ALWAYS VISIBLE COPYRIGHT STRIP */
     .copyright-strip{
@@ -105,7 +107,8 @@
     /* About page layout */
     .about-block{display:grid;gap:18px;grid-template-columns:1fr}
     @media(min-width:860px){ .about-block{grid-template-columns:1fr 1fr;} }
-    .about-img{background:#0f0f0f;border:1px solid #1a1a1a;border-radius:8px;overflow:hidden}
+    .about-img{background:#0f0f0f;border:1px solid #1a1a1a;border-radius:8px;overflow:hidden;min-height:240px;display:flex;align-items:center;justify-content:center;}
+    .about-img img{width:100%;height:100%;object-fit:cover;}
   </style>
 </head>
 <body>
@@ -124,35 +127,15 @@
     <div id="spacer" class="bottom-spacer"></div>
   </main>
 
-  <!-- Footer with About button -->
+  <!-- Footer with ONLY the About button + copyright line on Home -->
   <footer id="aboutFooter" class="wrap main">
     <h3>
       <a class="btn-link" href="?page=about" aria-label="Open about page">About Manuel Cech</a>
     </h3>
-    <p>
-      Multidisciplinary Artist · Magician · Musician<br/>
-      Based on Fuerteventura, Canary Islands<br/>
-      Exploring identity, decay, illusion and transformation through Existential Realism.
-    </p>
-
-    <p><strong>Art &amp; Media</strong><br/>
-      • Fine Art Prints (Pastel, Acrylic &amp; Airbrush)<br/>
-      • Digital Artwork<br/>
-      • Sculpture &amp; Mask Design<br/>
-      • Animatronics &amp; SFX Creations<br/>
-      • Professional Illusion Design
-    </p>
-
-    <p><strong>Background</strong><br/>
-      Manuel Cech began performing magic at the age of three and later became a certified pyrotechnician and illusion engineer in Germany.
-      He has worked in stage productions, music videos, and large-scale special effects for over two decades before dedicating himself
-      to fine art and existential realism.
-    </p>
-
     <p class="meta">© <span id="year">2025</span> Manuel Cech. The Existentialist.</p>
   </footer>
 
-  <!-- Unified copyright strip -->
+  <!-- Unified copyright strip (always visible) -->
   <div class="copyright-strip">
     © <span id="yearStrip">2025</span> Manuel Cech. The Existentialist.
   </div>
@@ -161,8 +144,8 @@
   // Auto year
   (function(){
     const y = String(new Date().getFullYear());
-    const a = document.getElementById('year'); if(a) a.textContent = y;
-    const b = document.getElementById('yearStrip'); if(b) b.textContent = y;
+    document.getElementById('year').textContent = y;
+    document.getElementById('yearStrip').textContent = y;
   })();
 
   // Layout toggles for category/about pages
@@ -173,10 +156,10 @@
     const aboutFooter = document.getElementById('aboutFooter');
 
     if(isCategory || isAbout){
-      if(aboutFooter) aboutFooter.style.display = 'none';
+      aboutFooter.style.display = 'none';
       document.body.classList.add('show-spacer');
     } else {
-      if(aboutFooter) aboutFooter.style.display = 'block';
+      aboutFooter.style.display = 'block';
       document.body.classList.remove('show-spacer');
     }
   })();
@@ -189,17 +172,15 @@
     const cat = (params.get('cat') || '').toLowerCase();
     const page = (params.get('page') || '').toLowerCase();
 
-    // ---------- ABOUT PAGE ----------
+    /* ---------- ABOUT PAGE ---------- */
     if(page === 'about'){
       explore.innerHTML = `<div class="backline"><a href="./#explore">← Back to Explore</a></div>`;
       catalog.style.display = 'block';
       notesEl.style.display = 'none'; notesEl.innerHTML = '';
-
       catalog.innerHTML = `
         <section class="about-block">
           <div class="about-img">
-            <img src="mi.jpg" alt="Manuel Cech" loading="lazy" decoding="async"
-                 onerror="this.style.display='none'">
+            <img src="mi.jpg" alt="Manuel Cech" loading="lazy" decoding="async">
           </div>
           <div class="art-body">
             <h3 class="title">About Manuel Cech</h3>
@@ -220,12 +201,11 @@
             </p>
           </div>
         </section>`;
-      // Bring content into view
-      setTimeout(()=>{ document.getElementById('catalog')?.scrollIntoView({behavior:'smooth',block:'start'}); }, 50);
+      setTimeout(()=>{ catalog.scrollIntoView({behavior:'smooth',block:'start'}); }, 50);
       return;
     }
 
-    // ---------- HOME (no category) ----------
+    /* ---------- HOME (no category) ---------- */
     if(!cat){
       catalog.style.display = 'none';
       notesEl.style.display = 'none'; notesEl.innerHTML = '';
@@ -234,8 +214,7 @@
           <a href="?cat=prints" class="tile" aria-label="Open Fine Art Prints">
             <div class="tile-head"><h3>Fine Art Prints</h3></div>
             <div class="tile-media">
-              <img src="lucia.JPG" alt="Lucia — Fine Art Print"
-                   loading="lazy" decoding="async">
+              <img src="lucia.JPG" alt="Lucia — Fine Art Print" loading="lazy" decoding="async">
             </div>
             <div class="tile-foot">Pastel · Acrylic · Airbrush</div>
           </a>
@@ -243,22 +222,24 @@
           <a href="?cat=digital" class="tile" aria-label="Open Digital Art">
             <div class="tile-head"><h3>Digital Art</h3></div>
             <div class="tile-media">
-              <img src="mirror.JPG" alt="Mirror — Digital Art"
-                   loading="lazy" decoding="async">
+              <img src="mirror.JPG" alt="Mirror — Digital Art" loading="lazy" decoding="async">
             </div>
             <div class="tile-foot">Digital Fine Art Prints</div>
           </a>
 
-          <div class="tile placeholder disabled" aria-disabled="true" title="Coming soon">
+          <!-- Originals: image shown, but click disabled until content exists -->
+          <div class="tile disabled" aria-disabled="true" title="Coming soon">
             <div class="tile-head"><h3>Originals</h3></div>
-            <div class="tile-media"><div class="ph">No works yet</div></div>
+            <div class="tile-media">
+              <img src="originals.jpg" alt="Originals — placeholder" loading="lazy" decoding="async">
+            </div>
             <div class="tile-foot">Unique originals coming soon</div>
           </div>
         </section>`;
       return;
     }
 
-    // ---------- CATEGORY PAGES ----------
+    /* ---------- CATEGORY PAGES ---------- */
     document.getElementById('explore').innerHTML =
       `<div class="backline"><a href="./#explore">← Back to Explore</a></div>`;
     catalog.style.display = 'block';
@@ -307,8 +288,7 @@
         notesEl.innerHTML = '';
       }
 
-      // Jump focus to the product area
-      setTimeout(()=>{ document.getElementById('catalog')?.scrollIntoView({behavior:'smooth', block:'start'}); }, 50);
+      setTimeout(()=>{ catalog.scrollIntoView({behavior:'smooth', block:'start'}); }, 50);
 
     }catch(e){
       catalog.innerHTML = `<p>Error loading works.</p>`;
@@ -318,7 +298,7 @@
   }
   build();
 
-  // If users come back from hash link, put explore into view
+  // Hash back to tiles
   window.addEventListener('DOMContentLoaded', ()=>{
     if(location.hash === '#explore'){
       setTimeout(()=>{ document.getElementById('tiles')?.scrollIntoView({behavior:'smooth', block:'start'}); }, 50);
