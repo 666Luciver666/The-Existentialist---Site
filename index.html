@@ -183,7 +183,7 @@
     const cat = (params.get('cat') || '').toLowerCase();
     const page = (params.get('page') || '').toLowerCase();
 
-    /* ---------- ABOUT PAGE (restored full content) ---------- */
+    /* ---------- ABOUT PAGE (full content) ---------- */
     if(page === 'about'){
       explore.innerHTML = `<div class="backline"><a href="./#explore">← Back to Explore</a></div>`;
       catalog.style.display = 'block';
@@ -225,7 +225,7 @@
             </p>
           </div>
         </section>`;
-      // Focus the content immediately
+      // Focus the content (about) immediately
       setTimeout(()=>{ catalog.scrollIntoView({behavior:'smooth',block:'start'}); }, 50);
       return;
     }
@@ -264,7 +264,7 @@
       return;
     }
 
-    /* ---------- CATEGORY PAGES (with carousel controls) ---------- */
+    /* ---------- CATEGORY PAGES (carousel + corrected focus) ---------- */
     document.getElementById('explore').innerHTML = `<div class="backline"><a href="./#explore">← Back to Explore</a></div>`;
     catalog.style.display = 'block';
 
@@ -313,9 +313,9 @@
           </section>`;
       }
 
-      // Activate controls (even if only one slide; dots/controls still render)
+      // Activate controls
       const track = catalog.querySelector('.track');
-      const slideEls = Array.from(track.children);
+      const slideEls = Array.from(track.children || []);
       const prev = catalog.querySelector('#prev');
       const next = catalog.querySelector('#next');
       const dots = catalog.querySelector('#dots');
@@ -323,20 +323,31 @@
 
       function render(){
         track.style.transform = `translateX(${-idx*100}%)`;
-        dots.innerHTML = slideEls.map((_,i)=>`<div class="dot ${i===idx?'active':''}" data-i="${i}" aria-label="Go to slide ${i+1}"></div>`).join('');
+        if(dots){
+          dots.innerHTML = slideEls.map((_,i)=>`<div class="dot ${i===idx?'active':''}" data-i="${i}" aria-label="Go to slide ${i+1}"></div>`).join('');
+        }
       }
-      render();
+      if(track){ render(); }
+      if(prev) prev.onclick = ()=>{ idx = (idx-1+slideEls.length)%slideEls.length; render(); };
+      if(next) next.onclick = ()=>{ idx = (idx+1)%slideEls.length; render(); };
+      if(dots) dots.onclick = e => { const d = e.target.closest('.dot'); if(!d) return; idx = +d.dataset.i; render(); };
 
-      prev.onclick = ()=>{ idx = (idx-1+slideEls.length)%slideEls.length; render(); };
-      next.onclick = ()=>{ idx = (idx+1)%slideEls.length; render(); };
-      dots.onclick = e => { const d = e.target.closest('.dot'); if(!d) return; idx = +d.dataset.i; render(); };
+      // >>> Correct focus: scroll to the carousel (not the backline)
+      setTimeout(()=>{
+        const car = catalog.querySelector('.carousel');
+        if(car){
+          // Position the carousel nicely with a small top offset so the backline is not dominant
+          const rect = car.getBoundingClientRect();
+          const y = rect.top + window.scrollY - 16; // 16px offset to keep a hint of the backline
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        } else {
+          // Fallback: keep previous behavior
+          catalog.scrollIntoView({behavior:'smooth', block:'start'});
+        }
+      }, 60);
 
-      // Focus the content immediately
-      setTimeout(()=>{ catalog.scrollIntoView({behavior:'smooth', block:'start'}); }, 50);
-
-      // Optional notes block (unchanged logic)
+      // Optional notes block (unchanged)
       const withNotes = shown.find(it => it.category_notes_html && String(it.category_notes_html).trim().length);
-      const notesEl = document.getElementById('category-notes');
       if(withNotes){
         const titleMap = {prints:'Fine Art Print — Details', digital:'Digital Art — Details', originals:'Original — Details'};
         notesEl.innerHTML = `<h4>${titleMap[cat] || 'Details'}</h4>${withNotes.category_notes_html}`;
@@ -348,7 +359,6 @@
 
     }catch(e){
       catalog.innerHTML = `<p>Error loading works.</p>`;
-      const notesEl = document.getElementById('category-notes');
       notesEl.style.display = 'none';
       notesEl.innerHTML = '';
     }
