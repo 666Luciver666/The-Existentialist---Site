@@ -5,8 +5,8 @@
     "image": "lucia.JPG",
     "price_eur": 119,
     "stripe_link": "https://buy.stripe.com/6lEb6E8dG8l95IPA00",
-    "caption": "From 'The Existentialist' series — Manuel Cech.",
-    "description_html": "<p><em>Lucia</em> portrays the fragile balance between light and decay — a meditation on human endurance and identity. The work captures a quiet transformation through stillness.</p>",
+    "caption": "Museum-grade fine art print · 30 × 40 cm · 2025",
+    "description_html": "<p><strong>Lucia</strong> is a museum-grade fine art print from <em>The Existentialist</em> series. It portrays the fragile balance between light and decay — a meditation on endurance, identity, and the slow persistence of empathy beneath silence.</p><p>Composed in 2025 at a scale of 30 × 40 cm, the image remains still yet charged — an observation of how presence continues through loss.</p>",
     "dedication_html": "<p>For my beloved sister.</p>",
     "category": "prints"
   },
@@ -17,9 +17,8 @@
     "price_eur": 59,
     "stripe_link": "https://buy.stripe.com/8x2fZa5xRc60h0f2DsfMA01",
     "caption": "Museum-grade fine art print · 40 × 40 cm · 2025",
-    "description_html": "<p><strong>Mirror</strong> is a museum-grade fine art print of a <strong>digital self-portrait</strong> reflecting the quiet tension between identity and perception. The surface remains calm while pressure gathers beneath it; the piece asks for time rather than quick answers.</p><p>Format: strict square, 40 × 40 cm. The palette is restrained, contrasts are deliberate, edges stay precise.</p>",
-    "dedication_html": "<p>For those who allow the surface to look back.</p>",
-    "category_notes_html": "<p><em>Notes:</em> physical museum-grade fine art print (no digital download). Ships after production in protective packaging. Delivery times depend on destination. Maintain the square aspect ratio when framing.</p>",
+    "description_html": "<p><strong>Mirror</strong> is a museum-grade fine art print of a digital self-portrait confronting erosion from within. The violet haze rising from the hollow eye embodies illness — quiet, invasive, unrelenting. Threaded through it, fine golden strands mark the brief resistance of creative thought, flickering against decay.</p><p>Created in 2025 as part of <em>The Existentialist</em> series, it observes endurance without sentiment — the mind shaping form even as it fades.</p>",
+    "dedication_html": "<p>For those who create light from the residue of pain.</p>",
     "category": "digital"
   }
 ]
