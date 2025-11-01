@@ -1,24 +1,25 @@
 [
   {
     "slug": "lucia-2025",
-    "title": "Lucia · Fine Art Print (2025)",
+    "title": "Lucia — Fine Art Print (2025)",
     "image": "lucia.JPG",
     "price_eur": 119,
-    "stripe_link": "https://buy.stripe.com/5kQ5kw6BV9XS25l5PEfMA00",
-    "caption": "From “The Existentialist” Series — Manuel Cech",
-    "description_html": "<p><em>Lucia</em> portrays the fragile balance between light and decay — a meditation on human endurance and identity. The work captures a quiet transformation, where emotion dissolves into stillness. Each print preserves the texture and tonal depth of the original pastel painting.</p>",
-    "dedication_html": "<p><em>For my beloved sister.</em></p>",
+    "stripe_link": "https://buy.stripe.com/6lEb6E8dG8l95IPA00",
+    "caption": "From 'The Existentialist' series — Manuel Cech.",
+    "description_html": "<p><em>Lucia</em> portrays the fragile balance between light and decay — a meditation on human endurance and identity. The work captures a quiet transformation through stillness.</p>",
+    "dedication_html": "<p>For my beloved sister.</p>",
     "category": "prints"
   },
   {
-    "slug": "mirror-2025",
-    "title": "Mirror · Digital Artwork (2025)",
+    "slug": "mirror-digital",
+    "title": "Mirror — Digital Self-Portrait (2025)",
     "image": "mirror.JPG",
-    "price_eur": null,
-    "stripe_link": "",
-    "caption": "Existential Realism — identity, decay and transformation.",
-    "description_html": "<p><em>Mirror</em> is a self-portrait study exploring erosion, memory and the thin line between presence and absence.</p>",
-    "dedication_html": "",
+    "price_eur": 59,
+    "stripe_link": "https://buy.stripe.com/8x2fZa5xRc60h0f2DsfMA01",
+    "caption": "Museum-grade fine art print · 40 × 40 cm · 2025",
+    "description_html": "<p><strong>Mirror</strong> is a museum-grade fine art print of a <strong>digital self-portrait</strong> reflecting the quiet tension between identity and perception. The surface remains calm while pressure gathers beneath it; the piece asks for time rather than quick answers.</p><p>Format: strict square, 40 × 40 cm. The palette is restrained, contrasts are deliberate, edges stay precise.</p>",
+    "dedication_html": "<p>For those who allow the surface to look back.</p>",
+    "category_notes_html": "<p><em>Notes:</em> physical museum-grade fine art print (no digital download). Ships after production in protective packaging. Delivery times depend on destination. Maintain the square aspect ratio when framing.</p>",
     "category": "digital"
   }
 ]
