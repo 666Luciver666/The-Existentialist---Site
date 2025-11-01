@@ -10,9 +10,6 @@
   <link rel="icon" type="image/png" href="favicon.PNG?v=3" />
   <link rel="apple-touch-icon" href="favicon.PNG?v=3" />
 
-  <!-- Preload hero image to improve LCP (falls keine WebP-Varianten verfügbar sind) -->
-  <link rel="preload" as="image" href="mirror.JPG" imagesrcset="mirror-960.jpg 960w, mirror-1600.jpg 1600w, mirror.JPG 2000w" imagesizes="100vw" />
-
   <style>
     :root{
       --bg:#0b0b0b; --ink:#eaeaea; --muted:#cfcfcf; --line:#1f1f1f;
@@ -178,29 +175,6 @@
     }
   })();
 
-  // Helpers for responsive images (optional files used if present)
-  function srcSets(base){
-    // "mirror.JPG" -> stem "mirror"
-    const stem = String(base).replace(/\.(jpe?g|png|webp)$/i,'').toLowerCase();
-    return {
-      webp: `${stem}-480.webp 480w, ${stem}-960.webp 960w, ${stem}-1600.webp 1600w`,
-      jpg:  `${stem}-480.jpg 480w, ${stem}-960.jpg 960w, ${stem}-1600.jpg 1600w`,
-      fallback: base
-    };
-  }
-  function pictureHTML(base, alt, aspectSquare){
-    const sets = srcSets(base);
-    const sizes = `(max-width: 560px) 100vw, (max-width: 1024px) 50vw, 33vw`;
-    const wh = aspectSquare ? `width="1200" height="1200"` : `width="900" height="1200"`;
-    return `
-      <picture>
-        <source type="image/webp" srcset="${sets.webp}" sizes="${sizes}">
-        <source type="image/jpeg" srcset="${sets.jpg}" sizes="${sizes}">
-        <img src="${sets.fallback}" alt="${alt||''}" loading="lazy" decoding="async" ${wh}>
-      </picture>
-    `;
-  }
-
   async function build(){
     const explore = document.getElementById('explore');
     const catalog = document.getElementById('catalog');
@@ -217,7 +191,7 @@
       catalog.innerHTML = `
         <section class="about-block">
           <div class="about-img">
-            <img src="mi.jpg" alt="Manuel Cech" loading="lazy" decoding="async" width="900" height="1200">
+            <img src="mi.jpg" alt="Manuel Cech" loading="lazy" decoding="async">
           </div>
           <div class="art-body">
             <h3 class="title">About Manuel Cech</h3>
@@ -264,7 +238,7 @@
           <a href="?cat=prints" class="tile" aria-label="Open Fine Art Prints">
             <div class="tile-head"><h3>Fine Art Prints</h3></div>
             <div class="tile-media">
-              ${pictureHTML('lucia.JPG','Lucia — Fine Art Print', false)}
+              <img src="lucia.JPG" alt="Lucia — Fine Art Print" loading="lazy" decoding="async">
             </div>
             <div class="tile-foot">Pastel · Acrylic · Airbrush</div>
           </a>
@@ -272,7 +246,7 @@
           <a href="?cat=digital" class="tile" aria-label="Open Digital Art">
             <div class="tile-head"><h3>Digital Art</h3></div>
             <div class="tile-media">
-              ${pictureHTML('mirror.JPG','Mirror — Digital Art', false)}
+              <img src="mirror.JPG" alt="Mirror — Digital Art" loading="lazy" decoding="async">
             </div>
             <div class="tile-foot">Digital Fine Art Prints</div>
           </a>
@@ -281,7 +255,7 @@
           <div class="tile disabled" aria-disabled="true" title="Coming soon">
             <div class="tile-head"><h3>Originals</h3></div>
             <div class="tile-media">
-              <img src="originals.jpg" alt="Originals — placeholder" loading="lazy" decoding="async" width="900" height="1200">
+              <img src="originals.jpg" alt="Originals — placeholder" loading="lazy" decoding="async">
             </div>
             <div class="tile-foot">Unique originals coming soon</div>
           </div>
@@ -311,27 +285,21 @@
             </div>
           </section>`;
       } else {
-        const slides = shown.map(it=>{
-          const imgHTML = pictureHTML(it.image, `${it.title||'Artwork'} by Manuel Cech`, true);
-          const priceHTML = (typeof it.price_eur==='number') ? `<div class="price">€${it.price_eur}</div>` : '';
-          const buyHTML = it.stripe_link ? `<a class="btn" href="${it.stripe_link}" target="_blank" rel="noopener">Buy</a>` : '';
-          const captionHTML = it.caption ? `<div class="caption">${it.caption}</div>` : '';
-          return `
-            <article class="slide" role="group" aria-label="${it.title||''}">
-              <div class="art-img">
-                ${imgHTML}
-              </div>
-              <div class="art-body">
-                <h3 class="title">${it.title||''}</h3>
-                ${priceHTML}
-                ${buyHTML}
-                ${captionHTML}
-                ${it.description_html||''}
-                ${it.dedication_html||''}
-              </div>
-            </article>
-          `;
-        }).join('');
+        const slides = shown.map(it=>`
+          <article class="slide" role="group" aria-label="${it.title||''}">
+            <div class="art-img">
+              ${it.image?`<img src="${it.image}" alt="${it.title||'Artwork'} by Manuel Cech" loading="lazy" decoding="async">`:''}
+            </div>
+            <div class="art-body">
+              <h3 class="title">${it.title||''}</h3>
+              ${typeof it.price_eur==='number'?`<div class="price">€${it.price_eur}</div>`:''}
+              ${it.stripe_link?`<a class="btn" href="${it.stripe_link}" target="_blank" rel="noopener">Buy</a>`:''}
+              ${it.caption?`<div class="caption">${it.caption}</div>`:''}
+              ${it.description_html||''}
+              ${it.dedication_html||''}
+            </div>
+          </article>
+        `).join('');
 
         catalog.innerHTML = `
           <section class="carousel">
@@ -376,7 +344,7 @@
         }
       }, 60);
 
-      // Notes (optional) – we keep logic, but show only if provided
+      // Notes (optional)
       const withNotes = shown.find(it => it.category_notes_html && String(it.category_notes_html).trim().length);
       if(withNotes){
         const titleMap = {prints:'Fine Art Print — Details', digital:'Digital Art — Details', originals:'Original — Details'};
